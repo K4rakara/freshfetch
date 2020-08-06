@@ -5,5 +5,5 @@ pub(crate) mod assets;
 use clml_rs::clml;
 
 fn main() {
-    println!("{}", clml(assets::ascii_art::get_ascii_art("tux_classic")));
+    println!("{}", clml(assets::ascii_art::get_ascii_art("tux_256")));
 }

@@ -1,0 +1,13 @@
+<bold>
+        <255 8>#<255-bg 8>###<reset><bold><255 8>#
+       #<255-bg 8>##<255 240>#<white><255-bg 240>#<255 240><255-bg 8>#<reset><bold><255 8>#
+       <255-bg 8>##<white>O<255 8>#<white>O<255 8>##<reset><bold>
+       <255 8><255-bg 8>#<yellow>#<yellow-bg>###<255-bg 8>#<255 8>#<reset><bold>
+     <255 8>#<255-bg 8>#<white>#<white-bg>#<yellow>###<white>#<255-bg 8>#<255 8>#<reset><bold><255 8>#
+    #<255-bg 8><white>#<white-bg>########<255-bg 8>#<255 8>#<reset><bold><255 8>#
+   #<255-bg 8><white>#<white-bg>##########<255-bg 8>#<255 8>#<reset><bold><255 8>#
+   #<255-bg 8><white>#<white-bg>##########<255-bg 8>#<255 8>#<reset><bold><255 8>#
+ <yellow>#<yellow-bg>##<255 8><255-bg 8>#<white>#<white-bg>#########<255-bg 8>#<255 8>#<yellow><yellow-bg>##<reset><bold><yellow>#<reset><bold>
+<yellow><yellow-bg>######<255 8><255-bg 8>#<white>#<white-bg>#####<255-bg 8>#<255 8>#<yellow><yellow-bg>######<reset><bold>
+ <yellow>#<yellow-bg>#####<255 8><255-bg 8>#<white>#<white-bg>###<255-bg 8>#<255 8>#<yellow><yellow-bg>#####<reset><bold><yellow>#<reset><bold>
+<reset>
