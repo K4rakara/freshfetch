@@ -1,0 +1,14 @@
+<bold><255 8>
+        #####
+       #######
+       ##<reset><bold>O<255 8>#<reset><bold>O<255 8>##
+       #<yellow>#####<255 8>#
+     ##<reset><bold>##<yellow>###<reset><bold>##<255 8>##
+    #<reset><bold>##########<255 8>##
+   #<reset><bold>############<255 8>##
+   #<reset><bold>############<255 8>##
+  <yellow>#<255 8>#<reset><bold>############<255 8>##<yellow>#
+######<255 8>#<reset><bold>#######<255 8>#<yellow>######
+#######<255 8>#<reset><bold>#####<255 8>#<yellow>#######
+  ######<255 8>######<yellow>#####
+<reset>

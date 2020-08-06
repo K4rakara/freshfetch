@@ -1,0 +1,8 @@
+[package]
+name = "freshfetch"
+version = "0.1.0"
+authors = ["K4rakara <jack@insertdomain.name>"]
+edition = "2018"
+
+[dependencies]
+clml_rs = { git = "https://github.com/K4rakara/clml-rs", features = [ "advanced" ] }
