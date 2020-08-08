@@ -15,6 +15,8 @@
 		end
 		if uptime.minutes >= 1 then
 			table.insert(output, ""..uptime.minutes.." minute"..s(uptime.minutes))
+		elseif uptime.hours == 0 then
+			table.insert(output, ""..uptime.seconds.." second"..s(uptime.seconds))
 		end
 		for i,v in pairs(output) do
 			if i ~= #output then
@@ -24,3 +26,18 @@
 			end
 		end
 	end`
+<cyan>Packages<reset>: lua`
+	if #packageManagers ~= 0 then
+		for i,packageManager in pairs(packageManagers) do
+			if packageManager.packages == 0 then
+				table.remove(packageManagers, i)
+			end
+		end
+		for i,packageManager in pairs(packageManagers) do
+			if i ~= #packageManagers then
+				print(""..packageManager.packages.." ("..packageManager.name.."), ")
+			else
+				print(""..packageManager.packages.." ("..packageManager.name..")")
+			end
+		end
+	else print "0" end`
