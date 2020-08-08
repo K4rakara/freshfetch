@@ -165,9 +165,59 @@ impl Inject for Distro {
 	}
 }
 
+pub(crate) struct Kernel ( String, String );
+
+impl Kernel {
+	pub fn new() -> Self {
+		let os = get_os();
+		Kernel(os.0, os.1)
+	}
+}
+
+impl Inject for Kernel {
+	fn inject(&self, clml: &mut CLML) -> Result<(), ()> {
+		// Inject env values.
+		clml
+			.env("kernel.name", self.0.as_str())
+			.env("kernel.version", self.1.as_str());
+		
+		// Inject bash values.
+		clml
+			.bash_env("kernel_name", self.0.as_str())
+			.bash_env("kernel_version", self.1.as_str());
+
+		// Inject Lua values.
+		{
+			let lua = &clml.lua_env;
+			let globals = lua.globals();
+
+			match lua.create_table() {
+				Ok(t) => {
+					match t.set("name", self.0.as_str()) {
+						Ok(_) => (),
+						Err(e) => panic!(format!("The following Lua error occured:\n{}", e)),
+					}
+					match t.set("version", self.1.as_str()) {
+						Ok(_) => (),
+						Err(e) => panic!(format!("The following Lua error occured:\n{}", e)),
+					}
+					match globals.set("kernel", t) {
+						Ok(_) => (),
+						Err(e) => panic!(format!("The follwoing Lua error occured:\n{}", e)),
+					}
+				}
+				Err(e) => panic!(format!("The following Lua error occured:\n{}", e)),
+			}
+		}
+
+		Ok(())
+	}
+}
+
 pub(crate) struct Info {
 	ctx: CLML,
 	distro: Distro,
+	kernel: Kernel,
 	rendered: String,
 }
 
@@ -176,6 +226,7 @@ impl Info {
 		Info {
 			ctx: CLML::new(),
 			distro: Distro::new(),
+			kernel: Kernel::new(),
 			rendered: String::new(),
 		}
 	}
@@ -190,6 +241,7 @@ impl Info {
 impl Inject for Info {
 	fn prep(&mut self) -> Result<(), ()> {
 		self.distro.inject(&mut self.ctx)?;
+		self.kernel.inject(&mut self.ctx)?;
 		self.render()?;
 		Ok(())
 	}

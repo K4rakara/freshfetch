@@ -1,3 +1,4 @@
 <cyan>hello<reset>@<cyan>world<reset>
 ========================
 <cyan>OS<reset>: {distro.shortname} {distro.architecture}
+<cyan>Kernel<reset>: {kernel.name} {kernel.version}
