@@ -3,6 +3,15 @@ name = "freshfetch"
 version = "0.1.0"
 authors = ["K4rakara <jack@insertdomain.name>"]
 edition = "2018"
+build = "./src/build.rs"
 
 [dependencies]
 clml_rs = { git = "https://github.com/K4rakara/clml-rs", features = [ "advanced" ] }
+term_size = "0.3.2"
+uname = "0.1.1"
+cpuid = "0.1.1"
+cmd_lib = "0.8.2"
+mlua = "0.4.1"
+
+[build-dependencies]
+clml_rs = { git = "https://github.com/K4rakara/clml-rs" }

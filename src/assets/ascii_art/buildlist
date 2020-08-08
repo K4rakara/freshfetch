@@ -1,0 +1,5 @@
+# Controls which files should be processed automatically during the build process.
+# Lines beginning with '#' are ignored.
+arch.clml -> .arch.clml
+linux_classic.clml -> .linux_classic.clml
+linux_256.clml -> .linux_256.clml

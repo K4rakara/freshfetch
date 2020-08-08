@@ -1,0 +1,3 @@
+<cyan>hello<reset>@<cyan>world<reset>
+========================
+<cyan>OS<reset>: {distro.shortname} {distro.architecture}

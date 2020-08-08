@@ -1,0 +1,4 @@
+{art}
+<save><up 13>
+<forward lua`print(""..math.floor(terminal.width / 2))`>lua`print(string.gsub(info, "\n", "\n<forward "..math.floor(terminal.width / 2)..">"))`
+<restore>

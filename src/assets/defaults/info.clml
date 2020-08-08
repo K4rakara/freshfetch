@@ -1,0 +1,91 @@
+<{colors.1}>{user}<reset>@<{colors.1}>{host}<reset>
+========================
+<{colors.1}>OS<reset>: {os.name} {os.arch}
+<{colors.1}>Kernel<reset>: {kernel}
+<{colors.1}>Packages<reset>: lua`
+	for i, packageManager in pairs(packageManagers) do
+		if i == #packageManagers then
+			print(""..packageManager.packages.." ("..packageManager.name..")")
+		else
+			print(""..packageManager.packages.." ("..packageManager.name.."), ")
+		end
+	end`
+<{colors.1}>Shell<reset>: {shell.name} {shell.version}
+<{colors.1}>Resolution<reset>: {resolution.width}x{resolution.height}
+<{colors.1}>DE<reset>: {de}
+<{colors.1}>WM<reset>: {wm}
+<{colors.1}>Theme<reset>: lua`
+	-- Encase local values in a block.
+	if true then
+		local __themes = {}
+		local function __themes.has(t)
+			for _,theme in pairs(__themes) do
+				if theme.name == t then return true end
+			end
+			return false
+		end
+		local function __themes.add(t)
+			table.insert(__themes, Theme:new {
+				name = t,
+				appliesTo = {}
+			})
+		end
+		local function __themes.addApplication(t, a)
+			for _,theme in pairs(__themes) do
+				if theme.name == t then
+					theme:addApplication(a)
+					return
+				end
+			end
+		end
+		local function __themes.present()
+			local toReturn = ""
+			for i,theme in pairs(__themes) do
+				if i ~= #__themes then
+					toReturn = toReturn..theme:present()..", "
+				else
+					toReturn = toReturn..theme:present()
+				end
+			end
+			return toReturn
+		end
+
+		local Theme = {
+			name = "",
+			appliesTo = {}
+		}
+		local function Theme:new(o)
+			o = o or Theme
+			setmetatable(o, self)
+			self.__index = self
+			return o
+		end
+		local function Theme:addApplication(a)
+			table.insert(self.appliesTo, a)
+		end
+		local function Theme:present()
+			return ""..self.name.." "..(function ()
+				local toReturn = "("
+				for i,applicant in self.appliesTo do
+					if i ~= #self.appliesTo then
+						toReturn = toReturn..applicant..", "
+					else
+						toReturn = toReturn..applicant
+					end
+				end
+				toReturn = toReturn..")"
+				return toReturn
+			end)()
+		end
+
+		for i,theme in pairs(themes) do
+			if not __themes.has(theme.name) then
+				__themes.add(theme.name)
+				__themes.addApplication(theme.name, theme.for)
+			else
+				__themes.addApplication(theme.name, theme.for)
+			end
+		end
+
+		print __themes.preset()
+	end`
