@@ -1,8 +1,8 @@
-<cyan>hello<reset>@<cyan>world<reset>
+<green>{user}<reset>@<green>{host}<reset>
 ========================
-<cyan>OS<reset>: {distro.shortname} {distro.architecture}
-<cyan>Kernel<reset>: {kernel.name} {kernel.version}
-<cyan>Uptime<reset>: lua`
+<green>OS<reset>: {distro.shortname} {distro.architecture}
+<green>Kernel<reset>: {kernel.name} {kernel.version}
+<green>Uptime<reset>: lua`
 	-- Create a block to store locals in.
 	if true then
 		local function s(v) if v ~= 1 and v ~= 0 then return "s" else return "" end end
@@ -26,7 +26,7 @@
 			end
 		end
 	end`
-<cyan>Packages<reset>: lua`
+<green>Packages<reset>: lua`
 	if #packageManagers ~= 0 then
 		for i,packageManager in pairs(packageManagers) do
 			if packageManager.packages == 0 then
@@ -41,3 +41,9 @@
 			end
 		end
 	else print "0" end`
+<green>Shell<reset>: {shell.name} {shell.version} bash`
+	if [[ "$shell_name" = "zsh" ]]; then
+		if [[ -d ~/.oh-my-zsh ]]; then
+			printf "with $(cat ~/.zshrc | grep -m 1 --color=none ZSH_THEME= | cut -d"\"" -f 2)";
+		fi;
+	fi;`

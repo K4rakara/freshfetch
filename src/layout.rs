@@ -20,7 +20,7 @@ pub(crate) struct Layout {
 impl Layout {
 	pub fn new() -> Self {
 		Layout {
-			art: Art::new("linux_256"),
+			art: Art::new("manjaro"),
 			info: Info::new(),
 			terminal: Terminal::new(),
 		}

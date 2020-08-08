@@ -3,6 +3,7 @@ use crate::uname;
 use crate::cmd_lib;
 use crate::cpuid;
 use crate::chrono;
+use crate::users;
 
 use std::fs;
 use std::env;
@@ -16,6 +17,62 @@ use cpuid::{ identify as cpu_identify };
 use chrono::{ Utc, DateTime, Datelike, Timelike, TimeZone, };
 
 use crate::{ Inject };
+
+pub(crate) struct User ( pub String );
+
+impl User {
+	pub fn new() -> Self {
+		User(String::from(users::get_current_username()
+			.expect("Failed to get current username!")
+			.to_string_lossy()))
+	}
+}
+
+impl Inject for User {
+	fn inject(&self, clml: &mut CLML) -> Result<(), ()> {
+		// Inject CLML value.
+		clml.env("user", self.0.as_str());
+
+		// Inject Bash value.
+		clml.bash_env("user", self.0.as_str());
+
+		// Inject Lua value.
+		match clml.lua_env.globals().set("user", self.0.as_str()) {
+			Ok(_) => (),
+			Err(e) => panic!(format!("The following Lua error occured:\n{}", e)),
+		}
+
+		Ok(())
+	}
+}
+
+pub(crate) struct Host ( pub String );
+
+impl Host {
+	pub fn new() -> Self {
+		let hostname = &fs::read_to_string("/etc/hostname")
+			.expect("Failed to read \"/etc/hostname\"!");
+		Host(String::from(&hostname[0..(hostname.len() - 1)]))
+	}
+}
+
+impl Inject for Host {
+	fn inject(&self, clml: &mut CLML) -> Result<(), ()> {
+		// Inject CLML value.
+		clml.env("host", self.0.as_str());
+
+		// Inject Bash value.
+		clml.bash_env("host", self.0.as_str());
+
+		// Inject Lua value.
+		match clml.lua_env.globals().set("host", self.0.as_str()) {
+			Ok(_) => (),
+			Err(e) => panic!(format!("The following Lua error occured:\n{}", e)),
+		}
+
+		Ok(())
+	}
+}
 
 pub(crate) struct OS ( pub String, pub String, pub String );
 pub(crate) fn get_os() -> OS {
@@ -419,6 +476,18 @@ impl PackageManagers {
 
 		PackageManagers(to_return)
 	}
+
+	pub fn get_main(&self) -> String {
+		for package_manager in self.0.iter() {
+			match package_manager.name.as_str() {
+				"snap"|"flatpak"|"npm" => (),
+				_ => {
+					return package_manager.name.clone();
+				}
+			}
+		}
+		String::new()
+	}
 }
 
 impl Inject for PackageManagers {
@@ -451,7 +520,6 @@ impl Inject for PackageManagers {
 					format!("\"{}:{}\"", package_manager.name, package_manager.packages));
 			}
 			to_return = format!("{})", to_return);
-			println!("{}", to_return);
 			clml.bash_env("package_managers", to_return.as_str());
 		}
 
@@ -493,12 +561,103 @@ impl Inject for PackageManagers {
 	}
 }
 
+pub(crate) struct Shell {
+	pub name: String,
+	pub version: String,
+}
+
+impl Shell {
+	pub fn new(k: &Kernel) -> Self {
+		let name;
+		let version;
+		match k.name.as_str() {
+			"Linux"|"BSD"|"Windows" => {
+				let shell_bin = String::from(
+					Path::new(
+						&match env::var("SHELL") {
+							Ok(v) => v,
+							Err(e) => panic!(format!("Failed to get $SHELL. Details:\n{}", e)),
+						}
+					)
+					.file_name()
+					.expect("$SHELL is invalid!")
+					.to_string_lossy());
+				name = shell_bin;
+				match name.as_str() {
+					"zsh" => version = {
+						let try_output = Command::new("zsh")
+							.arg("-c")
+							.arg("printf $ZSH_VERSION")
+							.output();
+						match try_output {
+							Ok(output) => {
+								String::from_utf8(output.stdout)
+									.expect("The output of \"zsh -c printf $ZSH_VERSION\" contained invalid UTF8.")
+							}
+							Err(e) => panic!("Failed to get ZSH_VERSION."),
+						}
+					},
+					_ => version = String::new(),
+				}
+			}
+			_ => { name = String::new(); version = String::new(); }
+		}
+		Shell {
+			name: name,
+			version: version,
+		}
+	}
+}
+
+impl Inject for Shell {
+	fn inject(&self, clml: &mut CLML) -> Result<(), ()> {
+		// Inject env values.
+		clml
+			.env("shell.name", self.name.as_str())
+			.env("shell.version", self.version.as_str());
+
+		// Inject bash values.
+		clml
+			.bash_env("shell_name", self.name.as_str())
+			.bash_env("shell_version", self.version.as_str());
+
+		// Inject Lua values.
+		{
+			let lua = &clml.lua_env;
+			let globals = lua.globals();
+
+			match lua.create_table() {
+				Ok(t) => {
+					match t.set("name", self.name.as_str()) {
+						Ok(_) => (),
+						Err(e) => panic!(format!("{}", e)),
+					}
+					match t.set("version", self.version.as_str()) {
+						Ok(_) => (),
+						Err(e) => panic!(format!("{}", e)),
+					}
+					match globals.set("shell", t) {
+						Ok(_) => (),
+						Err(e) => panic!(format!("{}", e)),
+					}
+				}
+				Err(e) => panic!(format!("{}", e)),
+			}
+		}
+		
+		Ok(())
+	}
+}
+
 pub(crate) struct Info {
 	ctx: CLML,
+	user: User,
+	host: Host,
 	distro: Distro,
 	kernel: Kernel,
 	uptime: Uptime,
 	package_managers: PackageManagers,
+	shell: Shell,
 	rendered: String,
 }
 
@@ -507,12 +666,16 @@ impl Info {
 		let kernel = Kernel::new();
 		let uptime = Uptime::new(&kernel);
 		let package_managers = PackageManagers::new(&kernel);
+		let shell = Shell::new(&kernel);
 		Info {
 			ctx: CLML::new(),
+			user: User::new(),
+			host: Host::new(),
 			distro: Distro::new(),
 			kernel: kernel,
 			uptime: uptime,
 			package_managers: package_managers,
+			shell: shell,
 			rendered: String::new(),
 		}
 	}
@@ -526,10 +689,13 @@ impl Info {
 
 impl Inject for Info {
 	fn prep(&mut self) -> Result<(), ()> {
+		self.user.inject(&mut self.ctx)?;
+		self.host.inject(&mut self.ctx)?;
 		self.kernel.inject(&mut self.ctx)?;
 		self.distro.inject(&mut self.ctx)?;
 		self.uptime.inject(&mut self.ctx)?;
 		self.package_managers.inject(&mut self.ctx)?;
+		self.shell.inject(&mut self.ctx)?;
 		self.render()?;
 		Ok(())
 	}
