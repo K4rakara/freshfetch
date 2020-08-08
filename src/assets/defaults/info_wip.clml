@@ -2,3 +2,25 @@
 ========================
 <cyan>OS<reset>: {distro.shortname} {distro.architecture}
 <cyan>Kernel<reset>: {kernel.name} {kernel.version}
+<cyan>Uptime<reset>: lua`
+	-- Create a block to store locals in.
+	if true then
+		local function s(v) if v ~= 1 and v ~= 0 then return "s" else return "" end end
+		local output = {}
+		if uptime.days >= 1 then
+			table.insert(output, ""..uptime.days.." day"..s(uptime.days))
+		end
+		if uptime.hours >= 1 then
+			table.insert(output, ""..uptime.hours.." hour"..s(uptime.hours))
+		end
+		if uptime.minutes >= 1 then
+			table.insert(output, ""..uptime.minutes.." minute"..s(uptime.minutes))
+		end
+		for i,v in pairs(output) do
+			if i ~= #output then
+				print(""..v..", ")
+			else
+				print(""..v)
+			end
+		end
+	end`

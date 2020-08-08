@@ -12,6 +12,7 @@ uname = "0.1.1"
 cpuid = "0.1.1"
 cmd_lib = "0.8.2"
 mlua = "0.4.1"
+chrono = "0.4.13"
 
 [build-dependencies]
 clml_rs = { git = "https://github.com/K4rakara/clml-rs" }
