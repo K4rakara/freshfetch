@@ -3,6 +3,7 @@ use crate::uname;
 use crate::cmd_lib;
 use crate::chrono;
 use crate::users;
+use crate::x11rb;
 
 use crate::errors;
 
@@ -10,13 +11,102 @@ use std::fs;
 use std::env;
 use std::path::{ Path };
 use std::process::{ Command, Stdio };
+use std::ptr::{ null };
+use std::marker;
+use std::rc::{ Rc };
+use std::cell::{ RefCell };
 
 use clml_rs::{ CLML };
 use uname::{ uname };
 use cmd_lib::{ run_fun };
 use chrono::{ Utc, DateTime, Datelike, Timelike, TimeZone, };
+use x11rb::{
+	connect,
+	protocol::xproto::{ Screen },
+	connection::{ Connection },
+};
 
 use crate::{ Inject };
+
+pub(crate) struct Info {
+	ctx: CLML,
+	user: User,
+	host: Host,
+	distro: Distro,
+	kernel: Kernel,
+	uptime: Uptime,
+	package_managers: PackageManagers,
+	shell: Shell,
+	resolution: Option<Resolution>,
+	rendered: String,
+}
+
+impl Info {
+	pub fn new() -> Self {
+		let kernel = Kernel::new();
+		let distro = Distro::new(&kernel);
+		let uptime = Uptime::new(&kernel);
+		let package_managers = PackageManagers::new(&kernel);
+		let shell = Shell::new(&kernel);
+		let resolution = Resolution::new();
+		Info {
+			ctx: CLML::new(),
+			user: User::new(),
+			host: Host::new(),
+			distro: distro,
+			kernel: kernel,
+			uptime: uptime,
+			package_managers: package_managers,
+			shell: shell,
+			resolution: resolution,
+			rendered: String::new(),
+		}
+	}
+	pub fn render(&mut self) -> Result<(), ()> {
+		self.rendered = self.ctx
+			.parse(include_str!("./assets/defaults/info_wip.clml"))
+			.or(Err(()))?;
+		Ok(())
+	}
+}
+
+impl Inject for Info {
+	fn prep(&mut self) -> Result<(), ()> {
+		self.user.inject(&mut self.ctx)?;
+		self.host.inject(&mut self.ctx)?;
+		self.kernel.inject(&mut self.ctx)?;
+		self.distro.inject(&mut self.ctx)?;
+		self.uptime.inject(&mut self.ctx)?;
+		self.package_managers.inject(&mut self.ctx)?;
+		self.shell.inject(&mut self.ctx)?;
+		match &self.resolution {
+			Some(v) => { v.inject(&mut self.ctx)?; }
+			None => (),
+		}
+		self.render()?;
+		Ok(())
+	}
+	fn inject(&self, clml: &mut CLML) -> Result<(), ()> {
+		// Inject env values.
+		clml.env("info", &format!("{}", self.rendered));
+
+		// Inject bash values.
+		clml.bash_env("info", &format!("{}", self.rendered));
+
+		// Inject Lua values.
+		{
+			let lua = &clml.lua_env;
+			let globals = lua.globals();
+
+			match globals.set("info", self.rendered.as_str()) {
+				Ok(_) => (),
+				Err(e) => errors::handle(&format!("{}{}", errors::LUA, e)),
+			}
+		}
+
+		Ok(())
+	}
+}
 
 pub(crate) struct User ( pub String );
 
@@ -671,75 +761,63 @@ impl Inject for Shell {
 	}
 }
 
-pub(crate) struct Info {
-	ctx: CLML,
-	user: User,
-	host: Host,
-	distro: Distro,
-	kernel: Kernel,
-	uptime: Uptime,
-	package_managers: PackageManagers,
-	shell: Shell,
-	rendered: String,
+#[derive(Clone, Debug)]
+pub(crate) struct Resolution {
+	pub width: u16,
+	pub height: u16,
 }
 
-impl Info {
-	pub fn new() -> Self {
-		let kernel = Kernel::new();
-		let distro = Distro::new(&kernel);
-		let uptime = Uptime::new(&kernel);
-		let package_managers = PackageManagers::new(&kernel);
-		let shell = Shell::new(&kernel);
-		Info {
-			ctx: CLML::new(),
-			user: User::new(),
-			host: Host::new(),
-			distro: distro,
-			kernel: kernel,
-			uptime: uptime,
-			package_managers: package_managers,
-			shell: shell,
-			rendered: String::new(),
+impl Resolution {
+	pub fn new() -> Option<Self> {
+		match connect(None) {
+			Ok((conn, screen_n)) => {
+				let screen = &conn.setup().roots[screen_n];
+				Some(Resolution {
+					width: screen.width_in_pixels,
+					height: screen.height_in_pixels,
+				})
+			}
+			Err(_) => None,
 		}
 	}
-	pub fn render(&mut self) -> Result<(), ()> {
-		self.rendered = self.ctx
-			.parse(include_str!("./assets/defaults/info_wip.clml"))
-			.or(Err(()))?;
-		Ok(())
-	}
 }
 
-impl Inject for Info {
-	fn prep(&mut self) -> Result<(), ()> {
-		self.user.inject(&mut self.ctx)?;
-		self.host.inject(&mut self.ctx)?;
-		self.kernel.inject(&mut self.ctx)?;
-		self.distro.inject(&mut self.ctx)?;
-		self.uptime.inject(&mut self.ctx)?;
-		self.package_managers.inject(&mut self.ctx)?;
-		self.shell.inject(&mut self.ctx)?;
-		self.render()?;
-		Ok(())
-	}
+impl Inject for Resolution {
 	fn inject(&self, clml: &mut CLML) -> Result<(), ()> {
-		// Inject env values.
-		clml.env("info", &format!("{}", self.rendered));
+		// Inject clml values.
+		clml
+			.env("resolution.width", &format!("{}", self.width))
+			.env("resolution.height", &format!("{}", self.height));
 
-		// Inject bash values.
-		clml.bash_env("info", &format!("{}", self.rendered));
+		// Inject Bash values.
+		clml
+			.bash_env("resolution_width", &format!("{}", self.width))
+			.bash_env("resolution_width", &format!("{}", self.height));
 
 		// Inject Lua values.
 		{
 			let lua = &clml.lua_env;
 			let globals = lua.globals();
 
-			match globals.set("info", self.rendered.as_str()) {
-				Ok(_) => (),
-				Err(e) => errors::handle(&format!("{}{}", errors::LUA, e)),
+			match lua.create_table() {
+				Ok(t) => {
+					match t.set("width", self.width) {
+						Ok(_) => (),
+						Err(e) => { errors::handle(&format!("{}{}", errors::LUA, e)); panic!(); }
+					}
+					match t.set("height", self.height) {
+						Ok(_) => (),
+						Err(e) => { errors::handle(&format!("{}{}", errors::LUA, e)); panic!(); }
+					}
+					match globals.set("resolution", t) {
+						Ok(_) => (),
+						Err(e) => { errors::handle(&format!("{}{}", errors::LUA, e)); panic!(); }
+					}
+				}
+				Err(e) => { errors::handle(&format!("{}{}", errors::LUA, e)); panic!(); }
 			}
 		}
-
+		
 		Ok(())
 	}
 }

@@ -24,5 +24,9 @@ features = [ "vec_map" ]
 git = "https://github.com/K4rakara/clml-rs"
 features = [ "advanced" ]
 
+[dependencies.x11rb]
+version = "0.6.0"
+features = [ "allow-unsafe-code" ]
+
 [build-dependencies.clml_rs]
 git = "https://github.com/K4rakara/clml-rs"
