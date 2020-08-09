@@ -14,6 +14,7 @@ pub(crate) mod assets;
 pub(crate) mod info;
 pub(crate) mod layout;
 pub(crate) mod misc;
+pub(crate) mod errors;
 
 use clap::{ App, Arg };
 use clml_rs::{ clml, CLML };

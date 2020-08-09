@@ -5,6 +5,8 @@ use crate::cpuid;
 use crate::chrono;
 use crate::users;
 
+use crate::errors;
+
 use std::fs;
 use std::env;
 use std::path::{ Path };
@@ -39,7 +41,7 @@ impl Inject for User {
 		// Inject Lua value.
 		match clml.lua_env.globals().set("user", self.0.as_str()) {
 			Ok(_) => (),
-			Err(e) => panic!(format!("The following Lua error occured:\n{}", e)),
+			Err(e) => errors::handle(&format!("{}{}", errors::LUA, e)),
 		}
 
 		Ok(())
@@ -67,7 +69,7 @@ impl Inject for Host {
 		// Inject Lua value.
 		match clml.lua_env.globals().set("host", self.0.as_str()) {
 			Ok(_) => (),
-			Err(e) => panic!(format!("The following Lua error occured:\n{}", e)),
+			Err(e) => errors::handle(&format!("{}{}", errors::LUA, e)),
 		}
 
 		Ok(())
@@ -202,22 +204,22 @@ impl Inject for Distro {
 				Ok(t) => {
 					match t.set("fullname", self.long_name.as_str()) {
 						Ok(_) => (),
-						Err(e) => panic!(format!("The following Lua error occured:\n{}", e)),
+						Err(e) => errors::handle(&format!("{}{}", errors::LUA, e)),
 					}
 					match t.set("shortname", self.short_name.as_str()) {
 						Ok(_) => (),
-						Err(e) => panic!(format!("The following Lua error occured:\n{}", e)),
+						Err(e) => errors::handle(&format!("{}{}", errors::LUA, e)),
 					}
 					match t.set("architecture", self.architecture.as_str()) {
 						Ok(_) => (),
-						Err(e) => panic!(format!("The following Lua error occured:\n{}", e)),
+						Err(e) => errors::handle(&format!("{}{}", errors::LUA, e)),
 					}
 					match globals.set("distro", t) {
 						Ok(_) => (),
-						Err(e) => panic!(format!("The following Lua error occured:\n{}", e)),
+						Err(e) => errors::handle(&format!("{}{}", errors::LUA, e)),
 					}
 				}
-				Err(e) => panic!(format!("The following Lua error occured:\n{}", e)),
+				Err(e) => errors::handle(&format!("{}{}", errors::LUA, e)),
 			}
 		}	
 
@@ -265,22 +267,22 @@ impl Inject for Kernel {
 				Ok(t) => {
 					match t.set("name", self.name.as_str()) {
 						Ok(_) => (),
-						Err(e) => panic!(format!("The following Lua error occured:\n{}", e)),
+						Err(e) => errors::handle(&format!("{}{}", errors::LUA, e)),
 					}
 					match t.set("version", self.version.as_str()) {
 						Ok(_) => (),
-						Err(e) => panic!(format!("The following Lua error occured:\n{}", e)),
+						Err(e) => errors::handle(&format!("{}{}", errors::LUA, e)),
 					}
 					match t.set("architecture", self.architecture.as_str()) {
 						Ok(_) => (),
-						Err(e) => panic!(format!("The following Lua error occured:\n{}", e)),
+						Err(e) => errors::handle(&format!("{}{}", errors::LUA, e)),
 					}
 					match globals.set("kernel", t) {
 						Ok(_) => (),
-						Err(e) => panic!(format!("The follwoing Lua error occured:\n{}", e)),
+						Err(e) => errors::handle(&format!("{}{}", errors::LUA, e)),
 					}
 				}
-				Err(e) => panic!(format!("The following Lua error occured:\n{}", e)),
+				Err(e) => errors::handle(&format!("{}{}", errors::LUA, e)),
 			}
 		}
 
@@ -359,26 +361,26 @@ impl Inject for Uptime {
 				Ok(t) => {
 					match t.set("days", self.0.day() - 1) {
 						Ok(_) => (),
-						Err(e) => panic!(format!("The follwoing Lua error occured:\n{}", e)),
+						Err(e) => errors::handle(&format!("{}{}", errors::LUA, e)),
 					}
 					match t.set("hours", self.0.hour()) {
 						Ok(_) => (),
-						Err(e) => panic!(format!("The follwoing Lua error occured:\n{}", e)),
+						Err(e) => errors::handle(&format!("{}{}", errors::LUA, e)),
 					}
 					match t.set("minutes", self.0.minute()) {
 						Ok(_) => (),
-						Err(e) => panic!(format!("The follwoing Lua error occured:\n{}", e)),
+						Err(e) => errors::handle(&format!("{}{}", errors::LUA, e)),
 					}
 					match t.set("seconds", self.0.second()) {
 						Ok(_) => (),
-						Err(e) => panic!(format!("The follwoing Lua error occured:\n{}", e)),
+						Err(e) => errors::handle(&format!("{}{}", errors::LUA, e)),
 					}
 					match globals.set("uptime", t) {
 						Ok(_) => (),
-						Err(e) => panic!(format!("The following Lua error occured:\n{}", e)),
+						Err(e) => errors::handle(&format!("{}{}", errors::LUA, e)),
 					}
 				}
-				Err(e) => panic!(format!("The following Lua error occured:\n{}", e)),
+				Err(e) => errors::handle(&format!("{}{}", errors::LUA, e)),
 			}
 		}
 
@@ -535,26 +537,26 @@ impl Inject for PackageManagers {
 							Ok(t2) => {
 								match t2.set("name", package_manager.name.as_str()) {
 									Ok(_) => (),
-									Err(e) => panic!(format!("The following Lua error occured:\n{}", e)),
+									Err(e) => errors::handle(&format!("{}{}", errors::LUA, e)),
 								}
 								match t2.set("packages", package_manager.packages) {
 									Ok(_) => (),
-									Err(e) => panic!(format!("The following Lua error occured:\n{}", e)),
+									Err(e) => errors::handle(&format!("{}{}", errors::LUA, e)),
 								}
 								match t.raw_insert(i as i64 + 1, t2) {
 									Ok(_) => (),
-									Err(e) => panic!(format!("The following Lua error occured:\n{}", e)),
+									Err(e) => errors::handle(&format!("{}{}", errors::LUA, e)),
 								}
 							}
-							Err(e) => panic!(format!("The following Lua error occured:\n{}", e)),
+							Err(e) => errors::handle(&format!("{}{}", errors::LUA, e)),
 						}
 					}
 					match globals.set("packageManagers", t) {
 						Ok(_) => (),
-						Err(e) => panic!(format!("The following Lua error occured:\n{}", e)),
+						Err(e) => errors::handle(&format!("{}{}", errors::LUA, e)),
 					}
 				}
-				Err(e) => panic!(format!("The following Lua error occured:\n{}", e)),
+				Err(e) => errors::handle(&format!("{}{}", errors::LUA, e)),
 			}
 		}
 		Ok(())
@@ -630,18 +632,18 @@ impl Inject for Shell {
 				Ok(t) => {
 					match t.set("name", self.name.as_str()) {
 						Ok(_) => (),
-						Err(e) => panic!(format!("{}", e)),
+						Err(e) => errors::handle(&format!("{}{}", errors::LUA, e)),
 					}
 					match t.set("version", self.version.as_str()) {
 						Ok(_) => (),
-						Err(e) => panic!(format!("{}", e)),
+						Err(e) => errors::handle(&format!("{}{}", errors::LUA, e)),
 					}
 					match globals.set("shell", t) {
 						Ok(_) => (),
-						Err(e) => panic!(format!("{}", e)),
+						Err(e) => errors::handle(&format!("{}{}", errors::LUA, e)),
 					}
 				}
-				Err(e) => panic!(format!("{}", e)),
+				Err(e) => errors::handle(&format!("{}{}", errors::LUA, e)),
 			}
 		}
 		
@@ -713,7 +715,7 @@ impl Inject for Info {
 
 			match globals.set("info", self.rendered.as_str()) {
 				Ok(_) => (),
-				Err(e) => panic!(format!("The following Lua error occured: {}", e)),
+				Err(e) => errors::handle(&format!("{}{}", errors::LUA, e)),
 			}
 		}
 

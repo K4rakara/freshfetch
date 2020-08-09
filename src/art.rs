@@ -2,6 +2,7 @@ use crate::clml_rs;
 use crate::regex;
 
 use crate::assets::ascii_art;
+use crate::errors;
 
 use clml_rs::{ clml, CLML };
 use regex::{ Regex, Captures };
@@ -73,17 +74,18 @@ impl Inject for Art {
 			let lua = &clml.lua_env;
 			let globals = lua.globals();
 
+			//k_err!((globals.set("art", self.inner.as_str())), (format!("")));
 			match globals.set("art", self.inner.as_str()) {
 				Ok(_) => (),
-				Err(e) => panic!(format!("The following Lua error occured:\n{}", e)),
+				Err(e) => errors::handle(&format!("{}{}", errors::LUA, e)),
 			}
 			match globals.set("artWidth", self.width) {
 				Ok(_) => (),
-				Err(e) => panic!(format!("The following Lua error occured:\n{}", e)),
+				Err(e) => errors::handle(&format!("{}{}", errors::LUA, e)),
 			}
 			match globals.set("artHeight", self.height) {
 				Ok(_) => (),
-				Err(e) => panic!(format!("The following Lua error occured:\n{}", e)),
+				Err(e) => errors::handle(&format!("{}{}", errors::LUA, e)),
 			}
 		}
 
