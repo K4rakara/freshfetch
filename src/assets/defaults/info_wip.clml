@@ -47,3 +47,6 @@
 			printf "with $(cat ~/.zshrc | grep -m 1 --color=none ZSH_THEME= | cut -d"\"" -f 2)";
 		fi;
 	fi;`
+
+<black><black-bg>   <red><red-bg>   <green><green-bg>   <yellow><yellow-bg>   <blue><blue-bg>   <magenta><magenta-bg>   <cyan><cyan-bg>   <white><white-bg>   <reset>
+<255 8><255-bg 8>   <255 9><255-bg 9>   <255 10><255-bg 10>   <255 11><255-bg 11>   <255 12><255-bg 12>   <255 13><255-bg 13>   <255 14><255-bg 14>   <255 15><255-bg 15>   <reset>
