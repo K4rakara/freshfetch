@@ -1,7 +1,6 @@
 use crate::clml_rs;
 use crate::uname;
 use crate::cmd_lib;
-use crate::cpuid;
 use crate::chrono;
 use crate::users;
 
@@ -10,12 +9,11 @@ use crate::errors;
 use std::fs;
 use std::env;
 use std::path::{ Path };
-use std::process::{ Command, Stdio, exit };
+use std::process::{ Command, Stdio };
 
 use clml_rs::{ CLML };
-use uname::{ uname, Info as UnameInfo };
-use cmd_lib::{ run_cmd, run_fun };
-use cpuid::{ identify as cpu_identify };
+use uname::{ uname };
+use cmd_lib::{ run_fun };
 use chrono::{ Utc, DateTime, Datelike, Timelike, TimeZone, };
 
 use crate::{ Inject };
@@ -76,157 +74,6 @@ impl Inject for Host {
 	}
 }
 
-pub(crate) struct OS ( pub String, pub String, pub String );
-pub(crate) fn get_os() -> OS {
-	let uname = uname().expect("Failed to run `crate::uname::uname()`.");
-	let os_name;
-	match uname.sysname.as_str() {
-		"Darwin" => { os_name = String::from("Darwin"); }
-		"SunOS" => { os_name = String::from("Solaris"); }
-		"Haiku" => { os_name = String::from("Haiku"); }
-		"MINIX" => { os_name = String::from("MINIX"); }
-		"AIX" => { os_name = String::from("AIX"); }
-		"FreeMiNT" => { os_name = String::from("FreeMiNT"); }
-		"Linux" => { os_name = String::from("Linux"); }
-		"DragonFly" => { os_name = String::from("BSD"); }
-		"Bitrig" => { os_name = String::from("BSD"); }
-		other => {
-			if other.starts_with("GNU") { os_name = String::from("Linux"); }
-			else if other.ends_with("BSD") { os_name = String::from("BSD"); }
-			else if other.starts_with("CYGWIN") || other.starts_with("MSYS") || other.starts_with("MINGW") { os_name = String::from("Windows"); }
-			else {
-				println!("Unexpected OS \"{os}\". Create a pull request or issue at https://github.com/K4rakara/freshfetch to add support for your OS.",
-					os = other);
-				exit(1);
-			}
-		}
-	}
-	let os_version = uname.release;
-	let os_architecture = uname.machine;
-	OS(os_name, os_version, os_architecture)
-}
-
-#[derive(Clone, Debug)]
-pub(crate) struct Distro {
-	pub long_name: String,
-	pub short_name: String,
-	pub architecture: String,
-}
-
-impl Distro {
-	pub fn new() -> Self {
-		// Get the os details.s
-		let os = get_os();
-		// Create fallback values.
-		let mut long_name = String::new();
-		let mut short_name = String::new();
-		match os.0.as_str() {
-			"Linux"|"BSD"|"MINIX" => {
-				// Bedrock Linux
-				if Path::new("/bedrock/etc/bedrock-release").exists()
-				&& env::var("PATH").unwrap_or(String::new()).contains("/bedrock/cross/") {
-					long_name = fs::read_to_string("/bedrock/etc/bedrock-release")
-						.unwrap_or(String::from("Bedrock Linux"));
-					short_name = String::from("Bedrock Linux");
-				}
-				// Red Star OS
-				else if Path::new("/etc/redstar-release").exists() {
-					long_name = {
-						// TODO: Rework this into rust.
-						let to_return;
-						let release = run_fun!(printf "Red Star OS $(awk -F'[^0-9*]' '$0=$2' /etc/redstar-release)");
-						if release.is_err() { to_return = String::from("Red Star OS"); }
-						else { to_return = release.unwrap(); }
-						to_return
-					};
-					short_name = String::from("Red Star OS");
-				}
-				// Generic
-				else if Path::new("/etc/os-release").exists()
-				|| Path::new("/usr/share/os-release").exists()
-				|| Path::new("/etc/openwrt_release").exists()
-				|| Path::new("/etc/lsb-release").exists() {
-					let (long, short) = {
-						// TODO: Rework this into pure rust.
-						let try_release = Command::new("sh")
-							.arg("-c")
-							.arg(r#"for file in /etc/lsb-release /usr/lib/os-release /etc/os-release /etc/openwrt_release; do source $file && break; done; echo ${PRETTY_NAME:-${DISTRIB_DESCRIPTION}} ${VERSION_ID:-${DISTRIB_RELEASE}}; echo ${PRETTY_NAME:-${DISTRIB_DESCRIPTION:-${DISTRIB_ID:-${TAILS_PRODUCT_NAME}}}};"#)
-							.stdout(Stdio::piped())
-							.output();
-						if try_release.is_ok() {
-							let release = String::from_utf8(try_release.unwrap().stdout).expect("");
-							let lines: Vec<&str> = release.split("\n").collect();
-						 	if lines.len() == 1 {
-								(String::from(lines[0]), os.0.clone())
-							} else if lines.len() >= 2 {
-								(String::from(lines[0]), String::from(lines[1]))
-							} else {
-								(os.0.clone(), os.0.clone())
-							}
-						} else {
-							(os.0.clone(), os.0.clone())
-						}
-					};
-					long_name = long;
-					short_name = short;
-				}
-			}
-			_ => {} // Do nothing, unknown OS'es should have already exited by now.
-		}
-		Distro {
-			long_name: long_name,
-			short_name: short_name,
-			architecture: os.2.clone(),
-		}
-	}
-}
-
-impl Inject for Distro {
-	fn inject(&self, clml: &mut CLML) -> Result<(), ()> {
-		// Inject env values.
-		clml
-			.env("distro.fullname", &self.long_name)
-			.env("distro.shortname", &self.short_name)
-			.env("distro.architecture", &self.architecture);
-		
-		// Inject Bash values.
-		clml
-			.bash_env("distro_fullname", &self.long_name)
-			.bash_env("distro_shortname", &self.short_name)
-			.bash_env("distro_architecture", &self.architecture);
-		
-		// Inject Lua values.
-		{
-			let lua = &clml.lua_env;
-			let globals = lua.globals();
-
-			match lua.create_table() {
-				Ok(t) => {
-					match t.set("fullname", self.long_name.as_str()) {
-						Ok(_) => (),
-						Err(e) => errors::handle(&format!("{}{}", errors::LUA, e)),
-					}
-					match t.set("shortname", self.short_name.as_str()) {
-						Ok(_) => (),
-						Err(e) => errors::handle(&format!("{}{}", errors::LUA, e)),
-					}
-					match t.set("architecture", self.architecture.as_str()) {
-						Ok(_) => (),
-						Err(e) => errors::handle(&format!("{}{}", errors::LUA, e)),
-					}
-					match globals.set("distro", t) {
-						Ok(_) => (),
-						Err(e) => errors::handle(&format!("{}{}", errors::LUA, e)),
-					}
-				}
-				Err(e) => errors::handle(&format!("{}{}", errors::LUA, e)),
-			}
-		}	
-
-		Ok(())
-	}
-}
-
 pub(crate) struct Kernel {
 	pub name: String,
 	pub version: String,
@@ -235,11 +82,35 @@ pub(crate) struct Kernel {
 
 impl Kernel {
 	pub fn new() -> Self {
-		let os = get_os();
+		// TODO: Look into how `crate::uname::uname()` works and consider
+		// switching this to a `match { Ok(v) => v Err(e) => { ... } }`. 
+		let uname = uname().expect("Failed to run `crate::uname::uname()`.");
+		let name;
+		match uname.sysname.as_str() {
+			"Darwin" => { name = String::from("Darwin"); }
+			"SunOS" => { name = String::from("Solaris"); }
+			"Haiku" => { name = String::from("Haiku"); }
+			"MINIX" => { name = String::from("MINIX"); }
+			"AIX" => { name = String::from("AIX"); }
+			"FreeMiNT" => { name = String::from("FreeMiNT"); }
+			"Linux" => { name = String::from("Linux"); }
+			"DragonFly" => { name = String::from("BSD"); }
+			"Bitrig" => { name = String::from("BSD"); }
+			other => {
+				if other.starts_with("GNU") { name = String::from("Linux"); }
+				else if other.ends_with("BSD") { name = String::from("BSD"); }
+				else if other.starts_with("CYGWIN") || other.starts_with("MSYS") || other.starts_with("MINGW") {name = String::from("Windows"); }
+				else {
+					errors::handle(&format!("Unexpected OS \"{os}\". Create a pull request or issue at https://github.com/K4rakara/freshfetch to add support for your OS.",
+						os = other));
+					panic!();
+				}
+			}
+		}
 		Kernel {
-			name: os.0,
-			version: os.1,
-			architecture: os.2,
+			name: name,
+			version: uname.release,
+			architecture: uname.machine,
 		}
 	}
 }
@@ -290,6 +161,125 @@ impl Inject for Kernel {
 	}
 }
 
+#[derive(Clone, Debug)]
+pub(crate) struct Distro {
+	pub long_name: String,
+	pub short_name: String,
+	pub architecture: String,
+}
+
+impl Distro {
+	pub fn new(k: &Kernel) -> Self {
+		// Create fallback values.
+		let mut long_name = String::new();
+		let mut short_name = String::new();
+		match k.name.as_str() {
+			"Linux"|"BSD"|"MINIX" => {
+				// Bedrock Linux
+				if Path::new("/bedrock/etc/bedrock-release").exists()
+				&& env::var("PATH").unwrap_or(String::new()).contains("/bedrock/cross/") {
+					long_name = fs::read_to_string("/bedrock/etc/bedrock-release")
+						.unwrap_or(String::from("Bedrock Linux"));
+					short_name = String::from("Bedrock Linux");
+				}
+				// Red Star OS
+				else if Path::new("/etc/redstar-release").exists() {
+					long_name = {
+						// TODO: Rework this into rust.
+						let to_return;
+						let release = run_fun!(printf "Red Star OS $(awk -F'[^0-9*]' '$0=$2' /etc/redstar-release)");
+						if release.is_err() { to_return = String::from("Red Star OS"); }
+						else { to_return = release.unwrap(); }
+						to_return
+					};
+					short_name = String::from("Red Star OS");
+				}
+				// Generic
+				else if Path::new("/etc/os-release").exists()
+				|| Path::new("/usr/share/os-release").exists()
+				|| Path::new("/etc/openwrt_release").exists()
+				|| Path::new("/etc/lsb-release").exists() {
+					let (long, short) = {
+						// TODO: Rework this into pure rust.
+						let try_release = Command::new("sh")
+							.arg("-c")
+							.arg(r#"for file in /etc/lsb-release /usr/lib/os-release /etc/os-release /etc/openwrt_release; do source $file && break; done; echo ${PRETTY_NAME:-${DISTRIB_DESCRIPTION}} ${VERSION_ID:-${DISTRIB_RELEASE}}; echo ${PRETTY_NAME:-${DISTRIB_DESCRIPTION:-${DISTRIB_ID:-${TAILS_PRODUCT_NAME}}}};"#)
+							.stdout(Stdio::piped())
+							.output();
+						if try_release.is_ok() {
+							let release = String::from_utf8(try_release.unwrap().stdout).expect("");
+							let lines: Vec<&str> = release.split("\n").collect();
+						 	if lines.len() == 1 {
+								(String::from(lines[0]), k.name.clone())
+							} else if lines.len() >= 2 {
+								(String::from(lines[0]), String::from(lines[1]))
+							} else {
+								(k.name.clone(), k.name.clone())
+							}
+						} else {
+							(k.name.clone(), k.name.clone())
+						}
+					};
+					long_name = long;
+					short_name = short;
+				}
+			}
+			_ => {} // Do nothing, unknown OS'es should have already exited by now.
+		}
+		Distro {
+			long_name: long_name,
+			short_name: short_name,
+			architecture: k.architecture.clone(),
+		}
+	}
+}
+
+impl Inject for Distro {
+	fn inject(&self, clml: &mut CLML) -> Result<(), ()> {
+		// Inject env values.
+		clml
+			.env("distro.fullname", &self.long_name)
+			.env("distro.shortname", &self.short_name)
+			.env("distro.architecture", &self.architecture);
+		
+		// Inject Bash values.
+		clml
+			.bash_env("distro_fullname", &self.long_name)
+			.bash_env("distro_shortname", &self.short_name)
+			.bash_env("distro_architecture", &self.architecture);
+		
+		// Inject Lua values.
+		{
+			let lua = &clml.lua_env;
+			let globals = lua.globals();
+
+			match lua.create_table() {
+				Ok(t) => {
+					match t.set("fullname", self.long_name.as_str()) {
+						Ok(_) => (),
+						Err(e) => errors::handle(&format!("{}{}", errors::LUA, e)),
+					}
+					match t.set("shortname", self.short_name.as_str()) {
+						Ok(_) => (),
+						Err(e) => errors::handle(&format!("{}{}", errors::LUA, e)),
+					}
+					match t.set("architecture", self.architecture.as_str()) {
+						Ok(_) => (),
+						Err(e) => errors::handle(&format!("{}{}", errors::LUA, e)),
+					}
+					match globals.set("distro", t) {
+						Ok(_) => (),
+						Err(e) => errors::handle(&format!("{}{}", errors::LUA, e)),
+					}
+				}
+				Err(e) => errors::handle(&format!("{}{}", errors::LUA, e)),
+			}
+		}	
+
+		Ok(())
+	}
+}
+
 pub(crate) struct Uptime ( pub DateTime<Utc> );
 
 impl Uptime {
@@ -304,24 +294,54 @@ impl Uptime {
 								.split(".")
 								.next()
 								.unwrap());
-							uptime_seconds = uptime_seconds_string.parse::<i64>().expect("Failed to convert /proc/uptime to a u64.");
+							uptime_seconds = match uptime_seconds_string.parse::<i64>() {
+								Ok(v) => v,
+								Err(e) => {
+									errors::handle(&format!("{}{v}{}i64{}{err}",
+										errors::PARSE.0,
+										errors::PARSE.1,
+										errors::PARSE.2,
+										v = uptime_seconds_string,
+										err = e));
+									panic!();
+								}
+							}
 						}
-						Err(e) => panic!(format!("An I/O error occured while reading {}:\n{}", "/proc/uptime", e)),
+						Err(e) => {
+							errors::handle(&format!("{}{file}{}{err}",
+								errors::io::READ.0,
+								errors::io::READ.1,
+								file = "/proc/uptime",
+								err = e));
+							panic!();
+						}
 					}
 				} else {
 					let boot_time = {
-						let try_boot_time_output = Command::new("sh")
-							.arg("-c")
-							.arg(r#"printf "$(date -d"$(uptime -s)" +%s)""#)
-							.output();
-						match try_boot_time_output {
-							Ok(boot_time_output) => {
-								let boot_time_string = String::from_utf8(boot_time_output.stdout)
-									.expect("`boot_time_output.stdout` contained invalid UTF8!");
-								boot_time_string.parse::<i64>()
-									.expect("Failed to convert `boot_time_string` to `u64`!")
+						let try_boot_time_string = run_fun!( printf "$(date -d"$(uptime -s)" +%s)" );
+						match try_boot_time_string {
+							Ok(boot_time_string) => {
+								match boot_time_string.parse::<i64>() {
+									Ok(v) => v,
+									Err(e) => {
+										errors::handle(&format!("{}{v}{}i64{}{err}",
+											errors::PARSE.0,
+											errors::PARSE.1,
+											errors::PARSE.2,
+											v = boot_time_string,
+											err = e));
+										panic!();
+									}
+								}
 							}
-							Err(e) => panic!(format!(""))
+							Err(e) => {
+								errors::handle(&format!("{}{cmd}{}{err}",
+									errors::CMD.0,
+									errors::CMD.1,
+									cmd = r#"printf "$(date -d"$(uptime -s)" +%s)"#,
+									err = e));
+								panic!();
+							}
 						}
 					};
 					let now_time = Utc::now().timestamp();
@@ -666,6 +686,7 @@ pub(crate) struct Info {
 impl Info {
 	pub fn new() -> Self {
 		let kernel = Kernel::new();
+		let distro = Distro::new(&kernel);
 		let uptime = Uptime::new(&kernel);
 		let package_managers = PackageManagers::new(&kernel);
 		let shell = Shell::new(&kernel);
@@ -673,7 +694,7 @@ impl Info {
 			ctx: CLML::new(),
 			user: User::new(),
 			host: Host::new(),
-			distro: Distro::new(),
+			distro: distro,
 			kernel: kernel,
 			uptime: uptime,
 			package_managers: package_managers,

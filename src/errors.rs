@@ -5,6 +5,10 @@ use std::process::{ exit };
 use clml_rs::{ clml };
 
 pub(crate) static LUA: &'static str = "A Lua error occurred. Details:\n";
+pub(crate) static CMD: (&'static str, &'static str) =
+	( "An error occurred while executing \"", "\". Details:\n" );
+pub(crate) static PARSE: (&'static str, &'static str, &'static str) =
+	( "An error occurred while parsing \"", "\" into a \"", "\". Details:\n" );
 
 pub(crate) mod io {
 	pub(crate) static READ: (&'static str, &'static str) =
