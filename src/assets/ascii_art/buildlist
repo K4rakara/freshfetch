@@ -1,6 +1,42 @@
 # Controls which files should be processed automatically during the build process.
 # Lines beginning with '#' are ignored.
-arch.clml -> .arch.clml
-linux_classic.clml -> .linux_classic.clml
-linux_256.clml -> .linux_256.clml
-manjaro.clml -> .manjaro.clml
+#
+# =============================================================================
+# Small & Simple
+# =============================================================================
+#
+# Arch Linux
+./small/simple/arch.clml -> ./small/simple/.arch.clml
+# Manjaro Linux
+./small/simple/manjaro.clml -> ./small/simple/.manjaro.clml
+#
+# =============================================================================
+# Small & Complex
+# =============================================================================
+#
+# Arch Linux
+./small/complex/arch.clml -> ./small/complex/.arch.clml
+# Manjaro Linux
+./small/complex/manjaro.clml -> ./small/complex/.manjaro.clml
+#
+# =============================================================================
+# Large & Simple
+# =============================================================================
+#
+# Arch Linux
+./large/simple/arch.clml -> ./large/simple/.arch.clml
+# Manjaro Linux
+./large/simple/manjaro.clml -> ./large/simple/.manjaro.clml
+# Failsafe
+./large/simple/linux.clml -> ./large/simple/.linux.clml
+#
+# =============================================================================
+# Large & Complex
+# =============================================================================
+#
+# Arch Linux
+./large/complex/arch.clml -> ./large/complex/.arch.clml
+# Manjaro Linux
+./large/complex/manjaro.clml -> ./large/complex/.manjaro.clml
+# Failsafe
+./large/complex/linux.clml -> ./large/complex/.linux.clml
