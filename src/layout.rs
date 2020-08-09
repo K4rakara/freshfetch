@@ -6,7 +6,7 @@ use crate::info;
 
 use clml_rs::{ CLML };
 
-use crate::{ Inject };
+use crate::{ Inject, Arguments };
 use misc::{ Terminal };
 use art::{ Art };
 use info::{ Info };
@@ -18,9 +18,9 @@ pub(crate) struct Layout {
 }
 
 impl Layout {
-	pub fn new() -> Self {
+	pub fn new(args: &Arguments) -> Self {
 		Layout {
-			art: Art::new("manjaro"),
+			art: Art::new(&args.ascii_distro.clone().unwrap_or(String::from("manjaro"))),
 			info: Info::new(),
 			terminal: Terminal::new(),
 		}
