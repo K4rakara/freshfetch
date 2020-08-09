@@ -33,5 +33,5 @@ pub(crate) fn get_ascii_art(of: &str) -> &'static str {
 			}
 		}
 	}
-	include_str!("./linux_classic.clml")
+	return get_ascii_art("linux")
 }
