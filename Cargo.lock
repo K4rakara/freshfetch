@@ -82,6 +82,7 @@ dependencies = [
  "cmd_lib",
  "cpuid",
  "mlua",
+ "regex",
  "term_size",
  "uname",
  "users",

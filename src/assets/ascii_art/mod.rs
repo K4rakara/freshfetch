@@ -23,15 +23,15 @@ static ASCII_ART: &[(&'static str, &'static str, bool)] = &[
 	( "manjaro_small_complex",	include_str!("./small/complex/.manjaro.clml"),	false,  ),
 ];
 
-pub(crate) fn get_ascii_art(of: &str) -> &'static str {
-	for distro in ASCII_ART.iter() {
-		if distro.0 == of {
-			if distro.1.starts_with("@") {
-				return get_ascii_art(&distro.1[1..]);
+pub(crate) fn get(of: &str) -> (&'static str, bool) {
+	for art in ASCII_ART.iter() {
+		if art.0 == of {
+			if art.1.starts_with("@") {
+				return get(&art.1[1..]);
 			} else {
-				return distro.1;
+				return (art.1, art.2);
 			}
 		}
 	}
-	return get_ascii_art("linux")
+	return get("linux");
 }

@@ -6,6 +6,7 @@ pub(crate) extern crate mlua;
 pub(crate) extern crate term_size;
 pub(crate) extern crate uname;
 pub(crate) extern crate users;
+pub(crate) extern crate regex;
 
 pub(crate) mod art;
 pub(crate) mod assets;
