@@ -1,19 +1,20 @@
 use crate::chrono;
 use crate::clml_rs;
-use crate::cmd_lib;
+use crate::sysinfo;
 
 use crate::errors;
 use super::kernel;
+use super::utils;
 
-use std::fs;
 use std::path::{ Path };
 
 use chrono::{ Utc, DateTime, Datelike, Timelike, TimeZone };
 use clml_rs::{ CLML };
-use cmd_lib::{ run_fun };
+use sysinfo::{ SystemExt };
 
 use crate::{ Inject };
 use kernel::{ Kernel };
+use utils::{ get_system };
 
 pub(crate) struct Uptime ( pub DateTime<Utc> );
 
@@ -22,68 +23,21 @@ impl Uptime {
 		let uptime_seconds;
 		match k.name.as_str() {
 			"Linux"|"Windows"|"MINIX" => {
+				// Since `crate::sysinfo::SystemExt::get_uptime()` gets uptime
+				// from /proc/uptime, we should check that it exists and have a
+				// fallback.
 				if Path::new("/proc/uptime").exists() {
-					match fs::read_to_string("/proc/uptime") {
-						Ok(uptime_string) => {
-							let uptime_seconds_string = String::from(uptime_string
-								.split(".")
-								.next()
-								.unwrap());
-							uptime_seconds = match uptime_seconds_string.parse::<i64>() {
-								Ok(v) => v,
-								Err(e) => {
-									errors::handle(&format!("{}{v}{}i64{}{err}",
-										errors::PARSE.0,
-										errors::PARSE.1,
-										errors::PARSE.2,
-										v = uptime_seconds_string,
-										err = e));
-									panic!();
-								}
-							}
-						}
-						Err(e) => {
-							errors::handle(&format!("{}{file}{}{err}",
-								errors::io::READ.0,
-								errors::io::READ.1,
-								file = "/proc/uptime",
-								err = e));
-							panic!();
-						}
-					}
+					uptime_seconds = get_system().get_uptime() as i64;
 				} else {
-					let boot_time = {
-						let try_boot_time_string = run_fun!( printf "$(date -d"$(uptime -s)" +%s)" );
-						match try_boot_time_string {
-							Ok(boot_time_string) => {
-								match boot_time_string.parse::<i64>() {
-									Ok(v) => v,
-									Err(e) => {
-										errors::handle(&format!("{}{v}{}i64{}{err}",
-											errors::PARSE.0,
-											errors::PARSE.1,
-											errors::PARSE.2,
-											v = boot_time_string,
-											err = e));
-										panic!();
-									}
-								}
-							}
-							Err(e) => {
-								errors::handle(&format!("{}{cmd}{}{err}",
-									errors::CMD.0,
-									errors::CMD.1,
-									cmd = r#"printf "$(date -d"$(uptime -s)" +%s)"#,
-									err = e));
-								panic!();
-							}
-						}
-					};
+					// `crate::sysinfo::SystemExt::get_boot_time()` doesn't
+					// appear to rely on /proc/uptime, so we should be able to 
+					// use it here.
+					let boot_time = get_system().get_boot_time() as i64;
 					let now_time = Utc::now().timestamp();
 					uptime_seconds = boot_time - now_time;
 				}
 			}
-			// Unknown OS'es should have already exit(1)'d by now, this is just
+			// Unknown OSes should have already exit(1)'d by now, this is just
 			// to satisfy the compiler.
 			_ => { uptime_seconds = 0; }
 		}
