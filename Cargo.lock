@@ -160,6 +160,7 @@ dependencies = [
  "clml_rs",
  "cmd_lib",
  "cpuid",
+ "lazy_static",
  "mlua",
  "regex",
  "sysinfo",

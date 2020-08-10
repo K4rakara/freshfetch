@@ -9,6 +9,7 @@ pub(crate) mod uptime;
 pub(crate) mod package_managers;
 pub(crate) mod shell;
 pub(crate) mod resolution;
+pub(crate) mod utils;
 
 use clml_rs::{ CLML };
 

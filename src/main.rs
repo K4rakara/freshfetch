@@ -1,3 +1,4 @@
+#[macro_use] pub(crate) extern crate lazy_static;
 pub(crate) extern crate chrono;
 pub(crate) extern crate clap;
 pub(crate) extern crate clml_rs;
