@@ -3,6 +3,7 @@ use crate::clml_rs;
 use crate::errors;
 use super::kernel;
 
+use std::path::{ Path };
 use std::process::{ Command };
 
 use clml_rs::{ CLML };
@@ -25,7 +26,7 @@ impl PackageManagers {
 	pub fn new(k: &Kernel) -> Self {
 		let mut to_return = Vec::new();
 		
-		let has = |package_manager: &str| -> bool {
+		/*let has = |package_manager: &str| -> bool {
 			let try_output = Command::new("sh")
 				.arg("-c")
 				.arg(format!(r#"type -p "{}""#, package_manager))
@@ -34,6 +35,9 @@ impl PackageManagers {
 				Ok(output) => output.status.success(),
 				Err(_) => false,
 			}
+		};*/
+		let has_bin = |package_manager: &str| -> bool {
+			Path::new("/usr/bin/").join(package_manager).exists()
 		};
 		let mut add = |package_manager: &str, command: &str| {
 			to_return.push(PackageManager::new(package_manager, {
@@ -61,25 +65,25 @@ impl PackageManagers {
 
 		match k.name.as_str() {
 			"Linux"|"BSD"|"iPhone OS"|"Solaris" => {
-				if has("kiss") { add("kiss", "kiss l"); }
-				if has("pacman-key") { add("pacman", "pacman -Qq --color never"); }
-				if has("dpkg") { add("dpkg", "dpkg-query -f '.\n' -W"); }
-				if has("rpm") { add("rpm", "rpm -qa"); }
-				if has("xbps-query") { add("xbps-query", "xbps-query -l"); }
-				if has("apk") { add("apk", "apk info"); }
-				if has("opkg") { add("opkg", "opkg list-installed"); }
-				if has("pacman-g2") { add("pacman-g2", "pacman-g2 -Q"); }
-				if has("lvu") { add("lvu", "lvu installed"); }
-				if has("tce-status") { add("tce-status", "tce-status -i"); }
-				if has("pkg-info") { add("pkg-info", "pkg_info"); }
-				if has("tazpkg") { add("tazpkg", "tazpkg list"); }
-				if has("sorcery") { add("sorcery", "gaze installed"); }
-				if has("alps") { add("alps", "alps showinstalled"); }
-				if has("butch") { add("butch", "butch list"); }
-				if has("mine") { add("mine", "mine -q"); }
+				if has_bin("kiss") { add("kiss", "kiss l"); }
+				if has_bin("pacman") { add("pacman", "pacman -Qq --color never"); }
+				if has_bin("dpkg") { add("dpkg", "dpkg-query -f '.\n' -W"); }
+				if has_bin("rpm") { add("rpm", "rpm -qa"); }
+				if has_bin("xbps-query") { add("xbps-query", "xbps-query -l"); }
+				if has_bin("apk") { add("apk", "apk info"); }
+				if has_bin("opkg") { add("opkg", "opkg list-installed"); }
+				if has_bin("pacman-g2") { add("pacman-g2", "pacman-g2 -Q"); }
+				if has_bin("lvu") { add("lvu", "lvu installed"); }
+				if has_bin("tce-status") { add("tce-status", "tce-status -i"); }
+				if has_bin("pkg-info") { add("pkg-info", "pkg_info"); }
+				if has_bin("tazpkg") { add("tazpkg", "tazpkg list"); }
+				if has_bin("sorcery") { add("sorcery", "gaze installed"); }
+				if has_bin("alps") { add("alps", "alps showinstalled"); }
+				if has_bin("butch") { add("butch", "butch list"); }
+				if has_bin("mine") { add("mine", "mine -q"); }
 				
-				if has("flatpak") { add("flatpak", "flatpak list"); }
-				if has("snap") {
+				if has_bin("flatpak") { add("flatpak", "flatpak list"); }
+				if has_bin("snap") {
 					let daemon_running = {
 						let try_output = Command::new("sh")
 							.arg("-c")
@@ -93,7 +97,7 @@ impl PackageManagers {
 					if daemon_running { add("snap", "snap list"); }
 				}
 
-				if has("npm") { add("npm", "ls $(npm root -g) --color=none"); }
+				if has_bin("npm") { add("npm", "ls $(npm root -g) --color=none"); }
 			}
 			_ => {}
 		}
