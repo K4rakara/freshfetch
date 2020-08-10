@@ -1,22 +1,22 @@
+pub(crate) extern crate chrono;
+pub(crate) extern crate clap;
 pub(crate) extern crate clml_rs;
 pub(crate) extern crate cmd_lib;
-pub(crate) extern crate chrono;
 pub(crate) extern crate cpuid;
 pub(crate) extern crate mlua;
+pub(crate) extern crate regex;
+pub(crate) extern crate sysinfo;
 pub(crate) extern crate term_size;
 pub(crate) extern crate uname;
 pub(crate) extern crate users;
-pub(crate) extern crate regex;
-pub(crate) extern crate clap;
 pub(crate) extern crate x11rb;
-pub(crate) extern crate sysinfo;
 
 pub(crate) mod art;
 pub(crate) mod assets;
+pub(crate) mod errors;
 pub(crate) mod info;
 pub(crate) mod layout;
 pub(crate) mod misc;
-pub(crate) mod errors;
 
 use clap::{ App, Arg };
 use clml_rs::{ clml, CLML };
