@@ -3,8 +3,8 @@ pub(crate) extern crate chrono;
 pub(crate) extern crate clap;
 pub(crate) extern crate clml_rs;
 pub(crate) extern crate cmd_lib;
-pub(crate) extern crate cpuid;
-pub(crate) extern crate mlua;
+//pub(crate) extern crate cpuid;
+//pub(crate) extern crate mlua;
 pub(crate) extern crate regex;
 pub(crate) extern crate sysinfo;
 pub(crate) extern crate term_size;
@@ -20,7 +20,7 @@ pub(crate) mod layout;
 pub(crate) mod misc;
 
 use clap::{ App, Arg };
-use clml_rs::{ clml, CLML };
+use clml_rs::{ CLML };
 
 use layout::{ Layout };
 
@@ -30,7 +30,7 @@ pub(crate) struct Arguments {
 
 pub(crate) trait Inject {
 	fn prep(&mut self) -> Result<(), ()> { Ok(()) }
-	fn inject(&self, clml: &mut CLML) -> Result<(), ()> { Ok(()) }
+	fn inject(&self, _clml: &mut CLML) -> Result<(), ()> { Ok(()) }
 }
 
 fn main() {
@@ -56,7 +56,7 @@ fn main() {
 
 	let mut ctx = CLML::new();
 	let mut layout = Layout::new(&args);
-	layout.prep();
-	layout.inject(&mut ctx);
+	layout.prep().ok();
+	layout.inject(&mut ctx).ok();
 	print!("{}", ctx.parse(include_str!("./assets/defaults/layout.clml")).unwrap());
 }

@@ -59,12 +59,4 @@ impl PsAux {
 	pub fn grep(&self, conf: Grep) -> Vec<String> {
 		grep(self.0.clone(), conf)
 	}
-	pub fn contains(&self, search: &str) -> bool {
-		!self.grep(Grep {
-			max: None,
-			search: Some(String::from(search)),
-			searches: None,
-			only_matching: None,
-		}).is_empty()
-	}
 }

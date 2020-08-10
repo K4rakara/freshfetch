@@ -1,9 +1,9 @@
 use crate::clml_rs;
-use crate::mlua;
 use crate::term_size;
 
+use crate::errors;
+
 use clml_rs::{ CLML };
-use mlua::prelude::*;
 
 use crate::Inject;
 
@@ -43,18 +43,18 @@ impl Inject for Terminal {
 				Ok(t) => {
 					match t.set("width", self.width) {
 						Ok(_) => (),
-						Err(e) => panic!(format!("The following Lua error occured: {}", e)),
+						Err(e) => errors::handle(&format!("{}{err}", errors::LUA, err =e)),
 					}
 					match t.set("height", self.height) {
 						Ok(_) => (),
-						Err(e) => panic!(format!("The following Lua error occured: {}", e)),
+						Err(e) => errors::handle(&format!("{}{err}", errors::LUA, err =e)),
 					}
 					match globals.set("terminal", t) {
 						Ok(_) => (),
-						Err(e) => panic!(format!("The following Lua error occured: {}", e)),
+						Err(e) => errors::handle(&format!("{}{err}", errors::LUA, err =e)),
 					}
 				}
-				Err(e) => panic!(format!("The following Lua error occured: {}", e)),
+				Err(e) => errors::handle(&format!("{}{err}", errors::LUA, err =e)),
 			}
 		}
 

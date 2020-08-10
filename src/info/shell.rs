@@ -45,7 +45,7 @@ impl Shell {
 								String::from_utf8(output.stdout)
 									.expect("The output of \"zsh -c printf $ZSH_VERSION\" contained invalid UTF8.")
 							}
-							Err(e) => panic!("Failed to get ZSH_VERSION."),
+							Err(_) => panic!("Failed to get ZSH_VERSION."),
 						}
 					},
 					_ => version = String::new(),

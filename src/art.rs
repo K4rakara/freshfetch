@@ -5,7 +5,7 @@ use crate::assets::ascii_art;
 use crate::errors;
 
 use clml_rs::{ clml, CLML };
-use regex::{ Regex, Captures };
+use regex::{ Regex };
 
 use crate::{ Inject };
 
