@@ -1,4 +1,5 @@
 use crate::clml_rs;
+use crate::sysinfo;
 
 use crate::errors;
 pub(crate) mod kernel;
@@ -9,9 +10,12 @@ pub(crate) mod uptime;
 pub(crate) mod package_managers;
 pub(crate) mod shell;
 pub(crate) mod resolution;
+pub(crate) mod wm;
+pub(crate) mod de;
 pub(crate) mod utils;
 
 use clml_rs::{ CLML };
+use sysinfo::{ SystemExt };
 
 use crate::{ Inject };
 use kernel::{ Kernel };
@@ -22,6 +26,9 @@ use uptime::{ Uptime };
 use package_managers::{ PackageManagers };
 use shell::{ Shell };
 use resolution::{ Resolution };
+use wm::{ Wm };
+use de::{ De };
+use utils::{ get_system };
 
 pub(crate) struct Info {
 	ctx: CLML,
@@ -34,16 +41,21 @@ pub(crate) struct Info {
 	package_managers: PackageManagers,
 	shell: Shell,
 	resolution: Option<Resolution>,
+	de: Option<De>,
+	wm: Option<Wm>,
 }
 
 impl Info {
 	pub fn new() -> Self {
+		get_system().refresh_all();
 		let kernel = Kernel::new();
 		let distro = Distro::new(&kernel);
 		let uptime = Uptime::new(&kernel);
 		let package_managers = PackageManagers::new(&kernel);
 		let shell = Shell::new(&kernel);
 		let resolution = Resolution::new();
+		let de = De::new(&kernel, &distro);
+		let wm = Wm::new(&kernel);
 		Info {
 			ctx: CLML::new(),
 			rendered: String::new(),
@@ -55,6 +67,8 @@ impl Info {
 			package_managers: package_managers,
 			shell: shell,
 			resolution: resolution,
+			de: de,
+			wm: wm,
 		}
 	}
 	pub fn render(&mut self) -> Result<(), ()> {
@@ -74,10 +88,9 @@ impl Inject for Info {
 		self.uptime.inject(&mut self.ctx)?;
 		self.package_managers.inject(&mut self.ctx)?;
 		self.shell.inject(&mut self.ctx)?;
-		match &self.resolution {
-			Some(v) => { v.inject(&mut self.ctx)?; }
-			None => (),
-		}
+		match &self.resolution { Some(v) => v.inject(&mut self.ctx)?, None => (), }
+		match &self.wm { Some(v) => v.inject(&mut self.ctx)?, None => (), }
+		match &self.de { Some(v) => v.inject(&mut self.ctx)?, None => (), }
 		self.render()?;
 		Ok(())
 	}
