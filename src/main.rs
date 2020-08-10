@@ -9,6 +9,7 @@ pub(crate) extern crate users;
 pub(crate) extern crate regex;
 pub(crate) extern crate clap;
 pub(crate) extern crate x11rb;
+pub(crate) extern crate sysinfo;
 
 pub(crate) mod art;
 pub(crate) mod assets;
