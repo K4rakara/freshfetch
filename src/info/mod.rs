@@ -1,4 +1,5 @@
 use crate::clml_rs;
+use crate::regex;
 use crate::sysinfo;
 
 use crate::errors;
@@ -15,6 +16,7 @@ pub(crate) mod de;
 pub(crate) mod utils;
 
 use clml_rs::{ CLML };
+use regex::{ Regex };
 use sysinfo::{ SystemExt };
 
 use crate::{ Inject };
@@ -33,6 +35,8 @@ use utils::{ get_system };
 pub(crate) struct Info {
 	ctx: CLML,
 	rendered: String,
+	width: i32,
+	height: i32,
 	user: User,
 	host: Host,
 	distro: Distro,
@@ -59,6 +63,8 @@ impl Info {
 		Info {
 			ctx: CLML::new(),
 			rendered: String::new(),
+			width: 0,
+			height: 0,
 			user: User::new(),
 			host: Host::new(),
 			distro: distro,
@@ -92,14 +98,40 @@ impl Inject for Info {
 		match &self.wm { Some(v) => v.inject(&mut self.ctx)?, None => (), }
 		match &self.de { Some(v) => v.inject(&mut self.ctx)?, None => (), }
 		self.render()?;
+		{
+			let plaintext = {
+				let regex = Regex::new(r#"(?i)\[(?:[\d;]*\d+[a-z])"#).unwrap();
+				String::from(regex.replace_all(&self.rendered, ""))
+			};
+
+			let mut w = 0usize;
+			let mut h = 0usize;
+			
+			for line in plaintext.split("\n").collect::<Vec<&str>>() {
+				{
+					let len = line.chars().collect::<Vec<char>>().len();
+					if len > w { w = len; }
+				}
+				h += 1;
+			}
+
+			self.width = w as i32;
+			self.height = h as i32;
+		}
 		Ok(())
 	}
 	fn inject(&self, clml: &mut CLML) -> Result<(), ()> {
 		// Inject clml values.
-		clml.env("info", &format!("{}", self.rendered));
+		clml
+			.env("info", &format!("{}", self.rendered))
+			.env("info.width", &format!("{}", self.width))
+			.env("info.height", &format!("{}", self.height));
 
 		// Inject bash values.
-		clml.bash_env("info", &format!("{}", self.rendered));
+		clml
+			.bash_env("info", &format!("{}", self.rendered))
+			.env("info_width", &format!("{}", self.width))
+			.env("info_height", &format!("{}", self.height));
 
 		// Inject Lua values.
 		{
@@ -107,6 +139,14 @@ impl Inject for Info {
 			let globals = lua.globals();
 
 			match globals.set("info", self.rendered.as_str()) {
+				Ok(_) => (),
+				Err(e) => errors::handle(&format!("{}{}", errors::LUA, e)),
+			}
+			match globals.set("infoWidth", self.width) {
+				Ok(_) => (),
+				Err(e) => errors::handle(&format!("{}{}", errors::LUA, e)),
+			}
+			match globals.set("infoHeight", self.height) {
 				Ok(_) => (),
 				Err(e) => errors::handle(&format!("{}{}", errors::LUA, e)),
 			}

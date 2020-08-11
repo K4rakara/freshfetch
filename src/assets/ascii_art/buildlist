@@ -2,41 +2,99 @@
 # Lines beginning with '#' are ignored.
 #
 # =============================================================================
-# Small & Simple
+# Small
 # =============================================================================
 #
+# Alpine Linux
+./small/a/alpine.clml -> ./small/a/.alpine.clml
+# Android
+./small/a/android.clml -> ./small/a/.android.clml
+# Arco Linux
+./small/a/arco.clml -> ./small/a/.arco.clml
 # Arch Linux
-./small/simple/arch.clml -> ./small/simple/.arch.clml
+./small/a/arch.clml -> ./small/a/.arch.clml
+# Artix Linux
+./small/a/artix.clml -> ./small/a/.artix.clml
 # Manjaro Linux
-./small/simple/manjaro.clml -> ./small/simple/.manjaro.clml
+./small/manjaro.clml -> ./small/.manjaro.clml
 #
 # =============================================================================
-# Small & Complex
+# Large
 # =============================================================================
 #
+# AIX
+./large/a/aix.clml -> ./large/a/.aix.clml
+# Hash
+./large/hash.clml -> ./large/.hash.clml
+# Alpine Linux
+./large/a/alpine.clml -> ./large/a/.alpine.clml
+# Alter Linux
+./large/a/alter.clml -> ./large/a/.alter.clml
+# Amazon Linux
+./large/a/amazon.clml -> ./large/a/.amazon.clml
+# Anarchy Linux
+./large/a/anarchy.clml -> ./large/a/.anarchy.clml
+# Android
+./large/a/android.clml -> ./large/a/.android.clml
+# Antergos Linux
+./large/a/antergos.clml -> ./large/a/.antergos.clml
+# Antix Linux
+./large/a/antix.clml -> ./large/a/.antix.clml
+# AOSC OS (Retro)
+./large/a/aosc_os_retro.clml -> ./large/a/.aosc_os_retro.clml
+# AOSC OS
+./large/a/aosc_os.clml -> ./large/a/.aosc_os.clml
+# Apricity Linux
+./large/a/apricity.clml -> ./large/a/.apricity.clml
+# Arco Linux
+./large/a/arco.clml -> ./large/a/.arco.clml
+# Archbox Linux
+./large/a/archbox.clml -> ./large/a/.archbox.clml
+# Archlabs Linux
+./large/a/archlabs.clml -> ./large/a/.archlabs.clml
+# Archstrike Linux
+./large/a/archstrike.clml -> ./large/a/.archstrike.clml
 # Arch Linux
-./small/complex/arch.clml -> ./small/complex/.arch.clml
+./large/a/arch.clml -> ./large/a/.arch.clml
+# Artix Linux
+./large/a/artix.clml -> ./large/a/.artix.clml
+# Arya Linux
+./large/a/arya.clml -> ./large/a/.arya.clml
+# Bedrock Linux
+./large/b/bedrock.clml -> ./large/b/.bedrock.clml
+# Bitrig
+./large/b/bitrig.clml -> ./large/b/.bitrig.clml
+# BlackArch Linux
+./large/b/blackarch.clml -> ./large/b/.blackarch.clml
+# BLAG
+./large/b/blag.clml -> ./large/b/.blag.clml
+# BlankOn
+./large/b/blankon.clml -> ./large/b/.blankon.clml
+# Bonsai Linux
+./large/b/bonsai.clml -> ./large/b/.bonsai.clml
+# BSD
+./large/b/bsd.clml -> ./large/b/.bsd.clml
+# BunsenLabs
+./large/b/bunsenlabs.clml -> ./large/b/.bunsenlabs.clml
+# Calculate Linux
+./large/c/calculate.clml -> ./large/c/.calculate.clml
+# Carbs
+./large/c/carbs.clml -> ./large/c/.carbs.clml
 # Manjaro Linux
-./small/complex/manjaro.clml -> ./small/complex/.manjaro.clml
+./large/manjaro.clml -> ./large/.manjaro.clml
+# Windows 10
+./large/windows10.clml -> ./large/.windows10.clml
+# Windows
+./large/windows.clml -> ./large/.windows.clml
+# Linux
+./large/linux.clml -> ./large/.linux.clml
+# Linux (Classic)
+./large/linux_classic.clml -> ./large/.linux_classic.clml
+# XFerience Linux
+./large/x/xferience.clml -> ./large/x/.xferience.clml
 #
 # =============================================================================
-# Large & Simple
+# Old
 # =============================================================================
 #
-# Arch Linux
-./large/simple/arch.clml -> ./large/simple/.arch.clml
-# Manjaro Linux
-./large/simple/manjaro.clml -> ./large/simple/.manjaro.clml
-# Failsafe
-./large/simple/linux.clml -> ./large/simple/.linux.clml
-#
-# =============================================================================
-# Large & Complex
-# =============================================================================
-#
-# Arch Linux
-./large/complex/arch.clml -> ./large/complex/.arch.clml
-# Manjaro Linux
-./large/complex/manjaro.clml -> ./large/complex/.manjaro.clml
-# Failsafe
-./large/complex/linux.clml -> ./large/complex/.linux.clml
+./old/a/arch.clml -> ./old/a/.arch.clml
