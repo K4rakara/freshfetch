@@ -27,6 +27,10 @@
 ./small/d/dragonfly.clml -> ./small/d/.dragonfly.clml
 # elementaryOS
 ./small/e/elementary.clml -> ./small/e/.elementary.clml
+# Fedora Linux
+./small/f/fedora.clml -> ./small/f/.fedora.clml
+# FreeBSD
+./small/f/freebsd.clml -> ./small/f/.freebsd.clml
 # Manjaro Linux
 ./small/manjaro.clml -> ./small/.manjaro.clml
 #
@@ -142,6 +146,18 @@
 ./large/e/eurolinux.clml -> ./large/e/.eurolinux.clml
 # Exherbo
 ./large/e/exherbo.clml -> ./large/e/.exherbo.clml
+# Fedora Linux
+./large/f/fedora.clml -> ./large/f/.fedora.clml
+# Feren
+./large/f/feren.clml -> ./large/f/.feren.clml
+# FreeBSD
+./large/f/freebsd.clml -> ./large/f/.freebsd.clml
+# FreeMiNT
+./large/f/freemint.clml -> ./large/f/.freemint.clml
+# Frugalware
+./large/f/frugalware.clml -> ./large/f/.frugalware.clml
+# Funtoo
+./large/f/funtoo.clml -> ./large/f/.funtoo.clml
 # Manjaro Linux
 ./large/manjaro.clml -> ./large/.manjaro.clml
 # Windows 10

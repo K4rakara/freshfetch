@@ -82,7 +82,16 @@ static ASCII_ART: &[(&'static str, Check, Option<&'static str>, &'static str, bo
 	( "endless",			Check::StartsWith,	Some("Endless"),					include_str!("./large/e/.endless.clml"),			false,	),
 	( "eurolinux",			Check::StartsWith,	Some("EuroLinux"),					include_str!("./large/e/.eurolinux.clml"),			false,	),
 	( "exhuerbo",			Check::StartsWith,	Some("Exherbo"),					include_str!("./large/e/.exherbo.clml"),			false,	),
-	// Continue here.	
+	( "fedora",				Check::StartsWith,	Some("Fedora"),						include_str!("./large/f/.fedora.clml"),				false,	),
+	( "fedora_small",		Check::Is,			None,								include_str!("./small/f/.fedora.clml"),				false,	),
+	( "feren",				Check::StartsWith,	Some("Feren"),						include_str!("./large/f/.feren.clml"),				false,	),
+	( "freebsd",			Check::StartsWith,	Some("FreeBSD"),					include_str!("./large/f/.freebsd.clml"),			false,	),
+	( "freebsd_small",		Check::Is,			None,								include_str!("./small/f/.freebsd.clml"),			false,	),
+	( "freemint",			Check::StartsWith,	Some("FreeMiNT"),					include_str!("./large/f/.freemint.clml"),			false,	),
+	( "frugalware",			Check::StartsWith,	Some("Frugalware"),					include_str!("./large/f/.frugalware.clml"),			false,	),
+	( "funtoo",				Check::StartsWith,	Some("Funtoo"),						include_str!("./large/f/.funtoo.clml"),				false,	),
+	// Continue here.
+	( "",					Check::StartsWith,	Some("RFRemix"),					"@fedora",											false,	),
 	( "linux",				Check::Is,			None,								include_str!("./large/.linux.clml"),				false,	),
 	( "linux_classic",		Check::Is,			None,								include_str!("./large/.linux_classic.clml"),		false,	),
 	( "manjaro",			Check::Is,			None,								include_str!("./large/.manjaro.clml"),				false,	),
