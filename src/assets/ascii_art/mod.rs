@@ -81,7 +81,7 @@ pub(crate) fn get(of: &str) -> (&'static str, bool) {
 		let is_alias = art.3.starts_with("@");
 		let get_tuple = || -> (&'static str, bool) {
 			if !is_alias { (art.3, art.4) }
-			else { get_cli(art.3) }
+			else { get_cli(&art.3[1..]) }
 		};
 		match art.1 {
 			Check::Is => {
