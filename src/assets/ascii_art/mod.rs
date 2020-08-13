@@ -76,6 +76,12 @@ static ASCII_ART: &[(&'static str, Check, Option<&'static str>, &'static str, bo
 	( "dragonfly_small",	Check::Is,			None,								include_str!("./small/d/.dragonfly.clml"),			false,	),
 	( "dragonfly_old",		Check::Is,			None,								include_str!("./old/d/.dragonfly.clml"),			false,	),
 	( "drauger",			Check::StartsWith,	Some("Drauger"),					include_str!("./large/d/.drauger.clml"),			false,	),
+	( "elementary",			Check::StartsWith,	Some("Elementary"),					include_str!("./large/e/.elementary.clml"),			false,	),
+	( "elementary_small",	Check::Is,			None,								include_str!("./small/e/.elementary.clml"),			false,	),
+	( "endeavouros",		Check::StartsWith,	Some("EndeavourOS"),				include_str!("./large/e/.endeavouros.clml"),		false,	),
+	( "endless",			Check::StartsWith,	Some("Endless"),					include_str!("./large/e/.endless.clml"),			false,	),
+	( "eurolinux",			Check::StartsWith,	Some("EuroLinux"),					include_str!("./large/e/.eurolinux.clml"),			false,	),
+	( "exhuerbo",			Check::StartsWith,	Some("Exherbo"),					include_str!("./large/e/.exherbo.clml"),			false,	),
 	// Continue here.	
 	( "linux",				Check::Is,			None,								include_str!("./large/.linux.clml"),				false,	),
 	( "linux_classic",		Check::Is,			None,								include_str!("./large/.linux_classic.clml"),		false,	),

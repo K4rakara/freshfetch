@@ -25,6 +25,8 @@
 ./small/d/debian.clml -> ./small/d/.debian.clml
 # Dragonfly
 ./small/d/dragonfly.clml -> ./small/d/.dragonfly.clml
+# elementaryOS
+./small/e/elementary.clml -> ./small/e/.elementary.clml
 # Manjaro Linux
 ./small/manjaro.clml -> ./small/.manjaro.clml
 #
@@ -130,6 +132,16 @@
 ./large/d/dragonfly.clml -> ./large/d/.dragonfly.clml
 # Drauger
 ./large/d/drauger.clml -> ./large/d/.drauger.clml
+# elementaryOS
+./large/e/elementary.clml -> ./large/e/.elementary.clml
+# EndeavourOS
+./large/e/endeavouros.clml -> ./large/e/.endeavouros.clml
+# Endless
+./large/e/endless.clml -> ./large/e/.endless.clml
+# EuroLinux
+./large/e/eurolinux.clml -> ./large/e/.eurolinux.clml
+# Exherbo
+./large/e/exherbo.clml -> ./large/e/.exherbo.clml
 # Manjaro Linux
 ./large/manjaro.clml -> ./large/.manjaro.clml
 # Windows 10
