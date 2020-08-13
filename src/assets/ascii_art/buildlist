@@ -15,6 +15,12 @@
 ./small/a/arch.clml -> ./small/a/.arch.clml
 # Artix Linux
 ./small/a/artix.clml -> ./small/a/.artix.clml
+# CentOS Linux
+./small/c/centos.clml -> ./small/c/.centos.clml
+# Cleanjaro Linux
+./small/c/cleanjaro.clml -> ./small/c/.cleanjaro.clml
+# Crux Linux
+./small/c/crux.clml -> ./small/c/.crux.clml
 # Manjaro Linux
 ./small/manjaro.clml -> ./small/.manjaro.clml
 #
@@ -80,6 +86,32 @@
 ./large/c/calculate.clml -> ./large/c/.calculate.clml
 # Carbs
 ./large/c/carbs.clml -> ./large/c/.carbs.clml
+# CentOS Linux
+./large/c/centos.clml -> ./large/c/.centos.clml
+# Chakra Linux
+./large/c/chakra.clml -> ./large/c/.chakra.clml
+# ChaletOS
+./large/c/chaletos.clml -> ./large/c/.chaletos.clml
+# Chapeau
+./large/c/chapeau.clml -> ./large/c/.chapeau.clml
+# ChromeOS
+./large/c/chrome.clml -> ./large/c/.chrome.clml
+# Cleanjaro Linux
+./large/c/cleanjaro.clml -> ./large/c/.cleanjaro.clml
+# ClearOS
+./large/c/clearos.clml -> ./large/c/.clearos.clml
+# Clear Linux
+./large/c/clear_linux.clml -> ./large/c/.clear_linux.clml
+# Clover
+./large/c/clover.clml -> ./large/c/.clover.clml
+# Condres
+./large/c/condres.clml -> ./large/c/.condres.clml
+# Container Linux
+./large/c/container_linux.clml -> ./large/c/.container_linux.clml
+# Crux Linux
+./large/c/crux.clml -> ./large/c/.crux.clml
+# Cucumber
+./large/c/cucumber.clml -> ./large/c/.cucumber.clml
 # Manjaro Linux
 ./large/manjaro.clml -> ./large/.manjaro.clml
 # Windows 10
