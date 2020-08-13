@@ -21,6 +21,10 @@
 ./small/c/cleanjaro.clml -> ./small/c/.cleanjaro.clml
 # Crux Linux
 ./small/c/crux.clml -> ./small/c/.crux.clml
+# Debian Linux
+./small/d/debian.clml -> ./small/d/.debian.clml
+# Dragonfly
+./small/d/dragonfly.clml -> ./small/d/.dragonfly.clml
 # Manjaro Linux
 ./small/manjaro.clml -> ./small/.manjaro.clml
 #
@@ -112,6 +116,20 @@
 ./large/c/crux.clml -> ./large/c/.crux.clml
 # Cucumber
 ./large/c/cucumber.clml -> ./large/c/.cucumber.clml
+# Debian Linux
+./large/d/debian.clml -> ./large/d/.debian.clml
+# Deepin Linux
+./large/d/deepin.clml -> ./large/d/.deepin.clml
+# DesaOS
+./large/d/desaos.clml -> ./large/d/.desaos.clml
+# Devuan
+./large/d/devuan.clml -> ./large/d/.devuan.clml
+# DracOS
+./large/d/dracos.clml -> ./large/d/.dracos.clml
+# Dragonfly
+./large/d/dragonfly.clml -> ./large/d/.dragonfly.clml
+# Drauger
+./large/d/drauger.clml -> ./large/d/.drauger.clml
 # Manjaro Linux
 ./large/manjaro.clml -> ./large/.manjaro.clml
 # Windows 10
@@ -129,4 +147,7 @@
 # Old
 # =============================================================================
 #
+# Arch Linux
 ./old/a/arch.clml -> ./old/a/.arch.clml
+# DragonFly
+./old/d/dragonfly.clml -> ./old/d/.dragonfly.clml
