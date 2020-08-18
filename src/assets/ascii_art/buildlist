@@ -297,7 +297,7 @@
 # Oracle
 ./large/o/oracle.clml -> ./large/o/.oracle.clml
 # OS Elbrus
-./large/os/oselbrus.clml -> ./large/o/.oselbrus.clml
+./large/o/oselbrus.clml -> ./large/o/.oselbrus.clml
 # Windows 10
 ./large/windows10.clml -> ./large/.windows10.clml
 # Windows
