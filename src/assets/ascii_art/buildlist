@@ -294,6 +294,8 @@
 ./large/o/openstage.clml -> ./large/o/.openstage.clml
 # OpenWrt
 ./large/o/openwrt.clml -> ./large/o/.openwrt.clml
+# osmc
+./large/o/osmc.clml -> ./large/o/.osmc.clml
 # Oracle
 ./large/o/oracle.clml -> ./large/o/.oracle.clml
 # OS Elbrus

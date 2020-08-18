@@ -161,13 +161,13 @@ static ASCII_ART: &[(&'static str, Check, Option<&'static str>, &'static str, bo
 	( "openeuler",			Check::StartsWith,	Some("OpenEuler"),					include_str!("./large/o/.openeuler.clml"),			false,	),
 	( "openindiana",		Check::StartsWith,	Some("OpenIndiana"),				include_str!("./large/o/.openindiana.clml"),		false,	),
 	( "openmamba",			Check::StartsWith,	None,								include_str!("./large/o/.openmamba.clml"),			false,	),
-	( "openmandrivia",		Check::StartsWith,	Some("OpenMandrivia"),				include_str!("./large/o/.openmandrivia.clml"),		false,	),
+	( "openmandriva",		Check::StartsWith,	Some("OpenMandrivia"),				include_str!("./large/o/.openmandriva.clml"),		false,	),
 	( "openstage",			Check::StartsWith,	Some("OpenStage"),					include_str!("./large/o/.openstage.clml"),			false,	),
 	( "openwrt",			Check::StartsWith,	Some("OpenWrt"),					include_str!("./large/o/.openwrt.clml"),			false,	),
 	( "osmc",				Check::StartsWith,	Some("Open Source Media Center"),	include_str!("./large/o/.osmc.clml"),				false,	),
 	( "oracle",				Check::StartsWith,	Some("Oracle"),						include_str!("./large/o/.oracle.clml"),				false,	),
 	( "oselbrus",			Check::StartsWith,	Some("OS Elbrus"),					include_str!("./large/o/.oselbrus.clml"),			false,	),
-	
+
 	// Continue here.
 	( "",					Check::StartsWith,	Some("RFRemix"),					"@fedora",											false,	),
 	( "windows10",			Check::Is,			None,								include_str!("./large/.windows10.clml"),			false,	),
