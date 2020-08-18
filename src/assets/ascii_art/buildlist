@@ -188,6 +188,8 @@
 ./large/h/huayra.clml -> ./large/h/.huayra.clml
 # HyperBola
 ./large/h/hyperbola.clml -> ./large/h/.hyperbola.clml
+# JanusLinux
+./large/j/janus.clml -> ./large/j/.janus.clml
 # Manjaro Linux
 ./large/manjaro.clml -> ./large/.manjaro.clml
 # Windows 10

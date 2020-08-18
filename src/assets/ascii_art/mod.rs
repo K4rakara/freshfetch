@@ -38,6 +38,8 @@ static ASCII_ART: &[(&'static str, Check, Option<&'static str>, &'static str, bo
 	( "artix",				Check::StartsWith,	Some("Artix"),						include_str!("./large/a/.artix.clml"),				false,	),
 	( "artix_small",		Check::Is,			None,								include_str!("./small/a/.artix.clml"),				false,	),
 	( "arya",				Check::StartsWith,	Some("Arya"),						include_str!("./large/a/.arya.clml"),				false,	),
+	( "",					Check::StartsWith,	Some("Ataraxia Linux"),				"@janus",											false,	),
+	( "",					Check::StartsWith,	Some("Ataraxia"),					"@janus",											false,	),
 	( "bedrock",			Check::StartsWith,	Some("Bedrock"),					include_str!("./large/b/.bedrock.clml"),			false,	),
 	( "bitrig",				Check::StartsWith,	Some("Bitrig"),						include_str!("./large/b/.bitrig.clml"),				false,	),
 	( "blackarch",			Check::StartsWith,	Some("BlackArch"),					include_str!("./large/b/.blackarch.clml"),			false,	),
@@ -104,6 +106,8 @@ static ASCII_ART: &[(&'static str, Check, Option<&'static str>, &'static str, bo
 	( "huayra",				Check::StartsWith,	Some("Huayra"),						include_str!("./large/h/.huayra.clml"),				false,	),
 	( "hyperbola",			Check::StartsWith,	Some("Hyperbola"),					include_str!("./large/h/.hyperbola.clml"),			false,	),
 	( "hyperbola_small",	Check::Is,			None,								include_str!("./small/h/.hyperbola.clml"),			false,	),
+	( "janus",				Check::StartsWith,	Some("janusLinux"),					include_str!("./large/j/.janus.clml"),				false,	),
+	( "",					Check::StartsWith,	Some("janus"),						"@janus",											false,	),
 	// Continue here.
 	( "",					Check::StartsWith,	Some("RFRemix"),					"@fedora",											false,	),
 	( "linux",				Check::Is,			None,								include_str!("./large/.linux.clml"),				false,	),
