@@ -57,6 +57,14 @@
 ./small/n/nixos.clml -> ./small/n/.nixos.clml
 # OpenBSD
 ./small/o/openbsd.clml -> ./small/o/.openbsd.clml
+# Parabola
+./small/p/parabola.clml -> ./small/p/.parabola.clml
+# PopOS
+./small/p/popos.clml -> ./small/p/.popos.clml
+# PostmarketOS
+./small/p/postmarketos.clml -> ./small/p/.postmarketos.clml
+# PureOS
+./small/p/pureos.clml -> ./small/p/.pureos.clml
 #
 # =============================================================================
 # Large
@@ -300,6 +308,36 @@
 ./large/o/oracle.clml -> ./large/o/.oracle.clml
 # OS Elbrus
 ./large/o/oselbrus.clml -> ./large/o/.oselbrus.clml
+# PacBSD
+./large/p/pacbsd.clml -> ./large/p/.pacbsd.clml
+# Parabola
+./large/p/parabola.clml -> ./large/p/.parabola.clml
+# Pardus
+./large/p/pardus.clml -> ./large/p/.pardus.clml
+# Parrot
+./large/p/parrot.clml -> ./large/p/.parrot.clml
+# Parsix
+./large/p/parsix.clml -> ./large/p/.parsix.clml
+# PCBSD
+./large/p/pcbsd.clml -> ./large/p/.pcbsd.clml
+# PCLinuxOS
+./large/p/pclinuxos.clml -> ./large/p/.pclinuxos.clml
+# Pentoo
+./large/p/pentoo.clml -> ./large/p/.pentoo.clml
+# Peppermint
+./large/p/peppermint.clml -> ./large/p/.peppermint.clml
+# PopOS
+./large/p/popos.clml -> ./large/p/.popos.clml
+# Porteus
+./large/p/porteus.clml -> ./large/p/.porteus.clml
+# PostmarketOS
+./large/p/postmarketos.clml -> ./large/p/.postmarketos.clml
+# Proxmox
+./large/p/proxmox.clml -> ./large/p/.proxmox.clml
+# Puppy
+./large/p/puppy.clml -> ./large/p/.puppy.clml
+# PureOS
+./large/p/pureos.clml -> ./large/p/.pureos.clml
 # Windows 10
 ./large/windows10.clml -> ./large/.windows10.clml
 # Windows
