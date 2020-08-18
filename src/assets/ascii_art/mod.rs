@@ -90,6 +90,10 @@ static ASCII_ART: &[(&'static str, Check, Option<&'static str>, &'static str, bo
 	( "freemint",			Check::StartsWith,	Some("FreeMiNT"),					include_str!("./large/f/.freemint.clml"),			false,	),
 	( "frugalware",			Check::StartsWith,	Some("Frugalware"),					include_str!("./large/f/.frugalware.clml"),			false,	),
 	( "funtoo",				Check::StartsWith,	Some("Funtoo"),						include_str!("./large/f/.funtoo.clml"),				false,	),
+	( "galliumos",			Check::StartsWith,	Some("GalliumOS"),					include_str!("./large/g/.galliumos.clml"),			false,	),
+	( "garuda",				Check::StartsWith,	Some("Garuda"),						include_str!("./large/g/.garuda.clml"),				false,	),
+	( "gentoo",				Check::StartsWith,	Some("Gentoo"),						include_str!("./large/g/.gentoo.clml"),				false,	),
+	( "gentoo_small",		Check::Is,			None,								include_str!("./small/g/.gentoo.clml"),				false,	),
 	// Continue here.
 	( "",					Check::StartsWith,	Some("RFRemix"),					"@fedora",											false,	),
 	( "linux",				Check::Is,			None,								include_str!("./large/.linux.clml"),				false,	),

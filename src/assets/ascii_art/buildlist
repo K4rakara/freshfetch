@@ -31,6 +31,8 @@
 ./small/f/fedora.clml -> ./small/f/.fedora.clml
 # FreeBSD
 ./small/f/freebsd.clml -> ./small/f/.freebsd.clml
+# Gentoo Linux
+./small/g/gentoo.clml -> ./small/g/.gentoo.clml
 # Manjaro Linux
 ./small/manjaro.clml -> ./small/.manjaro.clml
 #
@@ -158,6 +160,12 @@
 ./large/f/frugalware.clml -> ./large/f/.frugalware.clml
 # Funtoo
 ./large/f/funtoo.clml -> ./large/f/.funtoo.clml
+# GalliumOS
+./large/g/galliumos.clml -> ./large/g/.galliumos.clml
+# Garuda
+./large/g/garuda.clml -> ./large/g/.garuda.clml
+# Gentoo Linux
+./large/g/gentoo.clml -> ./large/g/.gentoo.clml
 # Manjaro Linux
 ./large/manjaro.clml -> ./large/.manjaro.clml
 # Windows 10
