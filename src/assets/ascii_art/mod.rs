@@ -145,7 +145,16 @@ static ASCII_ART: &[(&'static str, Check, Option<&'static str>, &'static str, bo
 	( "",					Check::StartsWith,	Some("mint"),						"@mint",											false,	),
 	( "mx",					Check::StartsWith,	Some("MX"),							include_str!("./large/m/.mx.clml"),					false,	),
 	( "mx_small",			Check::Is,			None,								include_str!("./small/m/.mx.clml"),					false,	),
-	
+	( "namib",				Check::StartsWith,	Some("Namib"),						include_str!("./large/n/.namib.clml"),				false,	),
+	( "neptune",			Check::StartsWith,	Some("Neptune"),					include_str!("./large/n/.neptune.clml"),			false,	),
+	( "netbsd",				Check::StartsWith,	Some("NetBSD"),						include_str!("./large/n/.netbsd.clml"),				false,	),
+	( "netbsd_small",		Check::Is,			None,								include_str!("./small/n/.netbsd.clml"),				false,	),
+	( "netrunner",			Check::StartsWith,	Some("Netrunner"),					include_str!("./large/n/.netrunner.clml"),			false,	),
+	( "nitrux",				Check::StartsWith,	Some("Nitrux"),						include_str!("./large/n/.nitrux.clml"),				false,	),
+	( "nixos",				Check::StartsWith,	Some("NixOS"),						include_str!("./large/n/.nixos.clml"),				false,	),
+	( "nixos_small",		Check::Is,			None,								include_str!("./small/n/.nixos.clml"),				false,	),
+	( "nurunner",			Check::StartsWith,	Some("Nurunner"),					include_str!("./large/n/.nurunner.clml"),			false,	),
+	( "nutyx",				Check::StartsWith,	Some("NuTyX"),						include_str!("./large/n/.nutyx.clml"),				false,	),
 	// Continue here.
 	( "",					Check::StartsWith,	Some("RFRemix"),					"@fedora",											false,	),
 	( "windows10",			Check::Is,			None,								include_str!("./large/.windows10.clml"),			false,	),

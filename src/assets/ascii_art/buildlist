@@ -51,6 +51,10 @@
 ./small/m/mint.clml -> ./small/m/.mint.clml
 # MX
 ./small/m/mx.clml -> ./small/m/.mx.clml
+# NetBSD
+./small/n/netbsd.clml -> ./small/n/.netbsd.clml
+# NixOS
+./small/n/nixos.clml -> ./small/n/.nixos.clml
 #
 # =============================================================================
 # Large
@@ -256,6 +260,22 @@
 ./large/m/mint.clml -> ./large/m/.mint.clml
 # MX
 ./large/m/mx.clml -> ./large/m/.mx.clml
+# Namib
+./large/n/namib.clml -> ./large/n/.namib.clml
+# Neptune
+./large/n/neptune.clml -> ./large/n/.neptune.clml
+# NetBSD
+./large/n/netbsd.clml -> ./large/n/.netbsd.clml
+# Netrunner
+./large/n/netrunner.clml -> ./large/n/.netrunner.clml
+# Nitrux
+./large/n/nitrux.clml -> ./large/n/.nitrux.clml
+# NixOS
+./large/n/nixos.clml -> ./large/n/.nixos.clml
+# Nurunner
+./large/n/nurunner.clml -> ./large/n/.nurunner.clml
+# NuTyX
+./large/n/nutyx.clml -> ./large/n/.nutyx.clml
 # Windows 10
 ./large/windows10.clml -> ./large/.windows10.clml
 # Windows
