@@ -94,6 +94,11 @@ static ASCII_ART: &[(&'static str, Check, Option<&'static str>, &'static str, bo
 	( "garuda",				Check::StartsWith,	Some("Garuda"),						include_str!("./large/g/.garuda.clml"),				false,	),
 	( "gentoo",				Check::StartsWith,	Some("Gentoo"),						include_str!("./large/g/.gentoo.clml"),				false,	),
 	( "gentoo_small",		Check::Is,			None,								include_str!("./small/g/.gentoo.clml"),				false,	),
+	( "gnewsense",			Check::StartsWith,	Some("gNewSense"),					include_str!("./large/g/.gnewsense.clml"),			false,	),
+	( "gnome",				Check::StartsWith,	Some("GNOME"),						include_str!("./large/g/.gnome.clml"),				false,	),
+	( "gnu",				Check::Is,			Some("GNU"),						include_str!("./large/g/.gnu.clml"),				false,	),
+	( "gobo",				Check::StartsWith,	Some("GoboLinux"),					include_str!("./large/g/.gobo.clml"),				false,	),
+	( "grombyang",			Check::StartsWith,	Some("Grombyang"),					include_str!("./large/g/.grombyang.clml"),			false,	),
 	// Continue here.
 	( "",					Check::StartsWith,	Some("RFRemix"),					"@fedora",											false,	),
 	( "linux",				Check::Is,			None,								include_str!("./large/.linux.clml"),				false,	),

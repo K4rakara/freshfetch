@@ -33,6 +33,8 @@
 ./small/f/freebsd.clml -> ./small/f/.freebsd.clml
 # Gentoo Linux
 ./small/g/gentoo.clml -> ./small/g/.gentoo.clml
+# Guix
+./small/g/guix.clml -> ./small/g/.guix.clml
 # Manjaro Linux
 ./small/manjaro.clml -> ./small/.manjaro.clml
 #
@@ -166,6 +168,16 @@
 ./large/g/garuda.clml -> ./large/g/.garuda.clml
 # Gentoo Linux
 ./large/g/gentoo.clml -> ./large/g/.gentoo.clml
+# gNewSense
+./large/g/gnewsense.clml -> ./large/g/.gnewsense.clml
+# GNU
+./large/g/gnu.clml -> ./large/g/.gnu.clml
+# GoboLinux
+./large/g/gobo.clml -> ./large/g/.gobo.clml
+# Grombyang
+./large/g/grombyang.clml -> ./large/g/.grombyang.clml
+# Guix
+./large/g/guix.clml -> ./large/g/.guix.clml
 # Manjaro Linux
 ./large/manjaro.clml -> ./large/.manjaro.clml
 # Windows 10
