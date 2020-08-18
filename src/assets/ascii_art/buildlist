@@ -190,6 +190,22 @@
 ./large/h/hyperbola.clml -> ./large/h/.hyperbola.clml
 # JanusLinux
 ./large/j/janus.clml -> ./large/j/.janus.clml
+# Kali Linux
+./large/k/kali.clml -> ./large/k/.kali.clml
+# KaOS
+./large/k/kaos.clml -> ./large/k/.kaos.clml
+# KDE Plasma
+./large/k/kde.clml -> ./large/k/.kde.clml
+# Kibojoe
+./large/k/kibojoe.clml -> ./large/k/.kibojoe.clml
+# Kogaion
+./large/k/kogaion.clml -> ./large/k/.kogaion.clml
+# Korora
+./large/k/korora.clml -> ./large/k/.korora.clml
+# KSLinux
+./large/k/kslinux.clml -> ./large/k/.kslinux.clml
+# Kubuntu Linux
+./large/k/kubuntu.clml -> ./large/k/.kubuntu.clml
 # Manjaro Linux
 ./large/manjaro.clml -> ./large/.manjaro.clml
 # Windows 10

@@ -108,6 +108,15 @@ static ASCII_ART: &[(&'static str, Check, Option<&'static str>, &'static str, bo
 	( "hyperbola_small",	Check::Is,			None,								include_str!("./small/h/.hyperbola.clml"),			false,	),
 	( "janus",				Check::StartsWith,	Some("janusLinux"),					include_str!("./large/j/.janus.clml"),				false,	),
 	( "",					Check::StartsWith,	Some("janus"),						"@janus",											false,	),
+	( "kali",				Check::StartsWith,	Some("Kali"),						include_str!("./large/k/.kali.clml"),				false,	),
+	( "kaos",				Check::StartsWith,	Some("KaOS"),						include_str!("./large/k/.kaos.clml"),				false,	),
+	( "kde",				Check::StartsWith,	Some("KDE"),						include_str!("./large/k/.kde.clml"),				false,	),
+	( "kibojoe",			Check::StartsWith,	Some("Kibojoe"),					include_str!("./large/k/.kibojoe.clml"),			false,	),
+	( "kogaion",			Check::StartsWith,	Some("Kogaion"),					include_str!("./large/k/.kogaion.clml"),			false,	),
+	( "korora",				Check::StartsWith,	Some("Korora"),						include_str!("./large/k/.korora.clml"),				false,	),
+	( "kslinux",			Check::StartsWith,	Some("KSLinux"),					include_str!("./large/k/.kslinux.clml"),			false,	),
+	( "kubuntu",			Check::StartsWith,	Some("Kubuntu"),					include_str!("./large/k/.kubuntu.clml"),			false,	),
+	
 	// Continue here.
 	( "",					Check::StartsWith,	Some("RFRemix"),					"@fedora",											false,	),
 	( "linux",				Check::Is,			None,								include_str!("./large/.linux.clml"),				false,	),
