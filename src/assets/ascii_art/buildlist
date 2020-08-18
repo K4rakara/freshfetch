@@ -39,8 +39,18 @@
 ./small/h/haiku.clml -> ./small/h/.haiku.clml
 # HyperBola
 ./small/h/hyperbola.clml -> ./small/h/.hyperbola.clml
+# LinuxLite
+./small/l/linuxlite.clml -> ./small/l/.linuxlite.clml
+# Mac
+./small/m/mac.clml -> ./small/m/.mac.clml
+# Mageia
+./small/m/mageia.clml -> ./small/m/.mageia.clml
 # Manjaro Linux
-./small/manjaro.clml -> ./small/.manjaro.clml
+./small/m/manjaro.clml -> ./small/m/.manjaro.clml
+# Mint
+./small/m/mint.clml -> ./small/m/.mint.clml
+# MX
+./small/m/mx.clml -> ./small/m/.mx.clml
 #
 # =============================================================================
 # Large
@@ -208,16 +218,48 @@
 ./large/k/kslinux.clml -> ./large/k/.kslinux.clml
 # Kubuntu Linux
 ./large/k/kubuntu.clml -> ./large/k/.kubuntu.clml
+# LEDE
+./large/l/lede.clml -> ./large/l/.lede.clml
+# LibreELEC
+./large/l/libreelec.clml -> ./large/l/.libreelec.clml
+# Linux
+./large/l/linux.clml -> ./large/l/.linux.clml
+# Linux (Classic)
+./large/l/linux_classic.clml -> ./large/l/.linux_classic.clml
+# LinuxLite
+./large/l/linuxlite.clml -> ./large/l/.linuxlite.clml
+# LMDE
+./large/l/lmde.clml -> ./large/l/.lmde.clml
+# Lubuntu
+./large/l/lubuntu.clml -> ./large/l/.lubuntu.clml
+# Lunar
+./large/l/lunar.clml -> ./large/l/.lunar.clml
+# MacOS
+./large/m/mac.clml -> ./large/m/.mac.clml
+# MacOS (Modern)
+./large/m/mac_modern.clml -> ./large/m/.mac_modern.clml
+# Mageia
+./large/m/mageia.clml -> ./large/m/.mageia.clml
+# MagpieOS
+./large/m/magpieos.clml -> ./large/m/.magpieos.clml
+# Mandriva
+./large/m/mandriva.clml -> ./large/m/.mandriva.clml
 # Manjaro Linux
-./large/manjaro.clml -> ./large/.manjaro.clml
+./large/m/manjaro.clml -> ./large/m/.manjaro.clml
+# Maui
+./large/m/maui.clml -> ./large/m/.maui.clml
+# Mer
+./large/m/mer.clml -> ./large/m/.mer.clml
+# Minux
+./large/m/minux.clml -> ./large/m/.minux.clml
+# Mint
+./large/m/mint.clml -> ./large/m/.mint.clml
+# MX
+./large/m/mx.clml -> ./large/m/.mx.clml
 # Windows 10
 ./large/windows10.clml -> ./large/.windows10.clml
 # Windows
 ./large/windows.clml -> ./large/.windows.clml
-# Linux
-./large/linux.clml -> ./large/.linux.clml
-# Linux (Classic)
-./large/linux_classic.clml -> ./large/.linux_classic.clml
 # XFerience Linux
 ./large/x/xferience.clml -> ./large/x/.xferience.clml
 #
@@ -229,3 +271,5 @@
 ./old/a/arch.clml -> ./old/a/.arch.clml
 # DragonFly
 ./old/d/dragonfly.clml -> ./old/d/.dragonfly.clml
+# Mint
+./old/m/mint.clml -> ./old/m/.mint.clml
