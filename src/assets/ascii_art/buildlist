@@ -55,6 +55,8 @@
 ./small/n/netbsd.clml -> ./small/n/.netbsd.clml
 # NixOS
 ./small/n/nixos.clml -> ./small/n/.nixos.clml
+# OpenBSD
+./small/o/openbsd.clml -> ./small/o/.openbsd.clml
 #
 # =============================================================================
 # Large
@@ -276,6 +278,26 @@
 ./large/n/nurunner.clml -> ./large/n/.nurunner.clml
 # NuTyX
 ./large/n/nutyx.clml -> ./large/n/.nutyx.clml
+# OBRevenge
+./large/o/obrevenge.clml -> ./large/o/.obrevenge.clml
+# OpenBSD
+./large/o/openbsd.clml -> ./large/o/.openbsd.clml
+# openEuler
+./large/o/openeuler.clml -> ./large/o/.openeuler.clml
+# OpenIndiana
+./large/o/openindiana.clml -> ./large/o/.openindiana.clml
+# Openmamba
+./large/o/openmamba.clml -> ./large/o/.openmamba.clml
+# OpenMandrivia
+./large/o/openmandrivia.clml -> ./large/o/.openmandrivia.clml
+# OpenStage
+./large/o/openstage.clml -> ./large/o/.openstage.clml
+# OpenWrt
+./large/o/openwrt.clml -> ./large/o/.openwrt.clml
+# Oracle
+./large/o/oracle.clml -> ./large/o/.oracle.clml
+# OS Elbrus
+./large/os/oselbrus.clml -> ./large/o/.oselbrus.clml
 # Windows 10
 ./large/windows10.clml -> ./large/.windows10.clml
 # Windows
