@@ -338,6 +338,8 @@
 ./large/p/puppy.clml -> ./large/p/.puppy.clml
 # PureOS
 ./large/p/pureos.clml -> ./large/p/.pureos.clml
+# Qubes
+./large/q/qubes.clml -> ./large/q/.qubes.clml
 # Windows 10
 ./large/windows10.clml -> ./large/.windows10.clml
 # Windows

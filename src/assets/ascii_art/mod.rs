@@ -190,6 +190,7 @@ static ASCII_ART: &[(&'static str, Check, Option<&'static str>, &'static str, bo
 	( "",					Check::StartsWith,	Some("Quirky Werewolf"),			"@puppy",											false,	),
 	( "pureos",				Check::StartsWith,	Some("PureOS"),						include_str!("./large/p/.pureos.clml"),				false,	),
 	( "pureos_small",		Check::Is,			None,								include_str!("./small/p/.pureos.clml"),				false,	),
+	( "qubes",				Check::StartsWith,	Some("Qubes"),						include_str!("./large/q/.qubes.clml"),				false,	),
 	( "",					Check::StartsWith,	Some("TrueOS"),						"@pcbsd",											false,	),
 	// Continue here.
 	( "",					Check::StartsWith,	Some("RFRemix"),					"@fedora",											false,	),
