@@ -288,8 +288,8 @@
 ./large/o/openindiana.clml -> ./large/o/.openindiana.clml
 # Openmamba
 ./large/o/openmamba.clml -> ./large/o/.openmamba.clml
-# OpenMandrivia
-./large/o/openmandrivia.clml -> ./large/o/.openmandrivia.clml
+# OpenMandriva
+./large/o/openmandriva.clml -> ./large/o/.openmandriva.clml
 # OpenStage
 ./large/o/openstage.clml -> ./large/o/.openstage.clml
 # OpenWrt
