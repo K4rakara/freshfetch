@@ -99,6 +99,11 @@ static ASCII_ART: &[(&'static str, Check, Option<&'static str>, &'static str, bo
 	( "gnu",				Check::Is,			Some("GNU"),						include_str!("./large/g/.gnu.clml"),				false,	),
 	( "gobo",				Check::StartsWith,	Some("GoboLinux"),					include_str!("./large/g/.gobo.clml"),				false,	),
 	( "grombyang",			Check::StartsWith,	Some("Grombyang"),					include_str!("./large/g/.grombyang.clml"),			false,	),
+	( "haiku",				Check::StartsWith,	Some("Haiku"),						include_str!("./large/h/.haiku.clml"),				false,	),
+	( "haiku_small",		Check::Is,			None,								include_str!("./small/h/.haiku.clml"),				false,	),
+	( "huayra",				Check::StartsWith,	Some("Huayra"),						include_str!("./large/h/.huayra.clml"),				false,	),
+	( "hyperbola",			Check::StartsWith,	Some("Hyperbola"),					include_str!("./large/h/.hyperbola.clml"),			false,	),
+	( "hyperbola_small",	Check::Is,			None,								include_str!("./small/h/.hyperbola.clml"),			false,	),
 	// Continue here.
 	( "",					Check::StartsWith,	Some("RFRemix"),					"@fedora",											false,	),
 	( "linux",				Check::Is,			None,								include_str!("./large/.linux.clml"),				false,	),

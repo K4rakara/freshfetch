@@ -35,6 +35,10 @@
 ./small/g/gentoo.clml -> ./small/g/.gentoo.clml
 # Guix
 ./small/g/guix.clml -> ./small/g/.guix.clml
+# Haiku
+./small/h/haiku.clml -> ./small/h/.haiku.clml
+# HyperBola
+./small/h/hyperbola.clml -> ./small/h/.hyperbola.clml
 # Manjaro Linux
 ./small/manjaro.clml -> ./small/.manjaro.clml
 #
@@ -178,6 +182,12 @@
 ./large/g/grombyang.clml -> ./large/g/.grombyang.clml
 # Guix
 ./large/g/guix.clml -> ./large/g/.guix.clml
+# Haiku
+./large/h/haiku.clml -> ./large/h/.haiku.clml
+# Huayra
+./large/h/huayra.clml -> ./large/h/.huayra.clml
+# HyperBola
+./large/h/hyperbola.clml -> ./large/h/.hyperbola.clml
 # Manjaro Linux
 ./large/manjaro.clml -> ./large/.manjaro.clml
 # Windows 10
