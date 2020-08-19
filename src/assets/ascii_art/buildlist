@@ -75,6 +75,8 @@
 ./small/s/solaris.clml -> ./small/s/.solaris.clml
 # Ubuntu
 ./small/u/ubuntu.clml -> ./small/u/.ubuntu.clml
+# Void Linux
+./small/v/void.clml -> ./small/v/.void.clml
 #
 # =============================================================================
 # Large
@@ -82,8 +84,6 @@
 #
 # AIX
 ./large/a/aix.clml -> ./large/a/.aix.clml
-# Hash
-./large/hash.clml -> ./large/.hash.clml
 # Alpine Linux
 ./large/a/alpine.clml -> ./large/a/.alpine.clml
 # Alter Linux
@@ -220,10 +220,14 @@
 ./large/g/guix.clml -> ./large/g/.guix.clml
 # Haiku
 ./large/h/haiku.clml -> ./large/h/.haiku.clml
+# Hash
+./large/h/hash.clml -> ./large/h/.hash.clml
 # Huayra
 ./large/h/huayra.clml -> ./large/h/.huayra.clml
 # HyperBola
 ./large/h/hyperbola.clml -> ./large/h/.hyperbola.clml
+# IRIX
+./large/i/irix.clml -> ./large/i/.irix.clml
 # JanusLinux
 ./large/j/janus.clml -> ./large/j/.janus.clml
 # Kali Linux
@@ -296,6 +300,8 @@
 ./large/n/nurunner.clml -> ./large/n/.nurunner.clml
 # NuTyX
 ./large/n/nutyx.clml -> ./large/n/.nutyx.clml
+# Obarun
+./large/o/obarun.clml -> ./large/o/.obarun.clml
 # OBRevenge
 ./large/o/obrevenge.clml -> ./large/o/.obrevenge.clml
 # OpenBSD
@@ -432,12 +438,20 @@
 ./large/u/ubuntustudio.clml -> ./large/u/.ubuntustudio.clml
 # Ubuntu
 ./large/u/ubuntu.clml -> ./large/u/.ubuntu.clml
+# Venom
+./large/v/venom.clml -> ./large/v/.venom.clml
+# Void Linux
+./large/v/void.clml -> ./large/v/.void.clml
 # Windows 10
-./large/windows10.clml -> ./large/.windows10.clml
+./large/w/windows10.clml -> ./large/w/.windows10.clml
 # Windows
-./large/windows.clml -> ./large/.windows.clml
+./large/w/windows.clml -> ./large/w/.windows.clml
+# Xubuntu
+./large/x/xubuntu.clml -> ./large/x/.xubuntu.clml
 # XFerience Linux
 ./large/x/xferience.clml -> ./large/x/.xferience.clml
+# Zorin
+./large/z/zorin.clml -> ./large/z/.zorin.clml
 #
 # =============================================================================
 # Old

@@ -14,7 +14,6 @@ enum Check {
 /// `_.4`: `bool` -- if this art needs to be parsed at runtime or not.
 static ASCII_ART: &[(&'static str, Check, Option<&'static str>, &'static str, bool)] = &[
 	( "aix",				Check::StartsWith,	Some("AIX"),						include_str!("./large/a/.aix.clml"),				false,	),
-	( "hash",				Check::StartsWith,	Some("Hash"),						include_str!("./large/.hash.clml"),					false,	),
 	( "alpine",				Check::Is,			Some("Alpine"),						include_str!("./large/a/.alpine.clml"),				false,	),
 	( "alpine_small",		Check::Is,			None,								include_str!("./small/a/.alpine.clml"),				false,	),
 	( "alter",				Check::StartsWith,	Some("Alter"),						include_str!("./large/a/.alter.clml"),				false,	),
@@ -103,9 +102,11 @@ static ASCII_ART: &[(&'static str, Check, Option<&'static str>, &'static str, bo
 	( "grombyang",			Check::StartsWith,	Some("Grombyang"),					include_str!("./large/g/.grombyang.clml"),			false,	),
 	( "haiku",				Check::StartsWith,	Some("Haiku"),						include_str!("./large/h/.haiku.clml"),				false,	),
 	( "haiku_small",		Check::Is,			None,								include_str!("./small/h/.haiku.clml"),				false,	),
+	( "hash",				Check::StartsWith,	Some("Hash"),						include_str!("./large/h/.hash.clml"),				false,	),
 	( "huayra",				Check::StartsWith,	Some("Huayra"),						include_str!("./large/h/.huayra.clml"),				false,	),
 	( "hyperbola",			Check::StartsWith,	Some("Hyperbola"),					include_str!("./large/h/.hyperbola.clml"),			false,	),
 	( "hyperbola_small",	Check::Is,			None,								include_str!("./small/h/.hyperbola.clml"),			false,	),
+	( "irix",				Check::StartsWith,	Some("IRIX"),						include_str!("./large/i/.irix.clml"),				false,	),
 	( "janus",				Check::StartsWith,	Some("janusLinux"),					include_str!("./large/j/.janus.clml"),				false,	),
 	( "",					Check::StartsWith,	Some("janus"),						"@janus",											false,	),
 	( "kali",				Check::StartsWith,	Some("Kali"),						include_str!("./large/k/.kali.clml"),				false,	),
@@ -155,6 +156,7 @@ static ASCII_ART: &[(&'static str, Check, Option<&'static str>, &'static str, bo
 	( "nixos_small",		Check::Is,			None,								include_str!("./small/n/.nixos.clml"),				false,	),
 	( "nurunner",			Check::StartsWith,	Some("Nurunner"),					include_str!("./large/n/.nurunner.clml"),			false,	),
 	( "nutyx",				Check::StartsWith,	Some("NuTyX"),						include_str!("./large/n/.nutyx.clml"),				false,	),
+	( "obarun",				Check::StartsWith,	Some("Obarun"),						include_str!("./large/o/.obarun.clml"),				false,	),
 	( "obrevenge",			Check::StartsWith,	Some("OBRevenge"),					include_str!("./large/o/.obrevenge.clml"),			false,	),
 	( "openbsd",			Check::StartsWith,	Some("OpenBSD"),					include_str!("./large/o/.openbsd.clml"),			false,	),
 	( "openbsd_small",		Check::Is,			None,								include_str!("./small/o/.openbsd.clml"),			false,	),
@@ -259,10 +261,19 @@ static ASCII_ART: &[(&'static str, Check, Option<&'static str>, &'static str, bo
 	( "ubuntu_small",		Check::Is,			None,								include_str!("./small/u/.ubuntu.clml"),				false,	),
 	( "ubuntu",				Check::StartsWith,	Some("Ubuntu"),						include_str!("./large/u/.ubuntu.clml"),				false,	),
 	( "",					Check::StartsWith,	Some("i3buntu"),					"@ubuntu",											false,	),
-	// Continue here.
-	( "windows10",			Check::Is,			None,								include_str!("./large/.windows10.clml"),			false,	),
-	( "windows",			Check::Is,			None,								include_str!("./large/.windows.clml"),				false,	),
+	( "venom",				Check::StartsWith,	Some("Venom"),						include_str!("./large/v/.venom.clml"),				false,	),
+	( "void",				Check::StartsWith,	Some("Void"),						include_str!("./large/v/.void.clml"),				false,	),
+	( "void_small",			Check::Is,			None,								include_str!("./small/v/.void.clml"),				false,	),
+	( "windows10",			Check::Is,			None,								include_str!("./large/w/.windows10.clml"),			false,	),
+	( "",					Check::Contains,	Some("[Windows 10]"),				"@windows10",										false,	),
+	( "",					Check::Contains,	Some("on Windows 10"),				"@windows10",										false,	),
+	( "",					Check::StartsWith,	Some("Windows 10"),					"@windows10",										false,	),
+	( "windows8",			Check::Is,			None,								"@windows10",										false,	),
+	( "",					Check::StartsWith,	Some("Windows 8"),					"@windows10",										false,	),
+	( "windows",			Check::Is,			None,								include_str!("./large/w/.windows.clml"),			false,	),
 	( "xferience",			Check::Contains,	Some("XFerience"),					include_str!("./large/x/.xferience.clml"),			false,	),
+	( "xubuntu",			Check::StartsWith,	Some("Xubuntu"),					include_str!("./large/x/.xubuntu.clml"),			false,	),
+	( "zorin",				Check::StartsWith,	Some("Zorin"),						include_str!("./large/z/.zorin.clml"),				false,	),
 ];
 
 pub(crate) fn get(of: &str) -> (&'static str, bool) {
@@ -303,7 +314,7 @@ pub(crate) fn get(of: &str) -> (&'static str, bool) {
 			}
 		}
 	}
-	return get("linux");
+	return get_cli("linux");
 }
 
 pub(crate) fn get_cli(of: &str) -> (&'static str, bool) {
