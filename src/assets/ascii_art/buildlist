@@ -73,6 +73,8 @@
 ./small/s/slackware.clml -> ./small/s/.slackware.clml
 # Solaris
 ./small/s/solaris.clml -> ./small/s/.solaris.clml
+# Ubuntu
+./small/u/ubuntu.clml -> ./small/u/.ubuntu.clml
 #
 # =============================================================================
 # Large
@@ -418,6 +420,18 @@
 ./large/t/tails.clml -> ./large/t/.tails.clml
 # Trisquel
 ./large/t/trisquel.clml -> ./large/t/.trisquel.clml
+# Ubuntu Cinnamon
+./large/u/ubuntucinnamon.clml -> ./large/u/.ubuntucinnamon.clml
+# Ubuntu Budgie
+./large/u/ubuntubudgie.clml -> ./large/u/.ubuntubudgie.clml
+# Ubuntu GNOME
+./large/u/ubuntugnome.clml -> ./large/u/.ubuntugnome.clml
+# Ubuntu MATE
+./large/u/ubuntumate.clml -> ./large/u/.ubuntumate.clml
+# Ubuntu Studio
+./large/u/ubuntustudio.clml -> ./large/u/.ubuntustudio.clml
+# Ubuntu
+./large/u/ubuntu.clml -> ./large/u/.ubuntu.clml
 # Windows 10
 ./large/windows10.clml -> ./large/.windows10.clml
 # Windows
@@ -437,3 +451,5 @@
 ./old/m/mint.clml -> ./old/m/.mint.clml
 # Redhat
 ./old/r/redhat.clml -> ./old/r/.redhat.clml
+# Ubuntu
+./old/u/ubuntu.clml -> ./old/u/.ubuntu.clml
