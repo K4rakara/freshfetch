@@ -163,6 +163,13 @@ static ASCII_ART: &[(&'static str, Check, Option<&'static str>, &'static str, bo
 	( "openmamba",			Check::StartsWith,	None,								include_str!("./large/o/.openmamba.clml"),			false,	),
 	( "openmandriva",		Check::StartsWith,	Some("OpenMandrivia"),				include_str!("./large/o/.openmandriva.clml"),		false,	),
 	( "openstage",			Check::StartsWith,	Some("OpenStage"),					include_str!("./large/o/.openstage.clml"),			false,	),
+	( "opensuse_small",		Check::Is,			None,								include_str!("./small/o/.opensuse.clml"),			false,	),
+	( "",					Check::StartsWith,	Some("open SUSE"),					"@opensuse",										false,	),
+	( "opensuseleap",		Check::StartsWith,	Some("openSUSE Leap"),				include_str!("./large/o/.opensuseleap.clml"),		false,	),
+	( "",					Check::StartsWith,	Some("openSUSE_Leap"),				"@opensuseleap",									false,	),
+	( "opensusetumbleweed",	Check::StartsWith,	Some("openSUSE Tumbleweed"),		include_str!("./large/o/.opensusetumbleweed.clml"),	false,	),
+	( "",					Check::StartsWith,	Some("openSUSE_Tumbleweed"),		"@opensusetumbleweed",								false,	),
+	( "opensuse",			Check::StartsWith,	Some("openSUSE"),					include_str!("./large/o/.opensuse.clml"),			false,	),
 	( "openwrt",			Check::StartsWith,	Some("OpenWrt"),					include_str!("./large/o/.openwrt.clml"),			false,	),
 	( "osmc",				Check::StartsWith,	Some("Open Source Media Center"),	include_str!("./large/o/.osmc.clml"),				false,	),
 	( "oracle",				Check::StartsWith,	Some("Oracle"),						include_str!("./large/o/.oracle.clml"),				false,	),
@@ -232,7 +239,8 @@ static ASCII_ART: &[(&'static str, Check, Option<&'static str>, &'static str, bo
 	( "solaris_small",		Check::Is,			None,								include_str!("./small/s/.solaris.clml"),			false,	),
 	( "sunos_small",		Check::Is,			None,								"@solaris_small",									false,	),
 	( "swagarch",			Check::StartsWith,	Some("SwagArch"),					include_str!("./large/s/.swagarch.clml"),			false,	),
-	
+	( "suse",				Check::StartsWith,	Some("SUSE"),						"@opensuse",										false,	),
+	( "suse_small",			Check::Is,			None,								"@opensuse_small",									false,	),
 	// Continue here.
 	( "",					Check::StartsWith,	Some("TrueOS"),						"@pcbsd",											false,	),
 	( "windows10",			Check::Is,			None,								include_str!("./large/.windows10.clml"),			false,	),
