@@ -19,10 +19,13 @@ pub(crate) struct Layout {
 
 impl Layout {
 	pub fn new(args: &Arguments) -> Self {
+		let mut info = Info::new();
+		let art = Art::new(&mut info, &args);
+		let terminal = Terminal::new();
 		Layout {
-			art: Art::new(&args.ascii_distro.clone().unwrap_or(String::from("manjaro"))),
-			info: Info::new(),
-			terminal: Terminal::new(),
+			art: art,
+			info: info,
+			terminal: terminal,
 		}
 	}
 }

@@ -20,6 +20,7 @@ pub(crate) struct Distro {
 	pub long_name: String,
 	pub short_name: String,
 	pub architecture: String,
+	pub colors: DistroColors,
 }
 
 impl Distro {
@@ -84,12 +85,16 @@ impl Distro {
 			long_name: long_name,
 			short_name: short_name,
 			architecture: k.architecture.clone(),
+			colors: DistroColors::new(),
 		}
 	}
 }
 
 impl Inject for Distro {
 	fn inject(&self, clml: &mut CLML) -> Result<(), ()> {
+		// Inject distro colors.
+		self.colors.inject(clml)?;
+
 		// Inject clml values.
 		clml
 			.env("distro.fullname", &self.long_name)
@@ -131,5 +136,92 @@ impl Inject for Distro {
 		}	
 
 		Ok(())
+	}
+}
+
+#[derive(Clone, Debug)]
+pub(crate) struct DistroColors ( pub String, pub String, pub String, pub String );
+
+impl DistroColors {
+	pub fn new() -> Self {
+		DistroColors (
+			String::from("white"),
+			String::from("white"),
+			String::from("white"),
+			String::from("white"),
+		)
+	}
+}
+
+impl Inject for DistroColors {
+	fn inject(&self, clml: &mut CLML) -> Result<(), ()> {
+		// Inject CLML values.
+		clml
+			.env("distroColors.0", self.0.as_str())
+			.env("distroColors.1", self.1.as_str())
+			.env("distroColors.2", self.2.as_str())
+			.env("distroColors.3", self.3.as_str());
+		
+		// Inject Bash value.
+		clml.bash_env("distro_colors",
+			&format!("({} {} {} {})",
+				self.0,
+				self.1,
+				self.2,
+				self.3));
+		
+		// Inject Lua value.
+		{
+			let lua = &clml.lua_env;
+			let globals = lua.globals();
+
+			match lua.create_table() {
+				Ok(t) => {
+					match t.raw_insert(1, self.0.as_str()) {
+						Ok(_) => (),
+						Err(e) => { errors::handle(&format!("{}{}", errors::LUA, e)); panic!(); }
+					}
+					match t.raw_insert(2, self.1.as_str()) {
+						Ok(_) => (),
+						Err(e) => { errors::handle(&format!("{}{}", errors::LUA, e)); panic!(); }
+					}
+					match t.raw_insert(3, self.2.as_str()) {
+						Ok(_) => (),
+						Err(e) => { errors::handle(&format!("{}{}", errors::LUA, e)); panic!(); }
+					}
+					match t.raw_insert(4, self.3.as_str()) {
+						Ok(_) => (),
+						Err(e) => { errors::handle(&format!("{}{}", errors::LUA, e)); panic!(); }
+					}
+					match globals.set("distroColors", t) {
+						Ok(_) => (),
+						Err(e) => { errors::handle(&format!("{}{}", errors::LUA, e)); panic!(); }
+					}
+				}
+				Err(e) => { errors::handle(&format!("{}{}", errors::LUA, e)); panic!(); }
+			}
+		}
+
+		Ok(())
+	}
+}
+
+impl From<[Option<&'static str>; 4]> for DistroColors {
+	fn from(v: [Option<&'static str>; 4]) -> Self {
+		let mut _1 = String::from(v[0].unwrap_or("white"));
+		let mut _2 = String::from(v[1]
+			.unwrap_or(v[0]
+				.unwrap_or("white")));
+		let mut _3 = String::from(v[2]
+			.unwrap_or(v[1]
+				.unwrap_or(v[0]
+					.unwrap_or("white"))));
+		let mut _4 = String::from(
+			v[3].unwrap_or(
+				v[2].unwrap_or(v[1]
+					.unwrap_or(v[0]
+						.unwrap_or("white")))));
+		if _2 == "white" { _2 = _1.clone(); }
+		DistroColors ( _1, _2, _3, _4 )
 	}
 }

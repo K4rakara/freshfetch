@@ -39,14 +39,14 @@ pub(crate) struct Info {
 	height: i32,
 	user: User,
 	host: Host,
-	distro: Distro,
-	kernel: Kernel,
-	uptime: Uptime,
-	package_managers: PackageManagers,
-	shell: Shell,
-	resolution: Option<Resolution>,
-	de: Option<De>,
-	wm: Option<Wm>,
+	pub distro: Distro,
+	pub kernel: Kernel,
+	pub uptime: Uptime,
+	pub package_managers: PackageManagers,
+	pub shell: Shell,
+	pub resolution: Option<Resolution>,
+	pub de: Option<De>,
+	pub wm: Option<Wm>,
 }
 
 impl Info {

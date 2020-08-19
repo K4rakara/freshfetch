@@ -3,11 +3,19 @@ use crate::regex;
 
 use crate::assets::ascii_art;
 use crate::errors;
+use crate::info;
+use info::distro;
+
+use std::fs;
+use std::env;
+use std::path::{ Path };
 
 use clml_rs::{ clml, CLML };
 use regex::{ Regex };
 
-use crate::{ Inject };
+use crate::{ Inject, Arguments };
+use info::{ Info };
+use distro::{ DistroColors };
 
 pub(crate) struct Art {
 	inner: String,
@@ -16,18 +24,45 @@ pub(crate) struct Art {
 }
 
 impl Art {
-	pub fn new(of: &str) -> Self {
+	pub fn new(info: &mut Info, arguments: &Arguments) -> Self {
 		let mut to_return = Art {
-			inner: String::from({
-				let to_return;
-				let got = ascii_art::get(of);
-				if got.1 { to_return = clml(got.0); }
-				else { to_return = String::from(got.0); }
-				to_return
-			}),
+			inner: String::new(),
 			width: 0,
 			height: 0,
 		};
+
+		// Get inner & distro colors.
+		{
+			match arguments.ascii_distro.clone() {
+				None => {
+					let art = Path::new("/home/")
+						.join(env::var("USER").unwrap_or(String::new()))
+						.join(".config/freshfetch/art.clml");
+					if art.exists() {
+						match fs::read_to_string(art) {
+							Ok(file) => to_return.inner = clml(&file),
+							Err(e) => {
+								errors::handle(&format!("{}{file}{}{err}",
+									errors::io::READ.0,
+									errors::io::READ.1,
+									file = "~/.config/freshfetch/art.clml",
+									err = e));
+								panic!();
+							}
+						}
+					} else {
+						let got = ascii_art::get(&info.distro.short_name);
+						to_return.inner = String::from(got.0);
+						info.distro.colors = DistroColors::from(got.1);
+					}
+				}
+				Some(a) => {
+					let got = ascii_art::get(&a);
+					to_return.inner = String::from(got.0);
+					info.distro.colors = DistroColors::from(got.1);
+				}
+			}
+		}
 
 		// Get width and height
 		{
