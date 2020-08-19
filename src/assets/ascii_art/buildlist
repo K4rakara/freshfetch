@@ -65,6 +65,8 @@
 ./small/p/postmarketos.clml -> ./small/p/.postmarketos.clml
 # PureOS
 ./small/p/pureos.clml -> ./small/p/.pureos.clml
+# Raspbian
+./small/r/raspbian.clml -> ./small/r/.raspbian.clml
 #
 # =============================================================================
 # Large
@@ -340,6 +342,26 @@
 ./large/p/pureos.clml -> ./large/p/.pureos.clml
 # Qubes
 ./large/q/qubes.clml -> ./large/q/.qubes.clml
+# Radix
+./large/r/radix.clml -> ./large/r/.radix.clml
+# Raspbian
+./large/r/raspbian.clml -> ./large/r/.raspbian.clml
+# Reborn
+./large/r/reborn.clml -> ./large/r/.reborn.clml
+# RedStar
+./large/r/redstar.clml -> ./large/r/.redstar.clml
+# Redcore
+./large/r/redcore.clml -> ./large/r/.redcore.clml
+# Redhat Linux
+./large/r/redhat.clml -> ./large/r/.redhat.clml
+# Refracted Devuan
+./large/r/refracteddevuan.clml -> ./large/r/.refracteddevuan.clml
+# Regata
+./large/r/regata.clml -> ./large/r/.regata.clml
+# Regolith
+./large/r/regolith.clml -> ./large/r/.regolith.clml
+# Rosa
+./large/r/rosa.clml -> ./large/r/.rosa.clml
 # Windows 10
 ./large/windows10.clml -> ./large/.windows10.clml
 # Windows
@@ -357,3 +379,5 @@
 ./old/d/dragonfly.clml -> ./old/d/.dragonfly.clml
 # Mint
 ./old/m/mint.clml -> ./old/m/.mint.clml
+# Redhat
+./old/r/redhat.clml -> ./old/r/.redhat.clml
