@@ -67,6 +67,10 @@
 ./small/p/pureos.clml -> ./small/p/.pureos.clml
 # Raspbian
 ./small/r/raspbian.clml -> ./small/r/.raspbian.clml
+# Slackware
+./small/s/slackware.clml -> ./small/s/.slackware.clml
+# Solaris
+./small/s/solaris.clml -> ./small/s/.solaris.clml
 #
 # =============================================================================
 # Large
@@ -362,6 +366,44 @@
 ./large/r/regolith.clml -> ./large/r/.regolith.clml
 # Rosa
 ./large/r/rosa.clml -> ./large/r/.rosa.clml
+# Sabotage
+./large/s/sabotage.clml -> ./large/s/.sabotage.clml
+# Sabayon
+./large/s/sabayon.clml -> ./large/s/.sabayon.clml
+# Sailfish
+./large/s/sailfish.clml -> ./large/s/.sailfish.clml
+# SalentOS
+./large/s/salentos.clml -> ./large/s/.salentos.clml
+# Scientific
+./large/s/scientific.clml -> ./large/s/.scientific.clml
+# Septor
+./large/s/septor.clml -> ./large/s/.septor.clml
+# Serene
+./large/s/serene.clml -> ./large/s/.serene.clml
+# SharkLinux
+./large/s/sharklinux.clml -> ./large/s/.sharklinux.clml
+# Siduction
+./large/s/siduction.clml -> ./large/s/.siduction.clml
+# Slackware
+./large/s/slackware.clml -> ./large/s/.slackware.clml
+# SliTaz
+./large/s/slitaz.clml -> ./large/s/.slitaz.clml
+# SmartOS
+./large/s/smartos.clml -> ./large/s/.smartos.clml
+# Solus
+./large/s/solus.clml -> ./large/s/.solus.clml
+# SourceMage
+./large/s/sourcemage.clml -> ./large/s/.sourcemage.clml
+# Sparky
+./large/s/sparky.clml -> ./large/s/.sparky.clml
+# Star
+./large/s/star.clml -> ./large/s/.star.clml
+# SteamOS
+./large/s/steamos.clml -> ./large/s/.steamos.clml
+# Solaris
+./large/s/solaris.clml -> ./large/s/.solaris.clml
+# SwagArch
+./large/s/swagarch.clml -> ./large/s/.swagarch.clml
 # Windows 10
 ./large/windows10.clml -> ./large/.windows10.clml
 # Windows
