@@ -412,6 +412,12 @@
 ./large/s/solaris.clml -> ./large/s/.solaris.clml
 # SwagArch
 ./large/s/swagarch.clml -> ./large/s/.swagarch.clml
+# t2
+./large/t/t2.clml -> ./large/t/.t2.clml
+# Tails
+./large/t/tails.clml -> ./large/t/.tails.clml
+# Trisquel
+./large/t/trisquel.clml -> ./large/t/.trisquel.clml
 # Windows 10
 ./large/windows10.clml -> ./large/.windows10.clml
 # Windows

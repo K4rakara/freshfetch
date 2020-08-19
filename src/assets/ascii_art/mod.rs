@@ -241,6 +241,9 @@ static ASCII_ART: &[(&'static str, Check, Option<&'static str>, &'static str, bo
 	( "swagarch",			Check::StartsWith,	Some("SwagArch"),					include_str!("./large/s/.swagarch.clml"),			false,	),
 	( "suse",				Check::StartsWith,	Some("SUSE"),						"@opensuse",										false,	),
 	( "suse_small",			Check::Is,			None,								"@opensuse_small",									false,	),
+	( "t2",					Check::StartsWith,	None,								include_str!("./large/t/.t2.clml"),					false,	),
+	( "tails",				Check::StartsWith,	Some("Tails"),						include_str!("./large/t/.tails.clml"),				false,	),
+	( "trisquel",			Check::StartsWith,	Some("Trisquel"),					include_str!("./large/t/.trisquel.clml"),			false,	),
 	// Continue here.
 	( "",					Check::StartsWith,	Some("TrueOS"),						"@pcbsd",											false,	),
 	( "windows10",			Check::Is,			None,								include_str!("./large/.windows10.clml"),			false,	),
