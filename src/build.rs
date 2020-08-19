@@ -28,12 +28,41 @@ fn get_buildlist(base: &Path) -> BuildList {
 	to_return
 }
 
+fn progress(min: usize, max: usize) -> String {
+	let mut bar = String::from(" [");
+	let complete = ((min as f32 / max as f32) * 57.0).floor() as usize;
+	if complete >= 1 {
+		bar = format!("{}{}",
+			bar,
+			String::from("=").repeat(complete - 1));
+	}
+	bar = format!("{}>", bar);
+	let remaining = 57 - complete;
+	if complete >= 1 {
+		bar = format!("{}{}]",
+			bar,
+			String::from(" ").repeat(remaining));
+	} else {
+		bar = format!("{}{}]",
+			bar,
+			String::from(" ").repeat(remaining - 1));
+	}
+	format!("{bar} {min:03}/{max:03}: ",
+		bar = bar,
+		min = min,
+		max = max)
+}
+
 fn main() {
 	let base = Path::new("./src/assets/ascii_art/");
 	let buildlist = get_buildlist(&base);
-	for target in buildlist {
+	let len = buildlist.len();
+	for (i, target) in buildlist.iter().enumerate() {
+		println!("\u{001b}[1A\r\u{001b}[K    \u{001b}[1m\u{001b}[36mBuilding\u{001b}[0m{}ASCII art",
+			progress(i, len));
 		let input = fs::read_to_string(&target.0).expect(&format!("Failed to read the file \"{:?}\"!", &target.0));
 		let output = clml(&input);
 		fs::write(&target.1, &output).expect(&format!("Failed to write to the file \"{:?}\"!", &target.1));
 	}
+	println!("\u{001b}[1A\r\u{001b}[K    \u{001b}[1m\u{001b}[32mFinished\u{001b}[0m ASCII art");
 }
