@@ -1,7 +1,6 @@
 #[macro_use] pub(crate) extern crate lazy_static;
 pub(crate) extern crate chrono;
 pub(crate) extern crate clap;
-pub(crate) extern crate clml_rs;
 pub(crate) extern crate cmd_lib;
 pub(crate) extern crate cpuid;
 pub(crate) extern crate mlua;
@@ -21,7 +20,6 @@ pub(crate) mod misc;
 
 use mlua::prelude::*;
 use clap::{ App, Arg };
-use clml_rs::{ CLML };
 
 use layout::{ Layout };
 use assets::{ ANSI, PRINT };

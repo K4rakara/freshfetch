@@ -1,4 +1,3 @@
-use crate::clml_rs;
 use crate::mlua;
 
 use crate::misc;
@@ -6,7 +5,6 @@ use crate::art;
 use crate::info;
 
 use mlua::prelude::*;
-use clml_rs::{ CLML };
 
 use crate::{ Inject, Arguments };
 use misc::{ Terminal };

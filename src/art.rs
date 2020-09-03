@@ -1,10 +1,10 @@
-use crate::clml_rs;
 use crate::regex;
 use crate::mlua;
 
 use crate::assets::ascii_art;
 use crate::errors;
 use crate::info;
+use crate::assets;
 use info::distro;
 
 use std::fs;
@@ -12,12 +12,12 @@ use std::env;
 use std::path::{ Path };
 
 use mlua::prelude::*;
-use clml_rs::{ clml, CLML };
 use regex::{ Regex };
 
 use crate::{ Inject, Arguments };
 use info::{ Info };
 use distro::{ DistroColors };
+use assets::{ ANSI, PRINT };
 
 pub(crate) struct Art {
 	inner: String,
@@ -39,15 +39,34 @@ impl Art {
 				None => {
 					let art = Path::new("/home/")
 						.join(env::var("USER").unwrap_or(String::new()))
-						.join(".config/freshfetch/art.clml");
+						.join(".config/freshfetch/art.lua");
 					if art.exists() {
 						match fs::read_to_string(art) {
-							Ok(file) => to_return.inner = clml(&file),
+							Ok(file) => to_return.inner = {
+								let ctx = Lua::new();
+								match ctx.load(PRINT).exec() {
+									Ok(_) => (),
+									Err(e) => { errors::handle(&format!("{}{}", errors::LUA, e)); panic!(); }
+								}
+								match ctx.load(ANSI).exec() {
+									Ok(_) => (),
+									Err(e) => { errors::handle(&format!("{}{}", errors::LUA, e)); panic!(); }
+								}
+								match ctx.load(&file).exec() {
+									Ok(_) => (),
+									Err(e) => { errors::handle(&format!("{}{}", errors::LUA, e)); panic!(); }
+								}
+								let value = ctx.globals().get::<&str, String>("__freshfetch__");
+								match value {
+									Ok(v) => v,
+									Err(e) => { errors::handle(&format!("{}{}", errors::LUA, e)); panic!(); }
+								}
+							},
 							Err(e) => {
 								errors::handle(&format!("{}{file}{}{err}",
 									errors::io::READ.0,
 									errors::io::READ.1,
-									file = "~/.config/freshfetch/art.clml",
+									file = "~/.config/freshfetch/art.lua",
 									err = e));
 								panic!();
 							}

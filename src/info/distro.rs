@@ -1,4 +1,3 @@
-use crate::clml_rs;
 use crate::cmd_lib;
 use crate::mlua;
 
@@ -11,7 +10,6 @@ use std::path::{ Path };
 use std::process::{ Command, Stdio };
 
 use mlua::prelude::*;
-use clml_rs::{ CLML };
 use cmd_lib::{ run_fun };
 
 use crate::{ Inject };

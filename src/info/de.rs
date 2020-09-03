@@ -1,4 +1,3 @@
-use crate::clml_rs;
 use crate::cmd_lib;
 use crate::mlua;
 
@@ -9,7 +8,6 @@ use super::distro;
 use std::env;
 
 use mlua::prelude::*;
-use clml_rs::{ CLML };
 use cmd_lib::{ run_fun };
 
 use crate::{ Inject };

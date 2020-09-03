@@ -39,6 +39,14 @@ impl Inject for Context {
 					Ok(_) => (),
 					Err(e) => { errors::handle(&format!("{}{}", errors::LUA, e)); panic!() }
 				}
+				match t.set("host", self.host.as_str()) {
+					Ok(_) => (),
+					Err(e) => { errors::handle(&format!("{}{}", errors::LUA, e)); panic!() }
+				}
+				match globals.set("context", t) {
+					Ok(_) => (),
+					Err(e) => { errors::handle(&format!("{}{}", errors::LUA, e)); panic!() }
+				}
 			}
 			Err(e) => { errors::handle(&format!("{}{}", errors::LUA, e)); panic!() }
 		}

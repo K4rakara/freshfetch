@@ -1,4 +1,3 @@
-use crate::clml_rs;
 use crate::mlua;
 
 use crate::errors;
@@ -8,7 +7,6 @@ use std::path::{ Path };
 use std::process::{ Command };
 
 use mlua::prelude::*;
-use clml_rs::{ CLML };
 
 use crate::{ Inject };
 use kernel::{ Kernel };

@@ -1,4 +1,3 @@
-use crate::clml_rs;
 use crate::cmd_lib;
 use crate::regex;
 use crate::mlua;
@@ -6,7 +5,6 @@ use crate::mlua;
 use crate::errors;
 use super::kernel;
 
-use clml_rs::{ CLML };
 use cmd_lib::{ run_fun };
 use regex::{ Regex };
 use mlua::prelude::*;
@@ -68,8 +66,6 @@ impl Gpus {
 						panic!();
 					}
 				};
-
-                dbg!(&gpus);
 
 				// Fix Intel integrated graphics crap
 				{

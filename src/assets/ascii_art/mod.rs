@@ -1,7 +1,6 @@
 enum Check {
 	Is,
 	StartsWith,
-	EndsWith,
 	Contains,
 }
 
@@ -304,13 +303,6 @@ pub(crate) fn get(of: &str) -> (&'static str, [Option<&'static str>; 4]) {
 					if of.starts_with(art.0) { return get_tuple(); }
 				} else {
 					if of.starts_with(&art.2.clone().unwrap()) { return get_tuple(); }
-				}
-			}
-			Check::EndsWith => {
-				if art.2.is_none() {
-					if of.ends_with(art.0) { return get_tuple(); }
-				} else {
-					if of.ends_with(&art.2.clone().unwrap()) { return get_tuple(); }
 				}
 			}
 		}

@@ -1,11 +1,9 @@
-use crate::clml_rs;
 use crate::x11rb;
 use crate::mlua;
 
 use crate::errors;
 
 use mlua::prelude::*;
-use clml_rs::{ CLML };
 use x11rb::{ connect, connection::{ Connection } };
 
 use crate::{ Inject };

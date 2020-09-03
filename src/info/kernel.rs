@@ -1,11 +1,9 @@
-use crate::clml_rs;
 use crate::uname;
 use crate::mlua;
 
 use crate::errors;
 
 use mlua::prelude::*;
-use clml_rs::{ CLML };
 use uname::{ uname };
 
 use crate::{ Inject };

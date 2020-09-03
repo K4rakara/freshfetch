@@ -1,4 +1,3 @@
-use crate::clml_rs;
 use crate::regex;
 use crate::sysinfo;
 use crate::mlua;
@@ -20,10 +19,8 @@ pub(crate) mod cpu;
 pub(crate) mod gpu;
 
 use std::fs;
-use std::env;
 use std::path::{ Path };
 
-use clml_rs::{ CLML };
 use regex::{ Regex };
 use sysinfo::{ SystemExt };
 use mlua::prelude::*;
@@ -76,7 +73,6 @@ impl Info {
 		let wm = Wm::new(&kernel);
 		let cpu = Cpu::new(&kernel);
         let gpu = Gpus::new(&kernel);
-		dbg!(&gpu);
         Info {
 			ctx: Lua::new(),
 			rendered: String::new(),

@@ -1,4 +1,3 @@
-use crate::clml_rs;
 use crate::mlua;
 use crate::regex;
 
@@ -9,7 +8,6 @@ use std::fs;
 use std::path::{ Path };
 
 use mlua::prelude::*;
-use clml_rs::{ CLML };
 use regex::{ Regex };
 
 use crate::{ Inject }; 
