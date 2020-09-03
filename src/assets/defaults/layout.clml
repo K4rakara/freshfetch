@@ -1,4 +1,9 @@
-  lua`print(string.gsub(art, "\n", "\n  "))`
-<save><up {art.height}>
+<save>  lua`print(string.gsub(art, "\n", "\n  "))`
+<up {art.height}>
 <forward lua`print(""..(artWidth + 4))`>lua`print(string.gsub(info, "\n", "\n<forward "..(artWidth + 4)..">"))`
-<restore>
+<restore><down lua`
+	print(""..(
+			(artHeight - infoHeight)
+			+ infoHeight
+			+ 2
+		))`>

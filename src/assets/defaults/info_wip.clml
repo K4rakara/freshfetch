@@ -65,6 +65,28 @@ lua`
 	else
 		print("<up 1>")
 	end`
+lua`
+	if cpu ~= nil then
+		local freq,suffix = (cpu.freq >= 1000)
+			and (cpu.freq / 1000),"GHz"
+			or  cpu.freq,"MHz" 
+		print("<{distroColors.1}><bold>CPU<reset>: "..cpu.name.." ("..cpu.cores..") @ "..freq..suffix)
+	else
+		print("<up 1>")
+	end`
+lua`
+	if gpus ~= nil then
+		if #gpus <= 1 then
+			print("<{distroColors.1}><bold>GPU<reset>: "..gpus[1].brand.." "..gpus[1].name)
+		else
+			print("<{distroColors.1}><bold>GPUs<reset>:\n")
+			for _,gpu in pairs(gpus) do
+				print(" - "..gpu.brand.." "..gpu.name.."\n")
+			end
+		end
+	else
+		print("<up 1>")
+	end`
 
 <black><black-bg>   <red><red-bg>   <green><green-bg>   <yellow><yellow-bg>   <blue><blue-bg>   <magenta><magenta-bg>   <cyan><cyan-bg>   <white><white-bg>   <reset>
 <255 8><255-bg 8>   <255 9><255-bg 9>   <255 10><255-bg 10>   <255 11><255-bg 11>   <255 12><255-bg 12>   <255 13><255-bg 13>   <255 14><255-bg 14>   <255 15><255-bg 15>   <reset>

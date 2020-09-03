@@ -14,6 +14,12 @@ pub(crate) mod resolution;
 pub(crate) mod wm;
 pub(crate) mod de;
 pub(crate) mod utils;
+pub(crate) mod cpu;
+pub(crate) mod gpu;
+
+use std::fs;
+use std::env;
+use std::path::{ Path };
 
 use clml_rs::{ CLML };
 use regex::{ Regex };
@@ -31,6 +37,8 @@ use resolution::{ Resolution };
 use wm::{ Wm };
 use de::{ De };
 use utils::{ get_system };
+use cpu::{ Cpu };
+use gpu::{ Gpus };
 
 pub(crate) struct Info {
 	ctx: CLML,
@@ -47,6 +55,8 @@ pub(crate) struct Info {
 	pub resolution: Option<Resolution>,
 	pub de: Option<De>,
 	pub wm: Option<Wm>,
+	pub cpu: Option<Cpu>,
+    pub gpu: Option<Gpus>,
 }
 
 impl Info {
@@ -60,7 +70,10 @@ impl Info {
 		let resolution = Resolution::new();
 		let de = De::new(&kernel, &distro);
 		let wm = Wm::new(&kernel);
-		Info {
+		let cpu = Cpu::new(&kernel);
+        let gpu = Gpus::new(&kernel);
+		dbg!(&gpu);
+        Info {
 			ctx: CLML::new(),
 			rendered: String::new(),
 			width: 0,
@@ -75,12 +88,35 @@ impl Info {
 			resolution: resolution,
 			de: de,
 			wm: wm,
+			cpu: cpu,
+            gpu: gpu,
 		}
 	}
 	pub fn render(&mut self) -> Result<(), ()> {
-		self.rendered = self.ctx
-			.parse(include_str!("../assets/defaults/info_wip.clml"))
-			.or(Err(()))?;
+		let info = Path::new("/home/")
+			.join(env::var("USER").unwrap_or(String::new()))
+			.join(".config/freshfetch/info.clml");
+		if info.exists() {
+			match fs::read_to_string(&info) {
+				Ok(file) => {
+					self.rendered = self.ctx
+						.parse(&file)
+						.or(Err(()))?;
+				}
+				Err(e) => {
+					errors::handle(&format!("{}{file:?}{}{err}",
+						errors::io::READ.0,
+						errors::io::READ.1,
+						file = info,
+						err = e));
+					panic!();
+				}
+			}
+		} else {
+			self.rendered = self.ctx
+				.parse(include_str!("../assets/defaults/info_wip.clml"))
+				.or(Err(()))?;
+		}
 		Ok(())
 	}
 }
@@ -97,7 +133,9 @@ impl Inject for Info {
 		match &self.resolution { Some(v) => v.inject(&mut self.ctx)?, None => (), }
 		match &self.wm { Some(v) => v.inject(&mut self.ctx)?, None => (), }
 		match &self.de { Some(v) => v.inject(&mut self.ctx)?, None => (), }
-		self.render()?;
+		match &self.cpu { Some(v) => v.inject(&mut self.ctx)?, None => (), }
+		match &self.gpu { Some(v) => v.inject(&mut self.ctx)?, None => (), }
+        self.render()?;
 		{
 			let plaintext = {
 				let regex = Regex::new(r#"(?i)\[(?:[\d;]*\d+[a-z])"#).unwrap();
