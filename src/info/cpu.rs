@@ -1,5 +1,4 @@
 use crate::clml_rs;
-use crate::cmd_lib;
 use crate::regex;
 
 use crate::errors;

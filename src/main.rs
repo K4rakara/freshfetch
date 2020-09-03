@@ -4,7 +4,6 @@ pub(crate) extern crate clap;
 pub(crate) extern crate clml_rs;
 pub(crate) extern crate cmd_lib;
 pub(crate) extern crate cpuid;
-//pub(crate) extern crate mlua;
 pub(crate) extern crate regex;
 pub(crate) extern crate sysinfo;
 pub(crate) extern crate term_size;

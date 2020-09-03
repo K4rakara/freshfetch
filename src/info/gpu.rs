@@ -33,7 +33,6 @@ pub(crate) struct Gpus ( pub Vec<Gpu> );
 
 impl Gpus {
 	pub fn new(k: &Kernel) -> Option<Self> {
-		let mut name: Option<String> = None;
 		match k.name.as_str() {
 			"Linux" => {
 				// TODO: Make a rust binding to whatever `lspci` uses, and use
