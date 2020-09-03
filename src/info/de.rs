@@ -1,5 +1,6 @@
 use crate::clml_rs;
 use crate::cmd_lib;
+use crate::mlua;
 
 use crate::errors;
 use super::kernel;
@@ -7,6 +8,7 @@ use super::distro;
 
 use std::env;
 
+use mlua::prelude::*;
 use clml_rs::{ CLML };
 use cmd_lib::{ run_fun };
 
@@ -111,41 +113,25 @@ impl De {
 }
 
 impl Inject for De {
-	fn inject(&self, clml: &mut CLML) -> Result<(), ()> {
-		// Inject CLML values.
-		clml
-			.env("de.name", self.0.as_str())
-			.env("de.version", self.1.as_str());
+	fn inject(&self, lua: &mut Lua) {
+		let globals = lua.globals();
 
-		// Inject Bash value.
-		clml
-			.bash_env("de_name", self.0.as_str())
-			.bash_env("de_version", self.1.as_str());
-
-		// Inject Lua values.
-		{
-			let lua = &clml.lua_env;
-			let globals = lua.globals();
-
-			match lua.create_table() {
-				Ok(t) => {
-					match t.set("name", self.0.as_str()) {
-						Ok(_) => (),
-						Err(e) => { errors::handle(&format!("{}{err}", errors::LUA, err = e)); panic!(); }
-					}
-					match t.set("version", self.1.as_str()) {
-						Ok(_) => (),
-						Err(e) => { errors::handle(&format!("{}{err}", errors::LUA, err = e)); panic!(); }
-					}
-					match globals.set("de", t) {
-						Ok(_) => (),
-						Err(e) => { errors::handle(&format!("{}{err}", errors::LUA, err = e)); panic!(); }
-					}
+		match lua.create_table() {
+			Ok(t) => {
+				match t.set("name", self.0.as_str()) {
+					Ok(_) => (),
+					Err(e) => { errors::handle(&format!("{}{err}", errors::LUA, err = e)); panic!(); }
 				}
-				Err(e) => { errors::handle(&format!("{}{err}", errors::LUA, err = e)); panic!(); }
+				match t.set("version", self.1.as_str()) {
+					Ok(_) => (),
+					Err(e) => { errors::handle(&format!("{}{err}", errors::LUA, err = e)); panic!(); }
+				}
+				match globals.set("de", t) {
+					Ok(_) => (),
+					Err(e) => { errors::handle(&format!("{}{err}", errors::LUA, err = e)); panic!(); }
+				}
 			}
+			Err(e) => { errors::handle(&format!("{}{err}", errors::LUA, err = e)); panic!(); }
 		}
-
-		Ok(())
 	}
 }

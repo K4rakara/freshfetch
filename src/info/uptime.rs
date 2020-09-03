@@ -1,6 +1,7 @@
 use crate::chrono;
 use crate::clml_rs;
 use crate::sysinfo;
+use crate::mlua;
 
 use crate::errors;
 use super::kernel;
@@ -8,6 +9,7 @@ use super::utils;
 
 use std::path::{ Path };
 
+use mlua::prelude::*;
 use chrono::{ Utc, DateTime, Datelike, Timelike, TimeZone };
 use clml_rs::{ CLML };
 use sysinfo::{ SystemExt };
@@ -46,53 +48,33 @@ impl Uptime {
 }
 
 impl Inject for Uptime {
-	fn inject(&self, clml: &mut CLML) -> Result<(), ()> {
-		// Inject clml values.
-		clml
-			.env("uptime.days", format!("{}", self.0.day() - 1).as_str())
-			.env("uptime.hours", format!("{}", self.0.hour()).as_str())
-			.env("uptime.minutes", format!("{}", self.0.minute()).as_str())
-			.env("uptime.seconds", format!("{}", self.0.second()).as_str());
-		
-		// Inject bash values.
-		clml
-			.bash_env("uptime_days", format!("{}", self.0.day() - 1).as_str())
-			.bash_env("uptime_hours", format!("{}", self.0.hour()).as_str())
-			.bash_env("uptime_minutes", format!("{}", self.0.minute()).as_str())
-			.bash_env("uptime_seconds", format!("{}", self.0.second()).as_str());
+	fn inject(&self, lua: &mut Lua) {
+		let globals = lua.globals();
 
-		// Inject Lua values.
-		{
-			let lua = &clml.lua_env;
-			let globals = lua.globals();
-
-			match lua.create_table() {
-				Ok(t) => {
-					match t.set("days", self.0.day() - 1) {
-						Ok(_) => (),
-						Err(e) => errors::handle(&format!("{}{}", errors::LUA, e)),
-					}
-					match t.set("hours", self.0.hour()) {
-						Ok(_) => (),
-						Err(e) => errors::handle(&format!("{}{}", errors::LUA, e)),
-					}
-					match t.set("minutes", self.0.minute()) {
-						Ok(_) => (),
-						Err(e) => errors::handle(&format!("{}{}", errors::LUA, e)),
-					}
-					match t.set("seconds", self.0.second()) {
-						Ok(_) => (),
-						Err(e) => errors::handle(&format!("{}{}", errors::LUA, e)),
-					}
-					match globals.set("uptime", t) {
-						Ok(_) => (),
-						Err(e) => errors::handle(&format!("{}{}", errors::LUA, e)),
-					}
+		match lua.create_table() {
+			Ok(t) => {
+				match t.set("days", self.0.day() - 1) {
+					Ok(_) => (),
+					Err(e) => errors::handle(&format!("{}{}", errors::LUA, e)),
 				}
-				Err(e) => errors::handle(&format!("{}{}", errors::LUA, e)),
+				match t.set("hours", self.0.hour()) {
+					Ok(_) => (),
+					Err(e) => errors::handle(&format!("{}{}", errors::LUA, e)),
+				}
+				match t.set("minutes", self.0.minute()) {
+					Ok(_) => (),
+					Err(e) => errors::handle(&format!("{}{}", errors::LUA, e)),
+				}
+				match t.set("seconds", self.0.second()) {
+					Ok(_) => (),
+					Err(e) => errors::handle(&format!("{}{}", errors::LUA, e)),
+				}
+				match globals.set("uptime", t) {
+					Ok(_) => (),
+					Err(e) => errors::handle(&format!("{}{}", errors::LUA, e)),
+				}
 			}
+			Err(e) => errors::handle(&format!("{}{}", errors::LUA, e)),
 		}
-
-		Ok(())
 	}
 }

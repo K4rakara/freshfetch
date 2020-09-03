@@ -1,4 +1,5 @@
 use crate::clml_rs;
+use crate::mlua;
 
 use crate::errors;
 use super::kernel;
@@ -6,6 +7,7 @@ use super::kernel;
 use std::path::{ Path };
 use std::process::{ Command };
 
+use mlua::prelude::*;
 use clml_rs::{ CLML };
 
 use crate::{ Inject };
@@ -25,17 +27,7 @@ pub(crate) struct PackageManagers ( Vec<PackageManager> );
 impl PackageManagers {
 	pub fn new(k: &Kernel) -> Self {
 		let mut to_return = Vec::new();
-		
-		/*let has = |package_manager: &str| -> bool {
-			let try_output = Command::new("sh")
-				.arg("-c")
-				.arg(format!(r#"type -p "{}""#, package_manager))
-				.output();
-			match try_output {
-				Ok(output) => output.status.success(),
-				Err(_) => false,
-			}
-		};*/
+
 		let has_bin = |package_manager: &str| -> bool {
 			Path::new("/usr/bin/").join(package_manager).exists()
 		};
@@ -107,72 +99,36 @@ impl PackageManagers {
 }
 
 impl Inject for PackageManagers {
-	fn inject(&self, clml: &mut CLML) -> Result<(), ()> {
-		// Inject clml values.
-		{
-			let prefix = String::from("packageManagers");
-			for (i, package_manager) in self.0.iter().enumerate() {
-				{
-					let prefix = format!("{}.{}", prefix, i);
-					clml
-						.env(&format!("{}.{}", prefix, "name"), package_manager.name.as_str())
-						.env(&format!("{}.{}", prefix, "packages"), &format!("{}", package_manager.packages));
-				}
-				{
-					let prefix = format!("{}.{}", prefix, package_manager.name);
-					clml
-						.env(&prefix, &format!("{}", package_manager.packages));
-				}
-			}
-		}
+	fn inject(&self, lua: &mut Lua) {
+		let globals = lua.globals();
 
-		// Inject bash values.
-		{
-			let mut to_return = String::from("(");
-			for (i, package_manager) in self.0.iter().enumerate() {
-				if i != 0 { to_return = format!("{} ", to_return); }
-				to_return = format!("{}{}",
-					to_return,
-					format!("\"{}:{}\"", package_manager.name, package_manager.packages));
-			}
-			to_return = format!("{})", to_return);
-			clml.bash_env("package_managers", to_return.as_str());
-		}
-
-		// Inject Lua values.
-		{
-			let lua = &clml.lua_env;
-			let globals = lua.globals();
-
-			match lua.create_table() {
-				Ok(t) => {			
-					for (i, package_manager) in self.0.iter().enumerate() {
-						match lua.create_table() {
-							Ok(t2) => {
-								match t2.set("name", package_manager.name.as_str()) {
-									Ok(_) => (),
-									Err(e) => errors::handle(&format!("{}{}", errors::LUA, e)),
-								}
-								match t2.set("packages", package_manager.packages) {
-									Ok(_) => (),
-									Err(e) => errors::handle(&format!("{}{}", errors::LUA, e)),
-								}
-								match t.raw_insert(i as i64 + 1, t2) {
-									Ok(_) => (),
-									Err(e) => errors::handle(&format!("{}{}", errors::LUA, e)),
-								}
+		match lua.create_table() {
+			Ok(t) => {			
+				for (i, package_manager) in self.0.iter().enumerate() {
+					match lua.create_table() {
+						Ok(t2) => {
+							match t2.set("name", package_manager.name.as_str()) {
+								Ok(_) => (),
+								Err(e) => errors::handle(&format!("{}{}", errors::LUA, e)),
 							}
-							Err(e) => errors::handle(&format!("{}{}", errors::LUA, e)),
+							match t2.set("packages", package_manager.packages) {
+								Ok(_) => (),
+								Err(e) => errors::handle(&format!("{}{}", errors::LUA, e)),
+							}
+							match t.raw_insert(i as i64 + 1, t2) {
+								Ok(_) => (),
+								Err(e) => errors::handle(&format!("{}{}", errors::LUA, e)),
+							}
 						}
-					}
-					match globals.set("packageManagers", t) {
-						Ok(_) => (),
 						Err(e) => errors::handle(&format!("{}{}", errors::LUA, e)),
 					}
 				}
-				Err(e) => errors::handle(&format!("{}{}", errors::LUA, e)),
+				match globals.set("packageManagers", t) {
+					Ok(_) => (),
+					Err(e) => errors::handle(&format!("{}{}", errors::LUA, e)),
+				}
 			}
+			Err(e) => errors::handle(&format!("{}{}", errors::LUA, e)),
 		}
-		Ok(())
 	}
 }

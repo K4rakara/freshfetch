@@ -1,6 +1,7 @@
 use crate::clml_rs;
 use crate::cmd_lib;
 use crate::regex;
+use crate::mlua;
 
 use crate::errors;
 use super::kernel;
@@ -8,6 +9,7 @@ use super::kernel;
 use clml_rs::{ CLML };
 use cmd_lib::{ run_fun };
 use regex::{ Regex };
+use mlua::prelude::*;
 
 use crate::{ Inject };
 use kernel::{ Kernel };
@@ -142,93 +144,56 @@ impl Gpus {
 }
 
 impl Inject for Gpus {
-    fn inject(&self, clml: &mut CLML) -> Result<(), ()> {
-        // Inject CLML values.
-        clml.env("gpus.len", &format!("{}", self.0.len()));
-        for (i, gpu) in self.0.iter().enumerate() {
-            clml
-                .env(&format!("gpus.{}.name", i), gpu.name.as_str())
-                .env(&format!("gpus.{}.brand", i), gpu.brand.as_str());
-        }
+    fn inject(&self, lua: &mut Lua) {
+        let globals = lua.globals();
 
-        // Inject Bash values.
-        {
-            let mut to_return = String::from("(");
-            for i in 0..(self.0.len() - 1) {
-                if i != 0 { to_return.push(' '); }
-                to_return = format!("{}gpus_{}",
-                    to_return,
-                    i);
-            }
-            to_return = String::from({
-                let mut split = to_return.split("").collect::<Vec<&str>>();
-                split.pop();
-                split.join("")
-            });
-            to_return.push(')');
-            clml.bash_env("gpus", to_return.as_str());
-        }
-        for (i, gpu) in self.0.iter().enumerate() {
-            clml
-                .bash_env(&format!("gpus_{}_name", i), gpu.name.as_str())
-                .bash_env(&format!("gpus_{}_brand", i), gpu.brand.as_str());
-        }
-
-        // Inject lua values.
-        {
-            let lua = &clml.lua_env;
-            let globals = lua.globals();
-
-            match lua.create_table() {
-                Ok(a) => {
-                    for (i, gpu) in self.0.iter().enumerate() {
-                        match lua.create_table() {
-                            Ok(t) => {
-                                match t.set("name", gpu.name.as_str()) {
-                                    Ok(_) => (),
-                                    Err(e) => {
-                                        errors::handle(&format!("{}{}", errors::LUA, e));
-                                        panic!();
-                                    }
-                                }
-                                match t.set("brand", gpu.brand.as_str()) {
-                                    Ok(_) => (),
-                                    Err(e) => {
-                                        errors::handle(&format!("{}{}", errors::LUA, e));
-                                        panic!();
-                                    }
-                                }
-                                match a.raw_set((i + 1) as i64, t) {
-                                    Ok(_) => (),
-                                    Err(e) => {
-                                        errors::handle(&format!("{}{}", errors::LUA, e));
-                                        panic!();
-                                    }
-                                }
-                            }
-                            Err(e) => {
-                                errors::handle(&format!("{}{}", errors::LUA, e));
-                                panic!();
-                            }
-                        }
-                    }
-                    match globals.set("gpus", a) {
-                        Ok(_) => (),
-                        Err(e) => {
-                            errors::handle(&format!("{}{}", errors::LUA, e));
-                            panic!();
-                        }
-                    }
-                }
-                Err(e) => {
-                    errors::handle(&format!("{}{}", errors::LUA, e));
-                    panic!();
-                }
-            }
-        }
-
-        Ok(())
-    }
+		match lua.create_table() {
+			Ok(a) => {
+				for (i, gpu) in self.0.iter().enumerate() {
+					match lua.create_table() {
+						Ok(t) => {
+							match t.set("name", gpu.name.as_str()) {
+								Ok(_) => (),
+								Err(e) => {
+									errors::handle(&format!("{}{}", errors::LUA, e));
+									panic!();
+								}
+							}
+							match t.set("brand", gpu.brand.as_str()) {
+								Ok(_) => (),
+								Err(e) => {
+									errors::handle(&format!("{}{}", errors::LUA, e));
+									panic!();
+								}
+							}
+							match a.raw_set((i + 1) as i64, t) {
+								Ok(_) => (),
+								Err(e) => {
+									errors::handle(&format!("{}{}", errors::LUA, e));
+									panic!();
+								}
+							}
+						}
+						Err(e) => {
+							errors::handle(&format!("{}{}", errors::LUA, e));
+							panic!();
+						}
+					}
+				}
+				match globals.set("gpus", a) {
+					Ok(_) => (),
+					Err(e) => {
+						errors::handle(&format!("{}{}", errors::LUA, e));
+						panic!();
+					}
+				}
+			}
+			Err(e) => {
+				errors::handle(&format!("{}{}", errors::LUA, e));
+				panic!();
+			}
+		}
+	}
 }
 
 

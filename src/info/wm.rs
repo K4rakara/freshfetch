@@ -1,4 +1,5 @@
 use crate::clml_rs;
+use crate::mlua;
 
 use crate::errors;
 use super::kernel;
@@ -8,6 +9,7 @@ use std::fs;
 use std::env;
 use std::process::{ Command };
 
+use mlua::prelude::*;
 use clml_rs::{ CLML };
 
 use crate::{ Inject };
@@ -173,19 +175,10 @@ impl Wm {
 }
 
 impl Inject for Wm {
-	fn inject(&self, clml: &mut CLML) -> Result<(), ()> {
-		// Inject CLML value.
-		clml.env("wm", self.0.as_str());
-
-		// Inject Bash value.
-		clml.bash_env("wm", self.0.as_str());
-
-		// Inject Lua value.
-		match &clml.lua_env.globals().set("wm", self.0.as_str()) {
+	fn inject(&self, lua: &mut Lua) {
+		match lua.globals().set("wm", self.0.as_str()) {
 			Ok(_) => (),
 			Err(e) => { errors::handle(&format!("{}{err}", errors::LUA, err = e)); panic!(); }
 		}
-
-		Ok(())
 	}
 }

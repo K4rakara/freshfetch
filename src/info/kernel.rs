@@ -1,8 +1,10 @@
 use crate::clml_rs;
 use crate::uname;
+use crate::mlua;
 
 use crate::errors;
 
+use mlua::prelude::*;
 use clml_rs::{ CLML };
 use uname::{ uname };
 
@@ -50,47 +52,29 @@ impl Kernel {
 }
 
 impl Inject for Kernel {
-	fn inject(&self, clml: &mut CLML) -> Result<(), ()> {
-		// Inject clml values.
-		clml
-			.env("kernel.name", self.name.as_str())
-			.env("kernel.version", self.version.as_str())
-			.env("kernel.architecture", self.architecture.as_str());
-		
-		// Inject bash values.
-		clml
-			.bash_env("kernel_name", self.name.as_str())
-			.bash_env("kernel_version", self.version.as_str())
-			.bash_env("kernel_architecture", self.architecture.as_str());
+	fn inject(&self, lua: &mut Lua) {
+		let globals = lua.globals();
 
-		// Inject Lua values.
-		{
-			let lua = &clml.lua_env;
-			let globals = lua.globals();
-
-			match lua.create_table() {
-				Ok(t) => {
-					match t.set("name", self.name.as_str()) {
-						Ok(_) => (),
-						Err(e) => errors::handle(&format!("{}{}", errors::LUA, e)),
-					}
-					match t.set("version", self.version.as_str()) {
-						Ok(_) => (),
-						Err(e) => errors::handle(&format!("{}{}", errors::LUA, e)),
-					}
-					match t.set("architecture", self.architecture.as_str()) {
-						Ok(_) => (),
-						Err(e) => errors::handle(&format!("{}{}", errors::LUA, e)),
-					}
-					match globals.set("kernel", t) {
-						Ok(_) => (),
-						Err(e) => errors::handle(&format!("{}{}", errors::LUA, e)),
-					}
+		match lua.create_table() {
+			Ok(t) => {
+				match t.set("name", self.name.as_str()) {
+					Ok(_) => (),
+					Err(e) => errors::handle(&format!("{}{}", errors::LUA, e)),
 				}
-				Err(e) => errors::handle(&format!("{}{}", errors::LUA, e)),
+				match t.set("version", self.version.as_str()) {
+					Ok(_) => (),
+					Err(e) => errors::handle(&format!("{}{}", errors::LUA, e)),
+				}
+				match t.set("architecture", self.architecture.as_str()) {
+					Ok(_) => (),
+					Err(e) => errors::handle(&format!("{}{}", errors::LUA, e)),
+				}
+				match globals.set("kernel", t) {
+					Ok(_) => (),
+					Err(e) => errors::handle(&format!("{}{}", errors::LUA, e)),
+				}
 			}
+			Err(e) => errors::handle(&format!("{}{}", errors::LUA, e)),
 		}
-
-		Ok(())
 	}
 }

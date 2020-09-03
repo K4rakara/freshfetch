@@ -4,6 +4,7 @@ pub(crate) extern crate clap;
 pub(crate) extern crate clml_rs;
 pub(crate) extern crate cmd_lib;
 pub(crate) extern crate cpuid;
+pub(crate) extern crate mlua;
 pub(crate) extern crate regex;
 pub(crate) extern crate sysinfo;
 pub(crate) extern crate term_size;
@@ -18,18 +19,24 @@ pub(crate) mod info;
 pub(crate) mod layout;
 pub(crate) mod misc;
 
+use mlua::prelude::*;
 use clap::{ App, Arg };
 use clml_rs::{ CLML };
 
 use layout::{ Layout };
+use assets::{ ANSI, PRINT };
+use assets::defaults::{ LAYOUT };
+
+use std::env::{ var };
+use std::path::{ Path };
 
 pub(crate) struct Arguments {
 	pub ascii_distro: Option<String>,
 }
 
 pub(crate) trait Inject {
-	fn prep(&mut self) -> Result<(), ()> { Ok(()) }
-	fn inject(&self, _clml: &mut CLML) -> Result<(), ()> { Ok(()) }
+	fn prep(&mut self) {}
+	fn inject(&self, _lua: &mut Lua) {}
 }
 
 fn main() {
@@ -53,9 +60,34 @@ fn main() {
 		},
 	};
 
-	let mut ctx = CLML::new();
+	let mut ctx = Lua::new();
+	match ctx.load(PRINT).exec() {
+		Ok(_) => (),
+		Err(e) => { errors::handle(&format!("{}{}", errors::LUA, e)); panic!(); }
+	}
+	match ctx.load(ANSI).exec() {
+		Ok(_) => (),
+		Err(e) => { errors::handle(&format!("{}{}", errors::LUA, e)); panic!(); }
+	}
+
 	let mut layout = Layout::new(&args);
-	layout.prep().ok();
-	layout.inject(&mut ctx).ok();
-	print!("{}", ctx.parse(include_str!("./assets/defaults/layout.clml")).unwrap());
+	layout.prep();
+	layout.inject(&mut ctx);
+
+	let layout_file = Path::new("/home/")
+		.join(var("USER").unwrap_or(String::new()))
+		.join(".config/freshfetch/layout.lua");
+
+	if layout_file.exists() {
+
+	} else {
+		match ctx.load(LAYOUT).exec() {
+			Ok(_) => (),
+			Err(e) => { errors::handle(&format!("{}{}", errors::LUA, e)); panic!(); }
+		}
+		match ctx.globals().get::<&str, String>("__freshfetch__") {
+			Ok(v) => print!("{}", v),
+			Err(e) => { errors::handle(&format!("{}{}", errors::LUA, e)); panic!(); }
+		}
+	}
 }

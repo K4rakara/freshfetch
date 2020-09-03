@@ -1,5 +1,6 @@
 use crate::clml_rs;
 use crate::regex;
+use crate::mlua;
 
 use crate::assets::ascii_art;
 use crate::errors;
@@ -10,6 +11,7 @@ use std::fs;
 use std::env;
 use std::path::{ Path };
 
+use mlua::prelude::*;
 use clml_rs::{ clml, CLML };
 use regex::{ Regex };
 
@@ -91,39 +93,20 @@ impl Art {
 }
 
 impl Inject for Art {
-	fn inject(&self, clml: &mut CLML) -> Result<(), ()> {
-		// Inject clml values.
-		clml
-			.env("art", self.inner.as_str())
-			.env("art.width", &format!("{}", self.width))
-			.env("art.height", &format!("{}", self.height));
+	fn inject(&self, lua: &mut Lua) {
+		let globals = lua.globals();
 
-		// Inject Bash values.
-		clml
-			.bash_env("art", self.inner.as_str())
-			.bash_env("art_width", &format!("{}", self.width))
-			.bash_env("art_height", &format!("{}", self.height));
-
-		// Inject Lua values.
-		{
-			let lua = &clml.lua_env;
-			let globals = lua.globals();
-
-			//k_err!((globals.set("art", self.inner.as_str())), (format!("")));
-			match globals.set("art", self.inner.as_str()) {
-				Ok(_) => (),
-				Err(e) => errors::handle(&format!("{}{}", errors::LUA, e)),
-			}
-			match globals.set("artWidth", self.width) {
-				Ok(_) => (),
-				Err(e) => errors::handle(&format!("{}{}", errors::LUA, e)),
-			}
-			match globals.set("artHeight", self.height) {
-				Ok(_) => (),
-				Err(e) => errors::handle(&format!("{}{}", errors::LUA, e)),
-			}
+		match globals.set("art", self.inner.as_str()) {
+			Ok(_) => (),
+			Err(e) => errors::handle(&format!("{}{}", errors::LUA, e)),
 		}
-
-		Ok(())
+		match globals.set("artWidth", self.width) {
+			Ok(_) => (),
+			Err(e) => errors::handle(&format!("{}{}", errors::LUA, e)),
+		}
+		match globals.set("artHeight", self.height) {
+			Ok(_) => (),
+			Err(e) => errors::handle(&format!("{}{}", errors::LUA, e)),
+		}
 	}
 }

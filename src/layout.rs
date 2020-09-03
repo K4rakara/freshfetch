@@ -1,9 +1,11 @@
 use crate::clml_rs;
+use crate::mlua;
 
 use crate::misc;
 use crate::art;
 use crate::info;
 
+use mlua::prelude::*;
 use clml_rs::{ CLML };
 
 use crate::{ Inject, Arguments };
@@ -31,16 +33,14 @@ impl Layout {
 }
 
 impl Inject for Layout {
-	fn prep(&mut self) -> Result<(), ()> {
-		self.info.prep()?;
-		self.art.prep()?;
-		self.terminal.prep()?;
-		Ok(())
+	fn prep(&mut self) {
+		self.info.prep();
+		self.art.prep();
+		self.terminal.prep();
 	}
-	fn inject(&self, clml: &mut CLML) -> Result<(), ()> {
-		self.art.inject(clml)?;
-		self.terminal.inject(clml)?;
-		self.info.inject(clml)?;
-		Ok(())
+	fn inject(&self, lua: &mut Lua) {
+		self.art.inject(lua);
+		self.terminal.inject(lua);
+		self.info.inject(lua);
 	}
 }

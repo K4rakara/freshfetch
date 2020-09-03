@@ -1,4 +1,5 @@
 use crate::clml_rs;
+use crate::mlua;
 use crate::regex;
 
 use crate::errors;
@@ -7,6 +8,7 @@ use super::kernel;
 use std::fs;
 use std::path::{ Path };
 
+use mlua::prelude::*;
 use clml_rs::{ CLML };
 use regex::{ Regex };
 
@@ -203,53 +205,33 @@ impl Cpu {
 }
 
 impl Inject for Cpu {
-	fn inject(&self, clml: &mut CLML) -> Result<(), ()> {
-		// Inject CLML values.
-		clml
-			.env("cpu.name", self.name.as_str())
-			.env("cpu.fullName", self.full_name.as_str())
-			.env("cpu.cores", &format!("{}", self.cores))
-			.env("cpu.freq", &format!("{}", self.freq));
-		
-		// Inject Bash values.
-		clml
-			.bash_env("cpu_name", self.name.as_str())
-			.bash_env("cpu_full_name", self.full_name.as_str())
-			.bash_env("cpu_cores", &format!("{}", self.cores))
-			.bash_env("cpu_freq", &format!("{}", self.freq));
+	fn inject(&self, lua: &mut Lua) {
+		let globals = lua.globals();
 
-		// Inject Lua values.
-		{
-			let lua = &clml.lua_env;
-			let globals = lua.globals();
-
-			match lua.create_table() {
-				Ok(t) => {
-					match t.set("name", self.name.as_str()) {
-						Ok(_) => (),
-						Err(e) => { errors::handle(&format!("{}{}", errors::LUA, e)); panic!(); }	
-					}
-					match t.set("fullName", self.full_name.as_str()) {
-						Ok(_) => (),
-						Err(e) => { errors::handle(&format!("{}{}", errors::LUA, e)); panic!(); }	
-					}
-					match t.set("cores", self.cores) {
-						Ok(_) => (),
-						Err(e) => { errors::handle(&format!("{}{}", errors::LUA, e)); panic!(); }	
-					}
-					match t.set("freq", self.freq) {
-						Ok(_) => (),
-						Err(e) => { errors::handle(&format!("{}{}", errors::LUA, e)); panic!(); }	
-					}
-					match globals.set("cpu", t) {
-						Ok(_) => (),
-						Err(e) => { errors::handle(&format!("{}{}", errors::LUA, e)); panic!(); }	
-					}
+		match lua.create_table() {
+			Ok(t) => {
+				match t.set("name", self.name.as_str()) {
+					Ok(_) => (),
+					Err(e) => { errors::handle(&format!("{}{}", errors::LUA, e)); panic!(); }	
 				}
-				Err(e) => { errors::handle(&format!("{}{}", errors::LUA, e)); panic!(); }
+				match t.set("fullName", self.full_name.as_str()) {
+					Ok(_) => (),
+					Err(e) => { errors::handle(&format!("{}{}", errors::LUA, e)); panic!(); }	
+				}
+				match t.set("cores", self.cores) {
+					Ok(_) => (),
+					Err(e) => { errors::handle(&format!("{}{}", errors::LUA, e)); panic!(); }	
+				}
+				match t.set("freq", self.freq) {
+					Ok(_) => (),
+					Err(e) => { errors::handle(&format!("{}{}", errors::LUA, e)); panic!(); }	
+				}
+				match globals.set("cpu", t) {
+					Ok(_) => (),
+					Err(e) => { errors::handle(&format!("{}{}", errors::LUA, e)); panic!(); }	
+				}
 			}
+			Err(e) => { errors::handle(&format!("{}{}", errors::LUA, e)); panic!(); }
 		}
-		
-		Ok(())
 	}
 }
