@@ -26,7 +26,7 @@ problems, be sure to file an issue so that it can be fixed!
 
 ## Installation
 
-On Arch Linux, you can install the [`freshfetch-git`](https://aur.archlinux.org/packages/freshfetch-git/) package from the AUR. ( You'll also need the [`libcpuid`](https://aur.archlinux.org/package/freshfetch-git) AUR package. )
+On Arch Linux, you can install the [`freshfetch-git`](https://aur.archlinux.org/packages/freshfetch-git/) package from the AUR. ( You'll also need the [`libcpuid`](https://aur.archlinux.org/packages/freshfetch-git) AUR package. )
 
 For other distros, you can compile from source. Heres what you'll need:
  - make dependencies:
