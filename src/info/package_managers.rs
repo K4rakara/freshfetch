@@ -86,8 +86,6 @@ impl PackageManagers {
 					};
 					if daemon_running { add("snap", "snap list"); }
 				}
-
-				if has_bin("npm") { add("npm", "ls $(npm root -g) --color=none"); }
 			}
 			_ => {}
 		}
