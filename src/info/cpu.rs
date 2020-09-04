@@ -64,34 +64,38 @@ impl Cpu {
 						// Get CPU frequency.
 						freq = {
 							if Path::new("/sys/devices/system/cpu/cpu0/cpufreq/").exists() {
-								match fs::read_to_string("/sys/devices/system/cpu/cpu0/cpufreq/bios_limit") {
-									Ok(mut bios_limit) => {
-										bios_limit = bios_limit
-											.replace("\n", "")
-											.replace("\t", "");
-										match bios_limit.parse::<f32>() {
-											Ok(freq) => Some(freq / 1000.0),
-											Err(e) => {
-												errors::handle(&format!("{}{v}{}{type}{}{err}",
-													errors::PARSE.0,
-													errors::PARSE.1,
-													errors::PARSE.2,
-													v = bios_limit,
-													type = "f32",
-													err = e));
-												panic!();
+								let mut to_return = None;
+								let to_check = [
+									"/sys/devices/system/cpu/cpu0/cpufreq/bios_limit",
+									"/sys/devices/system/cpu/cpu0/cpufreq/scaling_max_freq",
+									"/sys/devices/system/cpu/cpu0/cpufreq/cpuinfo_max_freq",
+								];
+								for file in to_check.iter() {
+									if to_return.is_none() {
+										match fs::read_to_string(file) {
+											Ok(mut bios_limit) => {
+												bios_limit = bios_limit
+													.replace("\n", "")
+													.replace("\t", "");
+												match bios_limit.parse::<f32>() {
+													Ok(freq) => to_return = Some(freq / 1000.0),
+													Err(e) => {
+														errors::handle(&format!("{}{v}{}{type}{}{err}",
+															errors::PARSE.0,
+															errors::PARSE.1,
+															errors::PARSE.2,
+															v = bios_limit,
+															type = "f32",
+															err = e));
+														panic!();
+													}
+												}
 											}
+											Err(_) => (),
 										}
 									}
-									Err(e) => {
-										errors::handle(&format!("{}{file}{}{err}",
-											errors::io::READ.0,
-											errors::io::READ.1,
-											file = "/sys/devices/system/cpu/cpu0/cpufreq/bios_limit",
-											err = e));
-										panic!();
-									}
 								}
+								to_return
 							} else {
 								let mut to_return = None;
 								let mut skip = false;
