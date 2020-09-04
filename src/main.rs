@@ -25,6 +25,7 @@ use layout::{ Layout };
 use assets::{ ANSI, PRINT };
 use assets::defaults::{ LAYOUT };
 
+use std::fs::{ read_to_string };
 use std::env::{ var };
 use std::path::{ Path };
 
@@ -77,7 +78,26 @@ fn main() {
 		.join(".config/freshfetch/layout.lua");
 
 	if layout_file.exists() {
-
+		match read_to_string(&layout_file) {
+			Ok(v) => {
+				match ctx.load(&v).exec() {
+					Ok(_) => (),
+					Err(e) => { errors::handle(&format!("{}{}", errors::LUA, e)); panic!(); }
+				}
+				match ctx.globals().get::<&str, String>("__freshfetch__") {
+					Ok(v) => print!("{}", v),
+					Err(e) => { errors::handle(&format!("{}{}", errors::LUA, e)); panic!(); }
+				}
+			}
+			Err(e) => {
+				errors::handle(&format!("{}{file}{}{err}",
+					errors::io::READ.0,
+					errors::io::READ.1,
+					file = layout_file.to_string_lossy(),
+					err = e));
+				panic!();
+			}
+		}
 	} else {
 		match ctx.load(LAYOUT).exec() {
 			Ok(_) => (),

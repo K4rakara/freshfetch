@@ -120,6 +120,10 @@ impl Info {
 						Ok(_) => (),
 						Err(e) => { errors::handle(&format!("{}{}", errors::LUA, e)); panic!(); }
 					}
+					match self.ctx.globals().get::<&str, String>("__freshfetch__") {
+						Ok(v) => self.rendered = v,
+						Err(e) => { errors::handle(&format!("{}{}", errors::LUA, e)); panic!(); }
+					}
 				}
 				Err(e) => {
 					errors::handle(&format!("{}{file:?}{}{err}",
