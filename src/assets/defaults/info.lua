@@ -230,7 +230,8 @@ print(""
 	..blueBg()   .."   "
 	..magentaBg().."   "
 	..cyanBg()   .."   "
-	..whiteBg()  .."   ")
+	..whiteBg()  .."   "
+	..reset())
 print(""
 	..blackBrightBg()  .."   "
 	..redBrightBg()    .."   "
@@ -239,4 +240,5 @@ print(""
 	..blueBrightBg()   .."   "
 	..magentaBrightBg().."   "
 	..cyanBrightBg()   .."   "
-	..whiteBrightBg()  .."   ")
+	..whiteBrightBg()  .."   "
+	..reset())
