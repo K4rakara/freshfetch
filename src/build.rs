@@ -54,6 +54,11 @@ fn progress(min: usize, max: usize) -> String {
 }
 
 fn main() {
+	{
+		let input = fs::read_to_string("./src/assets/help.clml").expect("Failed to read the file \"./src/assets/help.clml\"!");
+		let output = clml(&input);
+		fs::write("./src/assets/.help.clml", output);
+	}
 	let base = Path::new("./src/assets/ascii_art/");
 	let buildlist = get_buildlist(&base);
 	let len = buildlist.len();

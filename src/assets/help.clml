@@ -1,0 +1,12 @@
+
+<bold><blue>Freshfetch<reset> - v0.1.1
+
+A fresh take on Neofetch.
+
+<bold>Usage:<reset>
+
+freshfetch [OPTIONS]
+
+<bold>Options:<reset>
+
+* --ascii_distro, -a : Specifies what distro art to use.

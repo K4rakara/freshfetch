@@ -22,7 +22,7 @@ use mlua::prelude::*;
 use clap::{ App, Arg };
 
 use layout::{ Layout };
-use assets::{ ANSI, PRINT };
+use assets::{ ANSI, PRINT, HELP };
 use assets::defaults::{ LAYOUT };
 
 use std::fs::{ read_to_string };
@@ -43,7 +43,7 @@ fn main() {
 		.version("0.0.1")
 		.author("Jack Johannesen")
 		.about("A fresh take on neofetch.")
-		.help("")
+		.help(HELP)
 		.arg(Arg::with_name("ascii_distro")
 			.long("ascii_distro")
 			.short("a")
