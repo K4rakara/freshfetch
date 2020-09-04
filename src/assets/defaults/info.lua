@@ -5,8 +5,10 @@ if context ~= nil then
 		..bold()
 		..distroColors[1]
 		..context.user
-		..distroColors[2]
+		..reset()
+		..bold()
 		.."@"
+		..distroColors[2]
 		..context.host
 		..reset())
 end
@@ -204,9 +206,22 @@ if gpus ~= nil then
 end
 
 -- Memory
---TODO
+if memory ~= nil then
+	-- This memory math is probably inaccurate, but idk how to make it right ;-;
+	print(""
+		..bold()
+		..distroColors[2]
+		.."Memory"
+		..reset()
+		..": "
+		..math.floor(memory.used / 1024)
+		.."MB / "
+		..math.floor(memory.max / 1024)
+		.."MB")
+end
 
 -- Palette
+print("")
 print(""
 	..blackBg()  .."   "
 	..redBg()    .."   "

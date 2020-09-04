@@ -17,6 +17,7 @@ pub(crate) mod de;
 pub(crate) mod utils;
 pub(crate) mod cpu;
 pub(crate) mod gpu;
+pub(crate) mod memory;
 
 use std::fs;
 use std::path::{ Path };
@@ -40,6 +41,7 @@ use wm::{ Wm };
 use de::{ De };
 use cpu::{ Cpu };
 use gpu::{ Gpus };
+use memory::{ Memory };
 
 pub(crate) struct Info {
 	ctx: Lua,
@@ -56,7 +58,8 @@ pub(crate) struct Info {
 	pub de: Option<De>,
 	pub wm: Option<Wm>,
 	pub cpu: Option<Cpu>,
-    pub gpu: Option<Gpus>,
+	pub gpu: Option<Gpus>,
+	pub memory: Memory,
 }
 
 impl Info {
@@ -72,7 +75,8 @@ impl Info {
 		let de = De::new(&kernel, &distro);
 		let wm = Wm::new(&kernel);
 		let cpu = Cpu::new(&kernel);
-        let gpu = Gpus::new(&kernel);
+		let gpu = Gpus::new(&kernel);
+		let memory = Memory::new();
         Info {
 			ctx: Lua::new(),
 			rendered: String::new(),
@@ -88,7 +92,8 @@ impl Info {
 			de: de,
 			wm: wm,
 			cpu: cpu,
-            gpu: gpu,
+			gpu: gpu,
+			memory: memory,
 		}
 	}
 	pub fn render(&mut self) {
@@ -151,7 +156,8 @@ impl Inject for Info {
 		match &self.de { Some(v) => v.inject(&mut self.ctx), None => (), }
 		match &self.cpu { Some(v) => v.inject(&mut self.ctx), None => (), }
 		match &self.gpu { Some(v) => v.inject(&mut self.ctx), None => (), }
-        self.render();
+		self.memory.inject(&mut self.ctx);
+		self.render();
 		{
 			let plaintext = {
 				let regex = Regex::new(r#"(?i)\[(?:[\d;]*\d+[a-z])"#).unwrap();
