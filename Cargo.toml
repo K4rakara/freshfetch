@@ -1,6 +1,6 @@
 [package]
 name = "freshfetch"
-version = "0.1.0"
+version = "0.1.1"
 authors = ["K4rakara <jack@insertdomain.name>"]
 edition = "2018"
 build = "./src/build.rs"
