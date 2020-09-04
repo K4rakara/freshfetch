@@ -4,7 +4,7 @@
 <br>
 <br>
 <a href="./LICENSE.md"><img src="https://img.shields.io/badge/license-MIT-blue.svg"></a>
-<a href="https://github.com/k4rakara/freshfetch/releases"><img src="https://img.shields.io/github/release/freshfetch/freshfetch.svg"></a>
+<!--<a href="https://github.com/k4rakara/freshfetch/releases"><img src="https://img.shields.io/github/release/freshfetch/freshfetch.svg"></a>-->
 </p>
 
 Freshfetch is an alternative to [Neofetch](https://github.com/dylanaraps/neofetch)
