@@ -21,11 +21,6 @@ version = "2.33.2"
 default-features = false
 features = [ "vec_map" ]
 
-[dependencies.clml_rs]
-git = "https://github.com/K4rakara/clml-rs"
-default-features = false
-features = [ "basic" ]
-
 [dependencies.mlua]
 version = "0.4.1"
 features = [ "luajit" ]
@@ -36,3 +31,4 @@ features = [ "allow-unsafe-code" ]
 
 [build-dependencies.clml_rs]
 git = "https://github.com/K4rakara/clml-rs"
+
