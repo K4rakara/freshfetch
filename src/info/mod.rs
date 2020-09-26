@@ -71,7 +71,7 @@ impl Info {
 		let uptime = Uptime::new(&kernel);
 		let package_managers = PackageManagers::new(&kernel);
 		let shell = Shell::new(&kernel);
-		let resolution = Resolution::new();
+		let resolution = Resolution::new(&kernel);
 		let de = De::new(&kernel, &distro);
 		let wm = Wm::new(&kernel);
 		let cpu = Cpu::new(&kernel);
