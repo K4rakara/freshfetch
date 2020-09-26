@@ -127,15 +127,30 @@ end
 
 -- Resolution
 if resolution ~= nil then
-	print(""
-		..bold()
-		..distroColors[2]
-		.."Resolution"
-		..reset()
-		..": "
-		..resolution.width
-		.."x"
-		..resolution.height)
+	if resolution.refresh ~= nil then
+		print(""
+			..bold()
+			..distroColors[2]
+			.."Resolution":
+			..reset()
+			..": "
+			..resolution.width
+			.."x"
+			..resolution.height
+			.." @ "
+			..resolution.refresh
+			.."Hz")
+	else
+		print(""
+			..bold()
+			..distroColors[2]
+			.."Resolution"
+			..reset()
+			..": "
+			..resolution.width
+			.."x"
+			..resolution.height)
+	end
 end
 
 -- DE

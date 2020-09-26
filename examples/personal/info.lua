@@ -135,16 +135,29 @@ end
 
 -- Resolution
 if resolution ~= nil then
-	print(""
-		.." 󰍹  "
-		..bold()
-		..blue()
-		.."Resolution"
-		..reset()
-		..": "
-		..resolution.width
-		.."x"
-		..resolution.height)
+	if resolution.refresh ~= nil then
+		print(""
+			.." 󰍹  "
+			..bold()
+			..blue()
+			.."Resolution"
+			..reset()
+			..": "
+			..resolution.width
+			.."x"
+			..resolution.height
+			.." @ "
+			..resolution.refresh)
+	else
+		print(""
+			.." 󰍹  "
+			..bold()
+			..blue()
+			.."Resolution"
+			..reset()
+			..": "
+			..resolution.width)
+	end
 end
 
 -- DE
