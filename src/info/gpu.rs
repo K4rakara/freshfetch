@@ -5,6 +5,8 @@ use crate::mlua;
 use crate::errors;
 use super::kernel;
 
+use std::process::{ Command };
+
 use cmd_lib::{ run_fun };
 use regex::{ Regex };
 use mlua::prelude::*;
@@ -37,34 +39,55 @@ impl Gpus {
 			"Linux" => {
 				// TODO: Make a rust binding to whatever `lspci` uses, and use
 				// that instead.
-				let mut gpus = match run_fun!( lspci -mm ) {
-					Ok(lspci) => {
-						let mut to_return = Vec::new();
-						let regex = Regex::new(r#"(?i)"(.*?(?:Display|3D|VGA).*?)" "(.*?\[.*?\])" "(?:.*?\[(.*?)\])""#).unwrap();
-						let lspci_lines = lspci.split("\n").collect::<Vec<&str>>();
-						for line in lspci_lines.iter() {
-							let captures = regex.captures(&line);
-							match captures {
-								Some(captures) => {
-									to_return.push((
-										String::from(captures.get(1).unwrap().as_str()),
-										String::from(captures.get(2).unwrap().as_str()),
-										String::from(captures.get(3).unwrap().as_str()),
-									));
-								}
-								None => (),
+
+                // Calls the command `lspci -mm` and stores its output as a `String`.
+                let lspci = {
+                    let try_lspci = Command::new("sh")
+                        .arg("-c")
+                        .arg("lspci -mm")
+                        .output();
+                    match try_lspci {
+                        Ok(lscpi) => {
+                            match String::from_utf8(lscpi.stdout) {
+                                Ok(v) => v,
+                                Err(e) => {
+                                    errors::handle(&format!("{}{cmd}{}{err}",
+                                        errors::CMD.0,
+                                        errors::CMD.1,
+                                        cmd = "lspci -mm",
+                                        err = format!("The output of the command contained invalid UTF8.\n{}", e)));
+                                    panic!();
+                                }
+                            }
+                        }
+                        Err(e) => {
+                            errors::handle(&format!("{}{cmd}{}{err}",
+                                errors::CMD.0,
+                                errors::CMD.1,
+                                cmd = "lspci -mm",
+                                err = e));
+                            panic!();
+                        }
+                    }
+                };
+				let mut gpus = {
+					let mut to_return = Vec::new();
+                    let regex = Regex::new(r#"(?i)"(.*?(?:Display|3D|VGA).*?)" "(.*?\[.*?\])" "(?:.*?\[(.*?)\])""#).unwrap();
+					let lspci_lines = lspci.split("\n").collect::<Vec<&str>>();
+					for line in lspci_lines.iter() {
+						let captures = regex.captures(&line);
+						match captures {
+							Some(captures) => {
+								to_return.push((
+									String::from(captures.get(1).unwrap().as_str()),
+									String::from(captures.get(2).unwrap().as_str()),
+									String::from(captures.get(3).unwrap().as_str()),
+								));
 							}
+							None => (),
 						}
-						to_return
 					}
-					Err(e) => {
-						errors::handle(&format!("{}{cmd}{}{err}",
-							errors::CMD.0,
-							errors::CMD.1,
-							cmd = "lspci -mm",
-							err = e));
-						panic!();
-					}
+					to_return
 				};
 
 				// Fix Intel integrated graphics crap

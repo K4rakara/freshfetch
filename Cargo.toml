@@ -9,7 +9,6 @@ build = "./src/build.rs"
 chrono = "0.4.13"
 cmd_lib = "0.8.2"
 lazy_static = "1.4.0"
-cpuid = "0.1.1"
 regex = "1.3.9"
 sysinfo = "0.15.0"
 term_size = "0.3.2"
@@ -21,18 +20,10 @@ version = "2.33.2"
 default-features = false
 features = [ "vec_map" ]
 
-[dependencies.clml_rs]
-git = "https://github.com/K4rakara/clml-rs"
-default-features = false
-features = [ "basic" ]
-
 [dependencies.mlua]
 version = "0.4.1"
 features = [ "luajit" ]
 
-[dependencies.x11rb]
-version = "0.6.0"
-features = [ "allow-unsafe-code" ]
-
 [build-dependencies.clml_rs]
 git = "https://github.com/K4rakara/clml-rs"
+
