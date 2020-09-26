@@ -131,7 +131,7 @@ if resolution ~= nil then
 		print(""
 			..bold()
 			..distroColors[2]
-			.."Resolution":
+			.."Resolution"
 			..reset()
 			..": "
 			..resolution.width
