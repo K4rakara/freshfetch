@@ -57,7 +57,7 @@ fn main() {
 	{
 		let input = fs::read_to_string("./src/assets/help.clml").expect("Failed to read the file \"./src/assets/help.clml\"!");
 		let output = clml(&input);
-		fs::write("./src/assets/.help.clml", output);
+		fs::write("./src/assets/.help.clml", output).expect("Failed to write to the file \"./src/assets/.help.clml\"!");
 	}
 	let base = Path::new("./src/assets/ascii_art/");
 	let buildlist = get_buildlist(&base);
