@@ -12,14 +12,19 @@ enum Check {
 /// `_.3`: `&'static str` -- The actual string of the art.
 /// `_.4`: `bool` -- if this art needs to be parsed at runtime or not.
 static ASCII_ART: &[(&'static str, Check, Option<&'static str>, &'static str, Option<[Option<&'static str>; 4]>)] = &[
-	( "aix",				Check::StartsWith,	Some("AIX"),						include_str!("./large/a/.aix.clml"),				Some([Some("\u{001b}[38;5;2m"), Some("\u{001b}[38;5;7m"), None, None]),	),
-	( "alpine",				Check::Is,			Some("Alpine"),						include_str!("./large/a/.alpine.clml"),				Some([Some("\u{001b}[38;5;6m"), Some("\u{001b}[38;5;7m"), None, None]),	),
+    ( "aix",				Check::StartsWith,	Some("AIX"),						include_str!("./large/a/.aix.clml"),				Some([Some("\u{001b}[38;5;2m"), Some("\u{001b}[38;5;7m"), None, None]),	),
+    ( "alpine",				Check::Is,			Some("Alpine"),						include_str!("./large/a/.alpine.clml"),				Some([Some("\u{001b}[38;5;6m"), Some("\u{001b}[38;5;7m"), None, None]),	),
 	( "alpine_small",		Check::Is,			None,								include_str!("./small/a/.alpine.clml"),				Some([Some("\u{001b}[38;5;4m"), Some("\u{001b}[38;5;5m"), Some("\u{001b}[38;5;7m"), Some("\u{001b}[38;5;6m")]),	),
 	( "alter",				Check::StartsWith,	Some("Alter"),						include_str!("./large/a/.alter.clml"),				Some([Some("\u{001b}[38;5;6m"), None, None, None]),	),
 	( "amazon",				Check::StartsWith,	Some("Amazon"),						include_str!("./large/a/.amazon.clml"),				Some([Some("\u{001b}[38;5;3m"), Some("\u{001b}[38;5;7m"), None, None]),	),
 	( "anarchy",			Check::Is,			None,								include_str!("./large/a/.anarchy.clml"),			Some([Some("\u{001b}[38;5;7m"), Some("\u{001b}[38;5;4m"), None, None]),	),
 	( "android",			Check::StartsWith,	Some("Android"),					include_str!("./large/a/.android.clml"),			Some([Some("\u{001b}[38;5;2m"), Some("\u{001b}[38;5;7m"), None, None]),	),
 	( "android_small",		Check::Is,			None,								include_str!("./small/a/.android.clml"),			Some([Some("\u{001b}[38;5;2m"), Some("\u{001b}[38;5;7m"), None, None]),	),
+	( "anime_ahegao",       Check::Is,          None,                               include_str!("./large/anime/.ahegao.clml"),         None,                                                                   ),
+	( "anime_loli_smile",	Check::Is,			None,								include_str!("./large/anime/.loli_smile.clml"),		None,																	),
+	( "anime_loli_stare",	Check::Is,			None,								include_str!("./large/anime/.loli_stare.clml"),		None,																	),
+	( "anime_02",			Check::Is,			None,								include_str!("./large/anime/.02.clml"),				None,																	),
+	( "anime_looking",		Check::Is,			None,								include_str!("./large/anime/.looking.clml"),		None,																	),
 	( "antergos",			Check::StartsWith,	Some("Antergos"),					include_str!("./large/a/.antergos.clml"),			Some([Some("\u{001b}[38;5;4m"), Some("\u{001b}[38;5;6m"), None, None]),	),
 	( "antix",				Check::StartsWith,	Some("antiX"),						include_str!("./large/a/.antix.clml"),				Some([Some("\u{001b}[38;5;1m"), Some("\u{001b}[38;5;7m"), Some("\u{001b}[38;5;3m"), None]),	),
 	( "aosc_retro",			Check::StartsWith,	Some("AOSC OS/Retro"),				include_str!("./large/a/.aosc_os_retro.clml"),		Some([Some("\u{001b}[38;5;4m"), Some("\u{001b}[38;5;7m"), Some("\u{001b}[38;5;1m"), Some("\u{001b}[38;5;3m")]),	),

@@ -94,6 +94,16 @@
 ./large/a/anarchy.clml -> ./large/a/.anarchy.clml
 # Android
 ./large/a/android.clml -> ./large/a/.android.clml
+# Ahegao
+./large/anime/ahegao.clml -> ./large/anime/.ahegao.clml
+# Loli smile
+./large/anime/loli_smile.clml -> ./large/anime/.loli_smile.clml
+# Loli stare
+./large/anime/loli_stare.clml -> ./large/anime/.loli_stare.clml
+# 02
+./large/anime/02.clml -> ./large/anime/.02.clml
+# looking
+./large/anime/looking.clml -> ./large/anime/.looking.clml
 # Antergos Linux
 ./large/a/antergos.clml -> ./large/a/.antergos.clml
 # Antix Linux
