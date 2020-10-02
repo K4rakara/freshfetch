@@ -1,5 +1,5 @@
 
-<bold><blue>Freshfetch<reset> - v0.1.1
+<bold><blue>Freshfetch<reset> - v0.1.3
 
 A fresh take on Neofetch.
 
@@ -10,3 +10,6 @@ freshfetch [OPTIONS]
 <bold>Options:<reset>
 
 * --ascii_distro, -a : Specifies what distro art to use.
+
+    ASCII_DISTRO_LIST
+* --logo, -l         : Only outputs ascii art.

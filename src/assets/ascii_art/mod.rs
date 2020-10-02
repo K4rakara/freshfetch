@@ -1,4 +1,4 @@
-enum Check {
+pub enum Check {
 	Is,
 	StartsWith,
 	Contains,
@@ -11,7 +11,7 @@ enum Check {
 /// `_.2`: `Option<&'static str>` -- The `shortname` of this art, if it is different than the CLI name.
 /// `_.3`: `&'static str` -- The actual string of the art.
 /// `_.4`: `bool` -- if this art needs to be parsed at runtime or not.
-static ASCII_ART: &[(&'static str, Check, Option<&'static str>, &'static str, Option<[Option<&'static str>; 4]>)] = &[
+pub static ASCII_ART: &[(&'static str, Check, Option<&'static str>, &'static str, Option<[Option<&'static str>; 4]>)] = &[
     ( "aix",				Check::StartsWith,	Some("AIX"),						include_str!("./large/a/.aix.clml"),				Some([Some("\u{001b}[38;5;2m"), Some("\u{001b}[38;5;7m"), None, None]),	),
     ( "alpine",				Check::Is,			Some("Alpine"),						include_str!("./large/a/.alpine.clml"),				Some([Some("\u{001b}[38;5;6m"), Some("\u{001b}[38;5;7m"), None, None]),	),
 	( "alpine_small",		Check::Is,			None,								include_str!("./small/a/.alpine.clml"),				Some([Some("\u{001b}[38;5;4m"), Some("\u{001b}[38;5;5m"), Some("\u{001b}[38;5;7m"), Some("\u{001b}[38;5;6m")]),	),

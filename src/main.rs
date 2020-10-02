@@ -47,7 +47,11 @@ fn main() {
 			.long("ascii_distro")
 			.short("a")
 			.takes_value(true)
-			.value_name("ASCII_DISTRO"));
+			.value_name("ASCII_DISTRO"))
+		.arg(Arg::with_name("logo")
+			.long("logo")
+			.short("l")
+			.takes_value(false));
 
 	let matches = app.get_matches();
 
