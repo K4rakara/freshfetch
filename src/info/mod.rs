@@ -18,6 +18,7 @@ pub(crate) mod utils;
 pub(crate) mod cpu;
 pub(crate) mod gpu;
 pub(crate) mod memory;
+pub(crate) mod motherboard;
 
 use std::fs;
 use std::path::{ Path };
@@ -42,6 +43,7 @@ use de::{ De };
 use cpu::{ Cpu };
 use gpu::{ Gpus };
 use memory::{ Memory };
+use motherboard::{ Motherboard };
 
 pub(crate) struct Info {
 	ctx: Lua,
@@ -60,6 +62,7 @@ pub(crate) struct Info {
 	pub cpu: Option<Cpu>,
 	pub gpu: Option<Gpus>,
 	pub memory: Memory,
+    pub motherboard: Option<Motherboard>,
 }
 
 impl Info {
@@ -77,6 +80,7 @@ impl Info {
 		let cpu = Cpu::new(&kernel);
 		let gpu = Gpus::new(&kernel);
 		let memory = Memory::new();
+        let motherboard = Motherboard::new(&kernel);
         Info {
 			ctx: Lua::new(),
 			rendered: String::new(),
@@ -94,6 +98,7 @@ impl Info {
 			cpu: cpu,
 			gpu: gpu,
 			memory: memory,
+            motherboard,
 		}
 	}
 	pub fn render(&mut self) {
@@ -161,6 +166,7 @@ impl Inject for Info {
 		match &self.cpu { Some(v) => v.inject(&mut self.ctx), None => (), }
 		match &self.gpu { Some(v) => v.inject(&mut self.ctx), None => (), }
 		self.memory.inject(&mut self.ctx);
+        match &self.motherboard { Some(v) => v.inject(&mut self.ctx), None => (), }
 		self.render();
 		{
 			let plaintext = {
