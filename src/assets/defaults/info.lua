@@ -1,3 +1,6 @@
+function round(x)
+    return x + 0.5 - (x + 0.5) % 1
+end
 
 -- user@host
 if context ~= nil then
@@ -138,7 +141,7 @@ if resolution ~= nil then
 			.."x"
 			..resolution.height
 			.." @ "
-			..resolution.refresh
+			..round(resolution.refresh)
 			.."Hz")
 	else
 		print(""
