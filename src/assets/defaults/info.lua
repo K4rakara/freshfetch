@@ -39,6 +39,16 @@ if kernel ~= nil then
 		..kernel.version)
 end
 
+if host ~= nil then
+	print(""
+		..bold()
+		..distroColors[2]
+		.."Host"
+		..reset()
+		..": "
+		..host.model)
+end
+
 -- Uptime
 if uptime ~= nil then
 	local output = ""
@@ -66,7 +76,7 @@ if uptime ~= nil then
 		comma()
 		output = output..uptime.seconds.." second"..s(uptime.seconds)
 	end
-	
+
 	print(""
 		..bold()
 		..distroColors[2]
