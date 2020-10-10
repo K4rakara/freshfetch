@@ -19,6 +19,7 @@ pub(crate) mod cpu;
 pub(crate) mod gpu;
 pub(crate) mod memory;
 pub(crate) mod motherboard;
+pub(crate) mod host;
 
 use std::fs;
 use std::path::{ Path };
@@ -44,6 +45,7 @@ use cpu::{ Cpu };
 use gpu::{ Gpus };
 use memory::{ Memory };
 use motherboard::{ Motherboard };
+use host::Host;
 
 pub(crate) struct Info {
 	ctx: Lua,
@@ -62,7 +64,8 @@ pub(crate) struct Info {
 	pub cpu: Option<Cpu>,
 	pub gpu: Option<Gpus>,
 	pub memory: Memory,
-    pub motherboard: Option<Motherboard>,
+  pub motherboard: Option<Motherboard>,
+	pub host: Option<Host>,
 }
 
 impl Info {
@@ -80,8 +83,9 @@ impl Info {
 		let cpu = Cpu::new(&kernel);
 		let gpu = Gpus::new(&kernel);
 		let memory = Memory::new();
-        let motherboard = Motherboard::new(&kernel);
-        Info {
+    let motherboard = Motherboard::new(&kernel);
+		let host = Host::new(&kernel);
+    Info {
 			ctx: Lua::new(),
 			rendered: String::new(),
 			width: 0,
@@ -98,7 +102,8 @@ impl Info {
 			cpu: cpu,
 			gpu: gpu,
 			memory: memory,
-            motherboard,
+      motherboard,
+			host,
 		}
 	}
 	pub fn render(&mut self) {
@@ -166,7 +171,8 @@ impl Inject for Info {
 		match &self.cpu { Some(v) => v.inject(&mut self.ctx), None => (), }
 		match &self.gpu { Some(v) => v.inject(&mut self.ctx), None => (), }
 		self.memory.inject(&mut self.ctx);
-        match &self.motherboard { Some(v) => v.inject(&mut self.ctx), None => (), }
+    match &self.motherboard { Some(v) => v.inject(&mut self.ctx), None => (), }
+		match &self.host { Some(v) => v.inject(&mut self.ctx), None => (), }
 		self.render();
 		{
 			let plaintext = {

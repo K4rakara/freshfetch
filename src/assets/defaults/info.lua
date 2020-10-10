@@ -1,3 +1,6 @@
+function round(x)
+    return x + 0.5 - (x + 0.5) % 1
+end
 
 -- user@host
 if context ~= nil then
@@ -39,6 +42,16 @@ if kernel ~= nil then
 		..kernel.version)
 end
 
+if host ~= nil then
+	print(""
+		..bold()
+		..distroColors[2]
+		.."Host"
+		..reset()
+		..": "
+		..host.model)
+end
+
 -- Uptime
 if uptime ~= nil then
 	local output = ""
@@ -66,7 +79,7 @@ if uptime ~= nil then
 		comma()
 		output = output..uptime.seconds.." second"..s(uptime.seconds)
 	end
-	
+
 	print(""
 		..bold()
 		..distroColors[2]
@@ -138,7 +151,7 @@ if resolution ~= nil then
 			.."x"
 			..resolution.height
 			.." @ "
-			..resolution.refresh
+			..round(resolution.refresh)
 			.."Hz")
 	else
 		print(""
