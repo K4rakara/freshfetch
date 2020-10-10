@@ -4,7 +4,7 @@
 <br>
 <br>
 <a href="./LICENSE.md"><img src="https://img.shields.io/badge/license-MIT-blue.svg"></a>
-<!--<a href="https://github.com/k4rakara/freshfetch/releases"><img src="https://img.shields.io/github/release/freshfetch/freshfetch.svg"></a>-->
+<a href="https://github.com/k4rakara/freshfetch/releases"><img src="https://img.shields.io/github/release/freshfetch/freshfetch.svg"></a>
 </p>
 
 Freshfetch is an alternative to [Neofetch](https://github.com/dylanaraps/neofetch)
@@ -18,22 +18,25 @@ problems, be sure to file an issue so that it can be fixed!
 ## Todo:
 
  - Optimizations galore
- - A tar.gz package, as well as packages for various distros.
  - Documentation :sweat:
  - Support for images
- - Better portability
  - Add colorization for all distros (69/261 complete)
 
 ## Installation
 
-On Arch Linux, you can install the [`freshfetch-git`](https://aur.archlinux.org/packages/freshfetch-git/) package from the AUR. ( You'll also need the [`libcpuid`](https://aur.archlinux.org/packages/freshfetch-git) AUR package. )
+#### Arch Linux
 
-For other distros, you can compile from source. Heres what you'll need:
- - make dependencies:
-   - `cargo`. I recommend installing this through `rustup`.
- - runtime dependencies:
-   - `libcpuid`
-   - `luajit`
+On Arch Linux, you can install one of three AUR packages:
+
+- `freshfetch-git` -- The bleeding-edge version of freshfetch that builds from the master branch.
+- `freshfetch-bin` -- The stable version of freshfetch that you just install. No compile required.
+- `freshfetch` -- Currently not set up right, will be fixed with the next release. Once set up, It'll build the latest stable version from source.
+
+#### Other distros
+
+With other distributions, you can either install the [latest `tar.gz` build](https://github.com/K4rakara/freshfetch/releases) or build from source.
+
+###### Build from source
 
 To compile Freshfetch, just run `cargo build --release -vv`. This will build the executable for your platform. Then, run these commands:
 ```bash
