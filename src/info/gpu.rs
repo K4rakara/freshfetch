@@ -1,4 +1,3 @@
-use crate::cmd_lib;
 use crate::regex;
 use crate::mlua;
 
@@ -7,7 +6,6 @@ use super::kernel;
 
 use std::process::{ Command };
 
-use cmd_lib::{ run_fun };
 use regex::{ Regex };
 use mlua::prelude::*;
 

@@ -1,4 +1,4 @@
-print(bold())
+print(bold().."\n\n")
 print(white()     ..[[      /\      ]])
 print(cyanBright()..[[     /  \     ]])
 print(cyan()      ..[[    /\   \    ]])
