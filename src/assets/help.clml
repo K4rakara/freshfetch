@@ -1,5 +1,5 @@
 
-<bold><blue>Freshfetch<reset> - v0.1.1
+<bold><blue>Freshfetch<reset> - v0.1.3
 
 A fresh take on Neofetch.
 
@@ -10,3 +10,40 @@ freshfetch [OPTIONS]
 <bold>Options:<reset>
 
 * --ascii_distro, -a : Specifies what distro art to use.
+
+    aix, alpine, alpine_small, alter, amazon, anarchy, android, android_small, 
+    anime_ahegao, anime_loli_smile, anime_loli_stare, anime_02, anime_looking, 
+    antergos, antix, aosc_retro, aosc, apricity, arco, arco_small, arch_old, 
+    arch_small, archbox, archlabs, archstrike, arch, artix, artix_small, 
+    arya, bedrock, bitrig, blackarch, blag, blankon, bonsai, bsd, bunsenlabs, 
+    calculate, carbs, centos, centos_small, chakra, chaletos, chapeau, 
+    chrome, cleanjaro, cleanjaro_small, clearos, clear_linux, clover, 
+    condres, container_linux, crux, crux_small, cucumber, debian, debian_small, 
+    deepin, desaos, devuan, dracos, dragonfly, dragonfly_small, dragonfly_old, 
+    drauger, elementary, elementary_small, endeavouros, endless, eurolinux, 
+    exhuerbo, fedora, fedora_small, feren, freebsd, freebsd_small, freemint, 
+    frugalware, funtoo, galliumos, garuda, gentoo, gentoo_small, gnewsense, 
+    gnome, gnu, gobo, grombyang, haiku, haiku_small, hash, huayra, hyperbola, 
+    hyperbola_small, irix, janus, kali, kaos, kde, kibojoe, kogaion, 
+    korora, kslinux, kubuntu, lede, libreelec, linux, linux_classic, 
+    linuxlite, linuxlite_small, lubuntu, lunar, mac, mac_small, mac_modern, 
+    mageia, mageia_small, magpieos, mandriva, manjaro, manjaro_small, 
+    maui, mer, minux, mint, mint_small, mint_old, mx, mx_small, namib, 
+    neptune, netbsd, netbsd_small, netrunner, nitrux, nixos, nixos_small, 
+    nurunner, nutyx, obarun, obrevenge, openbsd, openbsd_small, openeuler, 
+    openindiana, openmamba, openmandriva, openstage, opensuse_small, 
+    opensuseleap, opensusetumbleweed, opensuse, openwrt, osmc, oracle, 
+    oselbrus, pacbsd, parabola, parabola_small, pardus, parrot, parsix, 
+    pcbsd, pclinuxos, pentoo, peppermint, popos, popos_small, porteus, 
+    postmarketos, postmarketos_small, proxmox, puppy, pureos, pureos_small, 
+    qubes, radix, raspbian, raspbian_small, reborn, redstar, redcore, 
+    redhat, redhat_old, refracteddevuan, regata, regolith, rosa, sabotage, 
+    sabayon, sailfish, salentos, scientific, septor, serene, sharklinux, 
+    siduction, slackware, slackware_small, slitaz, smartos, solus, sourcemage, 
+    sparky, star, steamos, solaris, sunos, solaris_small, sunos_small, 
+    swagarch, suse, suse_small, t2, tails, trisquel, ubuntu_cinnamon, 
+    ubuntu_budgie, ubuntu_gnome, ubuntu_mate, ubuntu_old, ubuntu_studio, 
+    ubuntu_small, ubuntu, venom, void, void_small, windows10, windows8, 
+    windows, xferience, xubuntu, zorin, 
+ 
+* --logo, -l         : Only outputs ascii art.
