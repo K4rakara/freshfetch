@@ -1,3 +1,6 @@
+function round(x)
+    return x + 0.5 - (x + 0.5) % 1
+end
 
 -- user@host
 if context ~= nil then
@@ -24,6 +27,17 @@ if distro ~= nil then
 		..distro.shortname
 		.." "
 		..distro.architecture)
+end
+
+-- Host
+if host ~= nil then
+	print(""
+		..bold()
+		..distroColors[2]
+		.."Host"
+		..reset()
+		..": "
+		..host.model)
 end
 
 -- Kernel
@@ -66,7 +80,7 @@ if uptime ~= nil then
 		comma()
 		output = output..uptime.seconds.." second"..s(uptime.seconds)
 	end
-	
+
 	print(""
 		..bold()
 		..distroColors[2]
@@ -127,15 +141,30 @@ end
 
 -- Resolution
 if resolution ~= nil then
-	print(""
-		..bold()
-		..distroColors[2]
-		.."Resolution"
-		..reset()
-		..": "
-		..resolution.width
-		.."x"
-		..resolution.height)
+	if resolution.refresh ~= nil then
+		print(""
+			..bold()
+			..distroColors[2]
+			.."Resolution"
+			..reset()
+			..": "
+			..resolution.width
+			.."x"
+			..resolution.height
+			.." @ "
+			..round(resolution.refresh)
+			.."Hz")
+	else
+		print(""
+			..bold()
+			..distroColors[2]
+			.."Resolution"
+			..reset()
+			..": "
+			..resolution.width
+			.."x"
+			..resolution.height)
+	end
 end
 
 -- DE
@@ -203,6 +232,19 @@ if gpus ~= nil then
 			.." "
 			..gpus[1].name)
 	end
+end
+
+-- Motherboard
+if motherboard ~= nil then
+	print(""
+		..bold()
+		..distroColors[2]
+		.."Board"
+		..reset()
+		..": "
+		..motherboard.vendor
+		.." "
+		..motherboard.name)
 end
 
 -- Memory

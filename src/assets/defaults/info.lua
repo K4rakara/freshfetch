@@ -29,6 +29,17 @@ if distro ~= nil then
 		..distro.architecture)
 end
 
+-- Host
+if host ~= nil then
+	print(""
+		..bold()
+		..distroColors[2]
+		.."Host"
+		..reset()
+		..": "
+		..host.model)
+end
+
 -- Kernel
 if kernel ~= nil then
 	print(""
@@ -40,16 +51,6 @@ if kernel ~= nil then
 		..kernel.name
 		.." "
 		..kernel.version)
-end
-
-if host ~= nil then
-	print(""
-		..bold()
-		..distroColors[2]
-		.."Host"
-		..reset()
-		..": "
-		..host.model)
 end
 
 -- Uptime

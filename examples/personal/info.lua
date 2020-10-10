@@ -26,6 +26,19 @@ if distro ~= nil then
 		..distro.architecture)
 end
 
+-- Host
+if host ~= nil then
+	print(""
+		.." 󰇅  "
+		..bold()
+		..blue()
+		.."Host"
+		..reset()
+		..": "
+		..string.rep(" ", 16 - 10)
+		..host.model)
+end
+
 -- Kernel
 if kernel ~= nil then
 	print(""

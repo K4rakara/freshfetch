@@ -82,6 +82,12 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "33a91a99d3a2bdb10c47760602a1c1f01a4025c59db336864b968552475ebde6"
 
 [[package]]
+name = "cmd_lib_core"
+version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "c50c50a1536e882455aeaff22015146ea143b9106fc8e116669dd078ec7b7fc8"
+
+[[package]]
 name = "crossbeam-channel"
 version = "0.4.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -148,6 +154,7 @@ dependencies = [
  "clap",
  "clml_rs",
  "cmd_lib",
+ "cmd_lib_core",
  "lazy_static",
  "mlua",
  "regex",
