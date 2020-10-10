@@ -45,5 +45,6 @@ freshfetch [OPTIONS]
     ubuntu_budgie, ubuntu_gnome, ubuntu_mate, ubuntu_old, ubuntu_studio, 
     ubuntu_small, ubuntu, venom, void, void_small, windows10, windows8, 
     windows, xferience, xubuntu, zorin, 
- 
+
 * --logo, -l         : Only outputs ascii art.
+

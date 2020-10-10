@@ -78,6 +78,8 @@ fn main() {
           // this will be fixed, because I'll be reworking how the ASCII art is compiled
           // into the final build.
          let ascii_distro_list = {
+		let mut output = clml(&input);
+		let ascii_distro_list = {
 			let mut to_use = Vec::new();
 			for art in ASCII_ART.iter() {
 				if art.0 != "" {
