@@ -220,6 +220,19 @@ if gpus ~= nil then
 	end
 end
 
+-- Motherboard
+if motherboard ~= nil then
+	print(""
+		..bold()
+		..distroColors[2]
+		.."Board"
+		..reset()
+		..": "
+		..motherboard.vendor
+		.." "
+		..motherboard.name)
+end
+
 -- Memory
 if memory ~= nil then
 	-- This memory math is probably inaccurate, but idk how to make it right ;-;
