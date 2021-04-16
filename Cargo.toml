@@ -17,13 +17,11 @@ uname = "0.1.1"
 users = "0.10.0"
 
 [dependencies.clap]
-version = "2.33.2"
-default-features = false
-features = [ "vec_map" ]
+version = "3.0.0-beta.2"
 
 [dependencies.mlua]
-version = "0.4.1"
-features = [ "luajit" ]
+version = "0.5.3"
+features = [ "luajit", "vendored" ]
 
 [build-dependencies.clml_rs]
 git = "https://github.com/K4rakara/clml-rs"
