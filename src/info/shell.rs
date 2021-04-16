@@ -1,16 +1,16 @@
 use crate::mlua;
 
-use crate::errors;
 use super::kernel;
+use crate::errors;
 
 use std::env;
-use std::path::{ Path };
-use std::process::{ Command };
+use std::path::Path;
+use std::process::Command;
 
 use mlua::prelude::*;
 
-use crate::{ Inject };
-use kernel::{ Kernel };
+use crate::Inject;
+use kernel::Kernel;
 
 pub(crate) struct Shell {
 	pub name: String,
@@ -22,36 +22,41 @@ impl Shell {
 		let name;
 		let version;
 		match k.name.as_str() {
-			"Linux"|"BSD"|"Windows" => {
+			"Linux" | "BSD" | "Windows" => {
 				let shell_bin = String::from(
-					Path::new(
-						&match env::var("SHELL") {
-							Ok(v) => v,
-							Err(e) => panic!(format!("Failed to get $SHELL. Details:\n{}", e)),
-						}
-					)
+					Path::new(&match env::var("SHELL") {
+						Ok(v) => v,
+						#[allow(non_fmt_panic)]
+						Err(e) => panic!(format!("Failed to get $SHELL. Details:\n{}", e)),
+					})
 					.file_name()
 					.expect("$SHELL is invalid!")
-					.to_string_lossy());
+					.to_string_lossy(),
+				);
 				name = shell_bin;
 				match name.as_str() {
-					"zsh" => version = {
-						let try_output = Command::new("zsh")
-							.arg("-c")
-							.arg("printf $ZSH_VERSION")
-							.output();
-						match try_output {
+					"zsh" => {
+						version = {
+							let try_output = Command::new("zsh")
+								.arg("-c")
+								.arg("printf $ZSH_VERSION")
+								.output();
+							match try_output {
 							Ok(output) => {
 								String::from_utf8(output.stdout)
 									.expect("The output of \"zsh -c printf $ZSH_VERSION\" contained invalid UTF8.")
 							}
 							Err(_) => panic!("Failed to get ZSH_VERSION."),
 						}
-					},
+						}
+					}
 					_ => version = String::new(),
 				}
 			}
-			_ => { name = String::new(); version = String::new(); }
+			_ => {
+				name = String::new();
+				version = String::new();
+			}
 		}
 		Shell {
 			name: name,
