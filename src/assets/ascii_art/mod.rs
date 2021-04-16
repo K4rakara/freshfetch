@@ -291,23 +291,23 @@ pub(crate) fn get(of: &str) -> (&'static str, [Option<&'static str>; 4]) {
 		match art.1 {
 			Check::Is => {
 				if art.2.is_none() {
-					if of == art.0 { return get_tuple(); }
+					if of.to_lowercase() == art.0.to_lowercase() { return get_tuple(); }
 				} else {
-					if of == art.2.clone().unwrap() { return get_tuple(); }
+					if of.to_lowercase() == art.2.clone().unwrap().to_lowercase() { return get_tuple(); }
 				}
 			}
 			Check::Contains => {
 				if art.2.is_none() {
-					if of.contains(art.0) { return get_tuple(); }
+					if of.to_lowercase().contains(&art.0.to_lowercase()) { return get_tuple(); }
 				} else {
 					if of.contains(&art.2.clone().unwrap()) { return get_tuple(); }
 				}
 			}
 			Check::StartsWith => {
 				if art.2.is_none() {
-					if of.starts_with(art.0) { return get_tuple(); }
+					if of.to_lowercase().starts_with(&art.0.to_lowercase()) { return get_tuple(); }
 				} else {
-					if of.starts_with(&art.2.clone().unwrap()) { return get_tuple(); }
+					if of.to_lowercase().starts_with(&art.2.clone().unwrap().to_lowercase()) { return get_tuple(); }
 				}
 			}
 		}
