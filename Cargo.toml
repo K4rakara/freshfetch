@@ -1,6 +1,6 @@
 [package]
 name = "freshfetch"
-version = "0.1.1"
+version = "0.2.0"
 authors = ["K4rakara <jack@insertdomain.name>"]
 edition = "2018"
 build = "./src/build.rs"
@@ -17,13 +17,11 @@ uname = "0.1.1"
 users = "0.10.0"
 
 [dependencies.clap]
-version = "2.33.2"
-default-features = false
-features = [ "vec_map" ]
+version = "2.33.3"
 
 [dependencies.mlua]
-version = "0.4.1"
-features = [ "luajit" ]
+version = "0.5.3"
+features = [ "luajit", "vendored" ]
 
 [build-dependencies.clml_rs]
 git = "https://github.com/K4rakara/clml-rs"
