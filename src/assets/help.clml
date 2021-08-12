@@ -11,7 +11,7 @@ freshfetch [OPTIONS]
 
 * --ascii_distro, -a : Specifies what distro art to use.
 
-    aix, alpine, alpine_small, alter, amazon, anarchy, android, android_small, 
+    aix, alpine, alpine_small, alter, amazon, amogos, anarchy, android, android_small, 
     anime_ahegao, anime_loli_smile, anime_loli_stare, anime_02, anime_looking, 
     antergos, antix, aosc_retro, aosc, apricity, arco, arco_small, arch_old, 
     arch_small, archbox, archlabs, archstrike, arch, artix, artix_small, 

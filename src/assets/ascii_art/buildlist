@@ -90,6 +90,8 @@
 ./large/a/alter.clml -> ./large/a/.alter.clml
 # Amazon Linux
 ./large/a/amazon.clml -> ./large/a/.amazon.clml
+# AmogOS
+./large/a/amogos.clml -> ./large/a/.amogos.clml
 # Anarchy Linux
 ./large/a/anarchy.clml -> ./large/a/.anarchy.clml
 # Android
