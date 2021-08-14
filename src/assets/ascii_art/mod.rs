@@ -17,6 +17,7 @@ static ASCII_ART: &[(&'static str, Check, Option<&'static str>, &'static str, Op
 	( "alpine_small",		Check::Is,			None,								include_str!("./small/a/.alpine.clml"),				Some([Some("\u{001b}[38;5;4m"), Some("\u{001b}[38;5;5m"), Some("\u{001b}[38;5;7m"), Some("\u{001b}[38;5;6m")]),	),
 	( "alter",				Check::StartsWith,	Some("Alter"),						include_str!("./large/a/.alter.clml"),				Some([Some("\u{001b}[38;5;6m"), None, None, None]),	),
 	( "amazon",				Check::StartsWith,	Some("Amazon"),						include_str!("./large/a/.amazon.clml"),				Some([Some("\u{001b}[38;5;3m"), Some("\u{001b}[38;5;7m"), None, None]),	),
+	( "amogos",				Check::StartsWith,	Some("AmogOS"),						include_str!("./large/a/.amogos.clml"),				Some([Some("\u{001b}[38;5;7m"), Some("\u{001b}[38;5;4m"), None, None]),	),
 	( "anarchy",			Check::Is,			None,								include_str!("./large/a/.anarchy.clml"),			Some([Some("\u{001b}[38;5;7m"), Some("\u{001b}[38;5;4m"), None, None]),	),
 	( "android",			Check::StartsWith,	Some("Android"),					include_str!("./large/a/.android.clml"),			Some([Some("\u{001b}[38;5;2m"), Some("\u{001b}[38;5;7m"), None, None]),	),
 	( "android_small",		Check::Is,			None,								include_str!("./small/a/.android.clml"),			Some([Some("\u{001b}[38;5;2m"), Some("\u{001b}[38;5;7m"), None, None]),	),
