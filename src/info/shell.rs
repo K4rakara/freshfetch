@@ -26,7 +26,7 @@ impl Shell {
 				let shell_bin = String::from(
 					Path::new(&match env::var("SHELL") {
 						Ok(v) => v,
-						#[allow(non_fmt_panic)]
+						#[allow(non_fmt_panics)]
 						Err(e) => panic!(format!("Failed to get $SHELL. Details:\n{}", e)),
 					})
 					.file_name()

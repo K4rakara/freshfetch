@@ -51,7 +51,7 @@ impl PackageManagers {
 						// newline that commands have.
 						stdout_lines.len() as i32 - 1
 					}
-					#[allow(non_fmt_panic)]
+					#[allow(non_fmt_panics)]
 					Err(e) => panic!(format!(
 						"Failed to run \"{cmd}\" Details:\n{err}",
 						cmd = command,
