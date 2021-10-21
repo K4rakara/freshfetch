@@ -98,7 +98,7 @@ impl De {
 						.ok()
 						.unwrap_or(String::new());
 				} else if to_return.0.starts_with("Unity") {
-					to_return.1 = run_fun!( $(unity --version) )
+					to_return.1 = run_fun!( unity --version )
 						.ok()
 						.unwrap_or(String::new());
 				}
