@@ -27,12 +27,12 @@ impl Uptime {
 				// from /proc/uptime, we should check that it exists and have a
 				// fallback.
 				if Path::new("/proc/uptime").exists() {
-					uptime_seconds = get_system().get_uptime() as i64;
+					uptime_seconds = get_system().uptime() as i64;
 				} else {
 					// `crate::sysinfo::SystemExt::get_boot_time()` doesn't
 					// appear to rely on /proc/uptime, so we should be able to 
 					// use it here.
-					let boot_time = get_system().get_boot_time() as i64;
+					let boot_time = get_system().boot_time() as i64;
 					let now_time = Utc::now().timestamp();
 					uptime_seconds = boot_time - now_time;
 				}

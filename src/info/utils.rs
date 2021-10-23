@@ -52,7 +52,7 @@ impl PsAux {
 		PsAux({
 			let mut to_return: Vec<String> = Vec::new();
 			let system = get_system();
-			for (_, proc) in system.get_processes() { to_return.push(String::from(proc.name())); }
+			for (_, proc) in system.processes() { to_return.push(String::from(proc.name())); }
 			to_return
 		})
 	}

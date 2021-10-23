@@ -20,8 +20,8 @@ impl Memory {
 	pub fn new() -> Self {
 		let system = get_system();
 		Memory {
-			max: system.get_total_memory(),
-			used: system.get_used_memory(),
+			max: system.total_memory(),
+			used: system.used_memory(),
 		}	
 	}
 }
