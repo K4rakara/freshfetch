@@ -51,7 +51,7 @@ impl Inject for Uptime {
 
 		match lua.create_table() {
 			Ok(t) => {
-				match t.set("days", self.0.day() - 1) {
+				match t.set("days", self.0.ordinal0()) {
 					Ok(_) => (),
 					Err(e) => errors::handle(&format!("{}{}", errors::LUA, e)),
 				}
