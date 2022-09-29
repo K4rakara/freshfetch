@@ -38,10 +38,21 @@ With other distributions, you can either install the [latest `tar.gz` build](htt
 
 ###### Build from source
 
-To compile Freshfetch, just run `cargo build --release -vv`. This will build the executable for your platform. Then, run these commands:
 ```bash
-sudo cp ./target/release/freshfetch /usr/bin/
-sudo chmod 755 /usr/bin/freshfetch
+cargo install --git https://github.com/K4rakara/freshfetch
+```
+
+To update it, run the above command again. Or one can use 
+[`cargo-update`](https://github.com/nabijaczleweli/cargo-update):
+
+```bash
+cargo install-update -g freshfetch
+```
+
+To delete it:
+
+```bash
+cargo uninstall freshfetch
 ```
 
 <p align="center">
