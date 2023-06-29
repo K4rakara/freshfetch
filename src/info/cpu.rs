@@ -38,25 +38,23 @@ impl Cpu {
 
                 match fs::read_to_string("/proc/cpuinfo") {
                     Ok(cpu_info) => {
-                        let cpu_info_lines: Vec<&str> = cpu_info.split("\n").collect();
+                        let cpu_info_lines: Vec<&str> = cpu_info.split('\n').collect();
 
                         // Get CPU name.
                         name = {
                             let mut to_return = None;
                             let mut skip = false;
                             for line in cpu_info_lines.iter() {
-                                if !skip {
-                                    if line.starts_with("model name")
-                                        || line.starts_with("Hardware")
-                                        || line.starts_with("Processor")
-                                        || line.starts_with("cpu model")
-                                        || line.starts_with("chip type")
-                                        || line.starts_with("cpu type")
-                                    {
-                                        let split: Vec<&str> = line.split(": ").collect();
-                                        to_return = Some(String::from(split[1]));
-                                        skip = true;
-                                    }
+                                if !skip && line.starts_with("model name")
+                                    || line.starts_with("Hardware")
+                                    || line.starts_with("Processor")
+                                    || line.starts_with("cpu model")
+                                    || line.starts_with("chip type")
+                                    || line.starts_with("cpu type")
+                                {
+                                    let split: Vec<&str> = line.split(": ").collect();
+                                    to_return = Some(String::from(split[1]));
+                                    skip = true;
                                 }
                             }
                             to_return
@@ -73,27 +71,23 @@ impl Cpu {
                                 ];
                                 for file in to_check.iter() {
                                     if to_return.is_none() {
-                                        match fs::read_to_string(file) {
-                                            Ok(mut bios_limit) => {
-                                                bios_limit =
-                                                    bios_limit.replace("\n", "").replace("\t", "");
-                                                match bios_limit.parse::<f32>() {
-                                                    Ok(freq) => to_return = Some(freq / 1000.0),
-                                                    Err(e) => {
-                                                        errors::handle(
-                                                            &format!("{}{v}{}{type}{}{err}",
-															errors::PARSE.0,
-															errors::PARSE.1,
-															errors::PARSE.2,
-															v = bios_limit,
-															type = "f32",
-															err = e),
-                                                        );
-                                                        panic!();
-                                                    }
+                                        if let Ok(mut bios_limit) = fs::read_to_string(file) {
+                                            bios_limit = bios_limit.replace(['\n', '\t'], "");
+                                            match bios_limit.parse::<f32>() {
+                                                Ok(freq) => to_return = Some(freq / 1000.0),
+                                                Err(e) => {
+                                                    errors::handle(
+                                                        &format!("{}{v}{}{type}{}{err}",
+                                                                       errors::PARSE.0,
+                                                                       errors::PARSE.1,
+                                                                       errors::PARSE.2,
+                                                                       v = bios_limit,
+                                                                       type = "f32",
+                                                                       err = e),
+                                                    );
+                                                    panic!();
                                                 }
                                             }
-                                            Err(_) => (),
                                         }
                                     }
                                 }
@@ -102,29 +96,25 @@ impl Cpu {
                                 let mut to_return = None;
                                 let mut skip = false;
                                 for line in cpu_info_lines.iter() {
-                                    if !skip {
-                                        if line.starts_with("cpu MHz") || line.starts_with("clock")
-                                        {
-                                            let split: Vec<&str> = line.split(": ").collect();
-                                            let to_parse =
-                                                String::from(split[1]).replace("MHz", "");
-                                            to_return = match to_parse.parse::<f32>() {
-                                                Ok(freq) => Some(freq / 1000.0),
-                                                Err(e) => {
-                                                    errors::handle(
-                                                        &format!("{}{v}{}{type}{}{err}",
+                                    if !skip && line.starts_with("cpu MHz")
+                                        || line.starts_with("clock")
+                                    {
+                                        let split: Vec<&str> = line.split(": ").collect();
+                                        let to_parse = String::from(split[1]).replace("MHz", "");
+                                        to_return = match to_parse.parse::<f32>() {
+                                            Ok(freq) => Some(freq / 1000.0),
+                                            Err(e) => {
+                                                errors::handle(&format!("{}{v}{}{type}{}{err}",
 														errors::PARSE.0,
 														errors::PARSE.1,
 														errors::PARSE.2,
 														v = to_parse,
 														type = "f32",
-														err = e),
-                                                    );
-                                                    panic!();
-                                                }
-                                            };
-                                            skip = true;
-                                        }
+														err = e));
+                                                panic!();
+                                            }
+                                        };
+                                        skip = true;
                                     }
                                 }
                                 to_return
@@ -156,12 +146,10 @@ impl Cpu {
             }
             _ => (),
         }
-        if name.is_some() && freq.is_some() && cores.is_some() {
+        if let (Some(full_name), Some(freq), Some(cores)) = (name, freq, cores) {
             Some(Cpu {
                 name: {
-                    let mut to_return = name
-                        .clone()
-                        .unwrap()
+                    let mut to_return = full_name
                         .replace("(tm)", "")
                         .replace("(TM)", "")
                         .replace("(R)", "")
@@ -205,9 +193,9 @@ impl Cpu {
                     to_return = String::from(to_return.trim());
                     to_return
                 },
-                full_name: name.clone().unwrap(),
-                freq: freq.clone().unwrap(),
-                cores: cores.clone().unwrap(),
+                full_name,
+                freq,
+                cores,
             })
         } else {
             None
