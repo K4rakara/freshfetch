@@ -6,7 +6,7 @@
 <br>
 
 <a href="./LICENSE.md"><img src="https://img.shields.io/badge/license-MIT-blue.svg"></a>
-<a href="https://github.com/k4rakara/freshfetch/releases"><img src="https://img.shields.io/github/v/release/K4rakara/freshfetch"></a> [![Rust](https://github.com/Walker-00/freshfetch/actions/workflows/rust.yml/badge.svg)](https://github.com/Walker-00/freshfetch/actions/workflows/rust.yml)
+<a href="https://github.com/k4rakara/freshfetch/releases"><img src="https://img.shields.io/github/v/release/K4rakara/freshfetch"></a> [![Rust](https://github.com/Walker-00/freshfetch/actions/workflows/rust.yml/badge.svg?branch=master)](https://github.com/Walker-00/freshfetch/actions/workflows/rust.yml)
 </div>
 
 Freshfetch is an alternative to [Neofetch](https://github.com/dylanaraps/neofetch)
