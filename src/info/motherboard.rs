@@ -1,18 +1,18 @@
 use crate::mlua;
 use crate::regex;
 
-use crate::errors;
 use super::kernel;
+use crate::errors;
 
-use std::fs::{ read_to_string };
-use std::path::{ Path };
-use std::process::{ Command };
+use std::fs::read_to_string;
+use std::path::Path;
+use std::process::Command;
 
-use regex::{ Regex };
 use mlua::prelude::*;
+use regex::Regex;
 
-use crate::{ Inject };
-use kernel::{ Kernel };
+use crate::Inject;
+use kernel::Kernel;
 
 #[derive(Clone, Debug)]
 pub struct Motherboard {
@@ -40,17 +40,17 @@ impl Motherboard {
                     Some(Motherboard {
                         name: read_to_string(sys_devices_virtual_dmi_id.join("board_name"))
                             .unwrap_or(String::new())
-                            .replace("\n", " ")
+                            .replace('\n', " ")
                             .trim()
                             .to_string(),
                         vendor: read_to_string(sys_devices_virtual_dmi_id.join("board_vendor"))
                             .unwrap_or(String::new())
-                            .replace("\n", " ")
+                            .replace('\n', " ")
                             .trim()
                             .to_string(),
                         revision: read_to_string(sys_devices_virtual_dmi_id.join("board_version"))
                             .unwrap_or(String::new())
-                            .replace("\n", " ")
+                            .replace('\n', " ")
                             .trim()
                             .to_string(),
                     })
@@ -91,28 +91,19 @@ impl Motherboard {
                 match try_wmic {
                     Some(wmic) => {
                         let try_name_n_vendor = {
-                            let lines = wmic.split("\n").collect::<Vec<&str>>();
+                            let lines = wmic.split('\n').collect::<Vec<&str>>();
                             if lines.len() >= 2 {
                                 let regex = Regex::new(r#"(\S+)\s+(\S+)"#).unwrap();
-                                match regex.captures(&lines[1]) {
-                                    Some(caps) => Some((
-                                        String::from(caps.get(1).unwrap().as_str()),
-                                        String::from(caps.get(2).unwrap().as_str()),
-                                    )),
-                                    None => None,
-                                }
+                                regex.captures(lines[1]).map(|caps| (String::from(caps.get(1).unwrap().as_str()), String::from(caps.get(2).unwrap().as_str())))
                             } else {
                                 None
                             }
                         };
-                        match try_name_n_vendor {
-                            Some((name, vendor)) => Some(Motherboard {
-                                name,
-                                vendor,
-                                revision: String::new(),
-                            }),
-                            None => None
-                        }
+                       try_name_n_vendor.map(|(name, vendor)| Motherboard {
+                            name, 
+                            vendor,
+                            revision: String::new()
+                        }) 
                     }
                     None => None,
                 }
@@ -128,19 +119,31 @@ impl Inject for Motherboard {
             Ok(t) => {
                 match t.set("name", self.name.clone()) {
                     Ok(_) => (),
-                    Err(e) => { errors::handle(&format!("{}{}", errors::LUA, e)); panic!() }
+                    Err(e) => {
+                        errors::handle(&format!("{}{}", errors::LUA, e));
+                        panic!()
+                    }
                 }
                 match t.set("vendor", self.vendor.clone()) {
                     Ok(_) => (),
-                    Err(e) => { errors::handle(&format!("{}{}", errors::LUA, e)); panic!() }
+                    Err(e) => {
+                        errors::handle(&format!("{}{}", errors::LUA, e));
+                        panic!()
+                    }
                 }
                 match t.set("revision", self.revision.clone()) {
                     Ok(_) => (),
-                    Err(e) => { errors::handle(&format!("{}{}", errors::LUA, e)); panic!() }
+                    Err(e) => {
+                        errors::handle(&format!("{}{}", errors::LUA, e));
+                        panic!()
+                    }
                 }
                 match lua.globals().set("motherboard", t) {
                     Ok(_) => (),
-                    Err(e) => { errors::handle(&format!("{}{}", errors::LUA, e)); panic!() }
+                    Err(e) => {
+                        errors::handle(&format!("{}{}", errors::LUA, e));
+                        panic!()
+                    }
                 }
             }
             Err(e) => {
@@ -150,4 +153,3 @@ impl Inject for Motherboard {
         }
     }
 }
-

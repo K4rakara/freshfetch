@@ -46,7 +46,7 @@ impl PackageManagers {
                             "The output of \"{}\" contained invalid UTF8.",
                             command
                         ));
-                        let stdout_lines: Vec<&str> = stdout_string.split("\n").collect();
+                        let stdout_lines: Vec<&str> = stdout_string.split('\n').collect();
                         // 1 is subtracted because of the trailing
                         // newline that commands have.
                         stdout_lines.len() as i32 - 1

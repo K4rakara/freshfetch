@@ -1,16 +1,16 @@
 use crate::mlua;
 use crate::regex;
 
-use crate::errors;
 use super::kernel;
+use crate::errors;
 
-use std::fs::{ read_to_string };
+use std::fs::read_to_string;
 
 use mlua::prelude::*;
-use regex::{ Regex };
+use regex::Regex;
 
-use crate::{ Inject };
-use kernel::{ Kernel };
+use crate::Inject;
+use kernel::Kernel;
 
 #[derive(Clone, Debug)]
 pub(crate) struct Host {
@@ -21,12 +21,13 @@ impl Host {
     pub fn new(k: &Kernel) -> Option<Self> {
         match k.name.as_str() {
             "Linux" => {
-                let mut product_name = match read_to_string("/sys/devices/virtual/dmi/id/product_name") {
-                    Ok(product_name) => product_name,
-                    Err(_) => return None,
-                };
+                let mut product_name =
+                    match read_to_string("/sys/devices/virtual/dmi/id/product_name") {
+                        Ok(product_name) => product_name,
+                        Err(_) => return None,
+                    };
                 product_name = product_name
-                    .replace("\n", "")
+                    .replace('\n', "")
                     .replace("To Be Filled By O.E.M.", "")
                     .replace("Not Applicable", "")
                     .replace("System Product Name", "")
@@ -34,20 +35,20 @@ impl Host {
                     .replace("Default string", "")
                     .replace("Not Specified", "")
                     .replace("INVALID", "")
-                    .replace("�", "");
+                    .replace('�', "");
                 {
                     let regex = Regex::new(r#"(?i)To Be Filled.*?"#).unwrap();
                     product_name = String::from(regex.replace_all(&product_name, ""));
                 }
                 product_name = String::from(product_name.trim());
-                if product_name != "" {
+                if !product_name.is_empty() {
                     Some(Host {
                         model: product_name,
                     })
-                } else { 
+                } else {
                     None
                 }
-            },
+            }
             _ => None,
         }
     }
