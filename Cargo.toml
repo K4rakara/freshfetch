@@ -7,6 +7,7 @@ build = "./src/build.rs"
 
 [profile.release]
 strip = true
+debug = false
 opt-level = 3
 lto = true
 codegen-units = 1
