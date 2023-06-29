@@ -2,7 +2,7 @@
 name = "freshfetch"
 version = "0.2.0"
 authors = ["K4rakara <jack@insertdomain.name>"]
-edition = "2018"
+edition = "2021"
 build = "./src/build.rs"
 
 [profile.release]
