@@ -7,7 +7,6 @@ build = "./src/build.rs"
 
 [profile.release]
 strip = true
-debug = false
 opt-level = 3
 lto = true
 codegen-units = 1
@@ -31,5 +30,5 @@ version = "0.6.6"
 features = [ "luajit", "vendored" ]
 
 [build-dependencies.clml_rs]
-git = "https://github.com/K4rakara/clml-rs"
+git = "https://github.com/Walker-00/clml-rs"
 
