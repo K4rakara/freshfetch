@@ -2,8 +2,14 @@
 name = "freshfetch"
 version = "0.2.0"
 authors = ["K4rakara <jack@insertdomain.name>"]
-edition = "2018"
+edition = "2021"
 build = "./src/build.rs"
+
+[profile.release]
+strip = true
+opt-level = 3
+lto = true
+codegen-units = 1
 
 [dependencies]
 chrono = "0.4.13"
@@ -24,5 +30,5 @@ version = "0.6.6"
 features = [ "luajit", "vendored" ]
 
 [build-dependencies.clml_rs]
-git = "https://github.com/K4rakara/clml-rs"
+git = "https://github.com/Walker-00/clml-rs"
 

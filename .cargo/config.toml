@@ -1,0 +1,2 @@
+[env]
+RUSTFLAGS= { value = "-C target-cpu=native", force = true }
