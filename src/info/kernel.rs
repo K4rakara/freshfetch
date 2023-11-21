@@ -4,9 +4,9 @@ use crate::mlua;
 use crate::errors;
 
 use mlua::prelude::*;
-use uname::{ uname };
+use uname::uname;
 
-use crate::{ Inject };
+use crate::Inject;
 
 pub(crate) struct Kernel {
 	pub name: String,

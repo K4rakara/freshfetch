@@ -4,15 +4,15 @@ use crate::regex;
 use crate::errors;
 use super::kernel;
 
-use std::fs::{ read_to_string };
-use std::path::{ Path };
-use std::process::{ Command };
+use std::fs::read_to_string;
+use std::path::Path;
+use std::process::Command;
 
-use regex::{ Regex };
+use regex::Regex;
 use mlua::prelude::*;
 
-use crate::{ Inject };
-use kernel::{ Kernel };
+use crate::Inject;
+use kernel::Kernel;
 
 #[derive(Clone, Debug)]
 pub struct Motherboard {

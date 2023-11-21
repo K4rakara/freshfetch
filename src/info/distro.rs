@@ -6,14 +6,14 @@ use super::kernel;
 
 use std::fs;
 use std::env;
-use std::path::{ Path };
+use std::path::Path;
 use std::process::{ Command, Stdio };
 
 use mlua::prelude::*;
-use cmd_lib::{ run_fun };
+use cmd_lib::run_fun;
 
-use crate::{ Inject };
-use kernel::{ Kernel };
+use crate::Inject;
+use kernel::Kernel;
 
 #[derive(Clone, Debug)]
 pub(crate) struct Distro {

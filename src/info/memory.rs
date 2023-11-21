@@ -5,10 +5,10 @@ use super::utils;
 use crate::errors;
 
 use mlua::prelude::*;
-use sysinfo::{ SystemExt };
+use sysinfo::SystemExt;
 
-use crate::{ Inject };
-use utils::{ get_system };
+use crate::Inject;
+use utils::get_system;
 
 #[derive(Clone, Debug)]
 pub(crate) struct Memory {

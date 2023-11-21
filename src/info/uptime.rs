@@ -6,15 +6,15 @@ use crate::errors;
 use super::kernel;
 use super::utils;
 
-use std::path::{ Path };
+use std::path::Path;
 
 use mlua::prelude::*;
 use chrono::{ Utc, DateTime, Datelike, Timelike, TimeZone };
-use sysinfo::{ SystemExt };
+use sysinfo::SystemExt;
 
-use crate::{ Inject };
-use kernel::{ Kernel };
-use utils::{ get_system };
+use crate::Inject;
+use kernel::Kernel;
+use utils::get_system;
 
 pub(crate) struct Uptime ( pub DateTime<Utc> );
 
@@ -41,7 +41,7 @@ impl Uptime {
 			// to satisfy the compiler.
 			_ => { uptime_seconds = 0; }
 		}
-		Uptime(Utc.timestamp(uptime_seconds, 0))
+		Uptime(Utc.timestamp_opt(uptime_seconds, 0).unwrap())
 	}
 }
 

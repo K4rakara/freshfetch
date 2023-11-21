@@ -9,14 +9,14 @@ use info::distro;
 
 use std::fs;
 use std::env;
-use std::path::{ Path };
+use std::path::Path;
 
 use mlua::prelude::*;
-use regex::{ Regex };
+use regex::Regex;
 
 use crate::{ Inject, Arguments };
-use info::{ Info };
-use distro::{ DistroColors };
+use info::Info;
+use distro::DistroColors;
 use assets::{ ANSI, PRINT };
 
 pub(crate) struct Art {

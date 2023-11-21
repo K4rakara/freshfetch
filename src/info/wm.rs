@@ -6,12 +6,12 @@ use super::utils;
 
 use std::fs;
 use std::env;
-use std::process::{ Command };
+use std::process::Command;
 
 use mlua::prelude::*;
 
-use crate::{ Inject };
-use kernel::{ Kernel };
+use crate::Inject;
+use kernel::Kernel;
 use utils::{ PsAux, Grep };
 
 pub(crate) struct Wm ( pub String );

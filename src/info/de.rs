@@ -8,11 +8,11 @@ use super::distro;
 use std::env;
 
 use mlua::prelude::*;
-use cmd_lib::{ run_fun };
+use cmd_lib::run_fun;
 
-use crate::{ Inject };
-use kernel::{ Kernel };
-use distro::{ Distro };
+use crate::Inject;
+use kernel::Kernel;
+use distro::Distro;
 
 pub(crate) struct De ( pub String, pub String, );
 

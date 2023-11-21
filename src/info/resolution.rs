@@ -6,16 +6,16 @@ use crate::utils;
 use super::kernel;
 
 use std::env::{ var, vars };
-use std::fs::{ read_to_string };
-use std::path::{ Path };
-use std::process::{ Command };
+use std::fs::read_to_string;
+use std::path::Path;
+use std::process::Command;
 
-use regex::{ Regex };
+use regex::Regex;
 use mlua::prelude::*;
 
-use crate::{ Inject };
-use utils::{ which::{ which } };
-use kernel::{ Kernel };
+use crate::Inject;
+use utils::which::which;
+use kernel::Kernel;
 
 #[derive(Clone, Debug)]
 pub(crate) struct Resolution {
