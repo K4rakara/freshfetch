@@ -18,7 +18,6 @@ use utils::get_system;
 
 pub(crate) struct Uptime ( pub DateTime<Utc> );
 
-#[allow(deprecated)]
 impl Uptime {
 	pub fn new(k: &Kernel) -> Self {
 		let uptime_seconds;
@@ -42,7 +41,7 @@ impl Uptime {
 			// to satisfy the compiler.
 			_ => { uptime_seconds = 0; }
 		}
-		Uptime(Utc.timestamp(uptime_seconds, 0))
+		Uptime(Utc.timestamp_opt(uptime_seconds, 0).unwrap())
 	}
 }
 
