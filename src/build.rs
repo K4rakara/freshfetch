@@ -7,7 +7,7 @@ extern crate clml_rs;
 use std::fs;
 use std::path::{ Path, PathBuf };
 
-use clml_rs::{ clml };
+use clml_rs::clml;
 
 //use assets::ascii_art::{ ASCII_ART };
 
@@ -21,7 +21,7 @@ fn get_buildlist(base: &Path) -> BuildList {
 		let mut to_return = Vec::new();
 		for line in split.iter() {
 			if !line.starts_with("#") {
-				to_return.push(line.clone());
+				to_return.push(line.to_owned());
 			}
 		}
 		to_return

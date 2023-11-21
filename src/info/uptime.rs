@@ -6,18 +6,19 @@ use crate::errors;
 use super::kernel;
 use super::utils;
 
-use std::path::{ Path };
+use std::path::Path;
 
 use mlua::prelude::*;
 use chrono::{ Utc, DateTime, Datelike, Timelike, TimeZone };
-use sysinfo::{ SystemExt };
+use sysinfo::SystemExt;
 
-use crate::{ Inject };
-use kernel::{ Kernel };
-use utils::{ get_system };
+use crate::Inject;
+use kernel::Kernel;
+use utils::get_system;
 
 pub(crate) struct Uptime ( pub DateTime<Utc> );
 
+#[allow(deprecated)]
 impl Uptime {
 	pub fn new(k: &Kernel) -> Self {
 		let uptime_seconds;

@@ -22,29 +22,29 @@ pub(crate) mod motherboard;
 pub(crate) mod host;
 
 use std::fs;
-use std::path::{ Path };
+use std::path::Path;
 
-use regex::{ Regex };
-use sysinfo::{ SystemExt };
+use regex::Regex;
+use sysinfo::SystemExt;
 use mlua::prelude::*;
 
-use crate::{ Inject };
+use crate::Inject;
 use assets::{ ANSI, PRINT };
-use defaults::{ INFO };
-use utils::{ get_system };
-use kernel::{ Kernel };
-use context::{ Context };
-use distro::{ Distro };
-use uptime::{ Uptime };
-use package_managers::{ PackageManagers };
-use shell::{ Shell };
-use resolution::{ Resolution };
-use wm::{ Wm };
-use de::{ De };
-use cpu::{ Cpu };
-use gpu::{ Gpus };
-use memory::{ Memory };
-use motherboard::{ Motherboard };
+use defaults::INFO;
+use utils::get_system;
+use kernel::Kernel;
+use context::Context;
+use distro::Distro;
+use uptime::Uptime;
+use package_managers::PackageManagers;
+use shell::Shell;
+use resolution::Resolution;
+use wm::Wm;
+use de::De;
+use cpu::Cpu;
+use gpu::Gpus;
+use memory::Memory;
+use motherboard::Motherboard;
 use host::Host;
 
 pub(crate) struct Info {

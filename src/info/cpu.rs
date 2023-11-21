@@ -5,13 +5,13 @@ use crate::errors;
 use super::kernel;
 
 use std::fs;
-use std::path::{ Path };
+use std::path::Path;
 
 use mlua::prelude::*;
-use regex::{ Regex };
+use regex::Regex;
 
-use crate::{ Inject }; 
-use kernel::{ Kernel };
+use crate::Inject; 
+use kernel::Kernel;
 
 #[derive(Debug)]
 pub(crate) struct Cpu {

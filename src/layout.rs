@@ -7,9 +7,9 @@ use crate::info;
 use mlua::prelude::*;
 
 use crate::{ Inject, Arguments };
-use misc::{ Terminal };
-use art::{ Art };
-use info::{ Info };
+use misc::Terminal;
+use art::Art;
+use info::Info;
 
 pub(crate) struct Layout {
 	pub art: Art,

@@ -1,4 +1,4 @@
-use std::process::{ exit };
+use std::process::exit;
 
 pub(crate) static LUA: &'static str = "A Lua error occurred. Details:\n";
 pub(crate) static CMD: (&'static str, &'static str) =

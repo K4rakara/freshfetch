@@ -4,13 +4,13 @@ use crate::mlua;
 use crate::errors;
 use super::kernel;
 
-use std::process::{ Command };
+use std::process::Command;
 
-use regex::{ Regex };
+use regex::Regex;
 use mlua::prelude::*;
 
-use crate::{ Inject };
-use kernel::{ Kernel };
+use crate::Inject;
+use kernel::Kernel;
 
 #[derive(Clone, Debug)]
 pub(crate) struct Gpu {

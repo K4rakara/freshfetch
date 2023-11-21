@@ -4,10 +4,10 @@ use crate::errors;
 
 use mlua::prelude::*;
 
-use crate::{ Inject };
+use crate::Inject;
 
-use std::fs::{ read_to_string };
-use std::env::{ var };
+use std::fs::read_to_string;
+use std::env::var;
 
 #[derive(Clone, Debug)]
 pub(crate) struct Context {
